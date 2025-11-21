@@ -1,5 +1,6 @@
 // src/services/httpClient.js
 import { ref, computed } from 'vue'
+import router from "@/router/index.js";
 
 const API_PREFIX = '/api/v1'
 
@@ -99,6 +100,12 @@ async function request(method, path, { body, params, headers } = {}) {
             const error = new Error(message)
             error.status = response.status
             error.data = data
+
+            if (error.status === 401) {
+                localStorage.removeItem('token')
+                router.push('/')
+            }
+
             throw error
         }
 
