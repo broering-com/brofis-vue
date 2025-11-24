@@ -6,6 +6,7 @@ import AppLayout from "@/layouts/AppLayout.vue";
 import LoginView from "@/views/LoginView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import {authService} from '../services/authService';
+import UserSettingsView from "@/views/UserSettingsView.vue";
 
 const routes = [
     {
@@ -25,10 +26,15 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
-                path: '/dashboard',
+                path: 'dashboard',
                 name: 'dashboard',
                 component: DashboardView,
             },
+            {
+                path: 'user-settings',
+                name: 'userSettings',
+                component: UserSettingsView,
+            }
         ]
     },
     {

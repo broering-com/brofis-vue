@@ -17,6 +17,7 @@ export default defineConfig({
           '/api/v1': {
               target: 'https://api.brofisplus.test',
               changeOrigin: true,
+
               secure: false,
           }
       }

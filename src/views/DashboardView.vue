@@ -32,6 +32,7 @@ function logout() {
       Fehler beim Laden der UserConfig: {{ userConfigError.message }}
     </p>
     <pre v-else>{{ userConfig }}</pre>
+    <p>{{ $t('welcome.title', {name: 'Maurice'}) }}</p>
 
   </section>
 </template>

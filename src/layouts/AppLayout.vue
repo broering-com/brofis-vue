@@ -17,7 +17,8 @@ function handleLogout() {
       <h1>Meine App</h1>
 
       <nav>
-        <RouterLink to="/app/dashboard">Dashboard</RouterLink>
+        <RouterLink :to="{name: 'dashboard'}">Dashboard</RouterLink>
+        <RouterLink :to="{name: 'userSettings'}">User Settings</RouterLink>
         <!-- weitere Links später z. B. /app/settings -->
         <button @click="handleLogout">Logout</button>
       </nav>

@@ -1,35 +1,564 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* Verhindern eines versehentlichen Reloads durch herabziehen des Bildschirms auf Touchscreens */
+    overscroll-behavior-y: contain;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+a {
+    cursor: pointer;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+#errorMessageLegacyBrowser {
+    display: none;
 }
 
-@media (min-width: 1024px) {
-  body {
+.screen {
+    display: none;
+    min-height: 15em;
+    margin-bottom: 2em;
+}
+
+.screen-narrow {
+    max-width: 950px;
+    margin: 0 auto 2em;
+}
+
+.form-control:not([readonly]):not([disabled]) {
+    background-color: #FFF5BD;
+}
+
+.form-control {
+    text-align: center;
+}
+
+.form-control-label {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: grey;
+    border: 1px solid transparent;
+}
+
+select {
+    text-align-last: center;
+}
+
+.label {
+    color: grey;
+}
+
+.dropdown-menu {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Entfernen der Cursor-Pfeile in Nummernfeldern */
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Schattierung */
+
+#screen-shadow {
+    z-index: 1480;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    width: 100vw;
+    transition: all 0.5s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+#screen-shadow.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Spinner */
+
+#spinner {
+    position: fixed;
+    width: 100vw;
+    transition: all 0.5s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+#spinner {
+    z-index: 1490;
+    color: white;
+    text-align: center;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+}
+
+#spinner.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Signature */
+
+.signature-canvas {
+    background-color: #FFF5BD;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    /* width: 95%;
+    height: 45%;  */
+}
+
+/* Notification */
+
+#alert {
+    position: fixed;
+    width: 75vw;
+    transition: all 1s;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1470;
+    text-align: center;
+    margin: 25vh auto;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+#alert.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.alert {
+    text-align: justify;
+}
+
+/* Stallkarte */
+
+#tblStallkarteSK {
+    line-height: 1.0;
+    /* Grundlage für Ausblenden von Spalten */
+    table-layout: fixed;
+    /* Zeige "margin-right" neben Tabelle */
+    /* https://stackoverflow.com/a/28682628 */
+    display: inline-table;
+}
+
+#tblStallkarteSK>tbody>tr>td {
+    border: 1px solid grey;
+    text-align: center;
+    padding: 0.3rem 0.1rem;
+    /* Grundlage für Ausblenden von Spalten */
+    overflow: hidden;
+    /* white-space: nowrap; */
+}
+
+#tblStallkarteSK>thead>tr:first-child>th {
+    /* Grundlage für Ausblenden von Spalten in WebKit und Blink */
+    width: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#tblStallkarteSK>thead>tr>th,
+#tblStallkarteSK>tfoot>tr>td {
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    background: lightgrey !important;
+    border: 1px solid grey !important;
+    text-align: center;
+    padding: 0.3rem 0.1rem;
+    /* Grundlage für Ausblenden von Spalten */
+    overflow: hidden;
+}
+
+#tblStallkarteSK>tbody>tr:hover {
+    background: lightblue !important;
+}
+
+.seven-day-interval {
+    background: #E8E8E8;
+}
+
+.border-r {
+    border-right: 2px black double;
+}
+
+#tblStallkarteSK {
+    --standard-background-alpha: 0.1;
+    --highlight-background-alpha: 0.25;
+}
+
+.col-tiere {
+    background: rgba(238, 22, 31, var(--standard-background-alpha));
+}
+
+.col-tiere.soll {
+    background: rgba(238, 22, 31, var(--highlight-background-alpha));
+}
+
+.col-klima {
+    background: rgba(0, 168, 80, var(--standard-background-alpha));
+}
+
+.col-klima.soll {
+    background: rgba(0, 168, 80, var(--highlight-background-alpha));
+}
+
+.col-wasser {
+    background: rgba(0, 155, 189, var(--standard-background-alpha));
+}
+
+.col-wasser.soll {
+    background: rgba(0, 155, 189, var(--highlight-background-alpha));
+}
+
+.col-futter {
+    background: rgba(247, 149, 24, var(--standard-background-alpha));
+}
+
+.col-futter.soll {
+    background: rgba(247, 149, 24, var(--highlight-background-alpha));
+}
+
+.col-gewicht {
+    background: rgba(149, 40, 97, var(--standard-background-alpha));
+}
+
+.col-gewicht.soll {
+    background: rgba(149, 40, 97, var(--highlight-background-alpha));
+}
+
+#tblrSummeSK {
+    border-top: 3px double black;
+}
+
+/* Login */
+
+#navigation {
+    display: none;
+}
+
+/* Tagebuch */
+
+.lblVerluste {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.375rem;
+    border: 1px solid transparent;
+}
+
+.center-vertical {
     display: flex;
-    place-items: center;
-  }
+    align-items: center;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.unzoomable {
+    /* Double-Tap-Zoom verhindern */
+    touch-action: manipulation;
+}
+
+/* Bugfix für 'sticky mobile hover'-Buttons auf Touch-Geräten */
+
+@media (hover: none) {
+    .btn-outline-primary:hover {
+        color: #0d6efd;
+        background-color: #fff;
+        border-color: #0d6efd;
+    }
+}
+
+/* Futterlieferungen */
+
+#grpKokzidiostatikaFL {
+    display: none;
+}
+
+/* Futterrest */
+
+.silo-card-part {
+    height: 90px;
+}
+
+/* Meldungen */
+
+#galArchivMLD>.card>.card-body>.btn {
+    display: none;
+}
+
+.opacity-half {
+    opacity: 50%;
+}
+
+/* Analyse */
+
+#tblKeyPerformanceIndicatorsAN>thead>tr>th:not(:nth-child(1)) {
+    text-shadow: -1px 0 grey, 0 1px grey, 1px 0 grey, 0 -1px grey;
+}
+
+#tblKeyPerformanceIndicatorsAN>tbody>tr.collapse,
+#tblKeyPerformanceIndicatorsAN>tbody>tr.collapsing {
+    background: rgba(245, 245, 245, 1)
+}
+
+.tile {
+    border: 1px solid grey;
+    border-radius: 5px;
+    box-shadow: 0 0 15px -10px black;
+}
+
+.chart-button-gallery {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.5rem;
+}
+
+.chart-button-gallery>i {
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.chart-button-gallery>span {
+    margin-left: 0.5rem;
+}
+
+.chart-container {
+    width: auto;
+    height: 45vh;
+}
+
+.chart-container-zoom {
+    width: auto;
+    height: 90vh !important;
+}
+
+#grpLegendeHitzestressAN>span {
+    margin: 0.2rem;
+}
+
+/* Footer */
+
+#page-footer {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    text-align: center;
+    width: 100%;
+    /* Farbe nach Bootstrap <hr /> */
+    border-top: 1px solid rgba(33, 37, 41, 0.25);
+    font-size: 0.7rem;
+    padding: 0.1em 0 0.2em 0;
+    z-index: 5;
+}
+
+#page-footer>a {
+    color: inherit;
+    text-decoration: none;
+    border-left: 1px solid grey;
+    padding-left: 3px;
+}
+
+#page-footer>a:first-child {
+    border-left: none;
+}
+
+/* Tooltip */
+/* https://chrisbracco.com/a-simple-css-tooltip/ */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -80px;
+    padding: 7px;
+    width: 160px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid #000;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+
+/* Display Flags */
+
+.flag-vmi,
+.flag-ezg,
+.flag-plukon,
+.flag-gutbergmark,
+.flag-borgmeier {
+    display: none;
+}
+
+/* Mixed */
+
+.no-wrap {
+    flex-wrap: nowrap;
+}
+
+.overflow-x-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+input[type=range] {
+    accent-color: #3980cf;
+    appearance: auto;
+    --bs-tertiary-bg: none;
+}
+
+/* FF*/
+input[type="range"]::-moz-range-progress {
+    background-color: var(--bs-primary);
+}
+
+input[type="range"]::-moz-range-track {
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+    background-color: var(--bs-primary);
+}
+
+input[type="range"]::-ms-fill-upper {
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+/* iOS Bug */
+
+#alternate-select-button {
+    display: none;
+}
+
+#alternate-select-list {
+    width: 80%;
+    max-height: 90%;
+    overflow-y: scroll;
+    position: fixed;
+    left: 10%;
+    display: none;
+    z-index: 1500;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    box-shadow: 0px 0px 1px 1000px rgba(0, 0, 0, 0.75);
+}
+
+/* Star Rating */
+
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: lightgrey;
+    font-size: 36px;
+    padding: 0 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input:checked~label {
+    color: #FFF5BD;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+/* Math. Bruchdarstellung in Tooltipps */
+
+.fraction {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.fraction>span {
+    display: block;
+    padding: 0 0.2em;
+}
+
+.fraction .fraction-bottom {
+    border-top: 1px solid currentColor;
+    margin-top: 0.1em;
 }
