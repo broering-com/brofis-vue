@@ -49,7 +49,7 @@ async function getJournalData(house, date) {
     }
 
     try {
-        const data = await httpClient.get(`/journal/${house}/${date}/`)
+        const data = await httpClient.get(`/journal/${house}/${date}`)
 
         return {success: true, data}
     } catch (error) {
