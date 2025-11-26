@@ -1,8 +1,8 @@
 // src/services/authService.js
-import { ref, computed } from 'vue'
-import { httpClient } from './httpClient'
+import {ref, computed} from 'vue'
+import {httpClient} from './httpClient'
 import {userConfigService} from "@/services/userConfigService.js";
-
+import {notificationService} from '@/services/notificationService.js'
 
 
 // Optional: User-Infos speichern
@@ -18,7 +18,7 @@ function setSession(data, stayLoggedIn = false) {
         throw new Error('Kein Token in der Login-Antwort gefunden.')
     }
 
-    if(!stayLoggedIn) {
+    if (!stayLoggedIn) {
         sessionStorage.setItem('token', token)
     } else {
         localStorage.setItem('token', token)
@@ -63,14 +63,35 @@ async function getJournalData(house, date) {
     }
 }
 
+async function putJournalData(house, date, data) {
+    if (!house || !date) {
+        return {success: false, message: 'Es wurde kein Haus oder kein Datum angegeben.'}
+    }
+    try {
+        const response = await httpClient.put(`/journal/${house}/${date}`, data)
+        notificationService.notifySuccess('journal.saved')
+        return {success: true, data: response}
+    } catch (error) {
+        notificationService.notifyError(error.message || 'Fehler beim Speichern der Journaldaten.')
+        return {
+            success: false,
+            message: error.message || 'Fehler beim Speichern der Journaldaten.',
+            status: error.status,
+            raw: error.data,
+        }
+    }
+}
+
 // Für Komponenten (setup)
 export function useJournalService() {
     return {
         getJournalData,
+        putJournalData
     }
 }
 
 // Für Router usw.
 export const journalService = {
     getJournalData,
+    putJournalData
 }

@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import { useAuth } from '../services/authService'
 import Navigation from "@/components/Navigation.vue";
+import GlobalAlerts from "@/components/GlobalAlerts.vue";
 
 const router = useRouter()
 const { logout } = useAuth()
@@ -27,6 +28,7 @@ function handleLogout() {
     <main class="app-main">
       <!-- Hier erscheinen die geschützten Views -->
       <div class="screen screen-narrow px-3 px-lg-5 py-2 d-block">
+        <GlobalAlerts/>
         <RouterView />
 
       </div>

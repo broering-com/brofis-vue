@@ -16,7 +16,7 @@ import BadgeCheckbox from "@/components/utils/BadgeCheckbox.vue";
 import Card from "@/components/ui/Card.vue";
 
 
-const {getJournalData} = useJournalService()
+const {getJournalData, putJournalData} = useJournalService()
 const {userConfig, isUserConfigLoading, userConfigError} = useUserConfig()
 
 const selectedHouse = ref(localStorage.getItem('selectedHouse') || '')
@@ -26,7 +26,6 @@ const journalData = ref(null)
 const form = reactive({
   tiergewicht: '',
   wasser: '',
-  eingabeInProzent: false,
   mischfutter: '',
   weizen: '',
   feedingPhases: [],
@@ -76,7 +75,6 @@ function mapDataToForm(data) {
   if (!data) {
     form.tiergewicht = ''
     form.wasser = ''
-    form.eingabeInProzent = false
     form.mischfutter = ''
     form.weizen = ''
     form.feedingPhases = []
@@ -121,7 +119,18 @@ function mapDataToForm(data) {
 }
 
 function submit() {
-  console.log('### foobar', {house: selectedHouse.value, date: selectedDate.value, ...form})
+  let payload = {};
+  Object.keys(form).forEach(key => {
+    if (key === 'feedingPhases') {
+      form[key].forEach(phase => payload[phase] = 1);
+      return;
+    }
+    if (form[key] !== '') {
+      payload[key] = form[key];
+    }
+  })
+  console.log('### foobar',payload, {...form})
+  putJournalData(selectedHouse.value, selectedDate.value, payload)
 }
 </script>
 
@@ -153,7 +162,7 @@ function submit() {
     </Card>
 
     <Card classes="mb-4">
-      <MixFoodPercentageCalc :form="form"/>
+      <MixFoodPercentageCalc :form="form" />
     </Card>
     <Card>
       <alert type="info">
