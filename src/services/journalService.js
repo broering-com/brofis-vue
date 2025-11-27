@@ -69,7 +69,7 @@ async function putJournalData(house, date, data) {
     }
     try {
         const response = await httpClient.put(`/journal/${house}/${date}`, data)
-        notificationService.notifySuccess('journal.saved')
+        notificationService.notifySuccess('journal.submit.success')
         return {success: true, data: response}
     } catch (error) {
         notificationService.notifyError(error.message || 'Fehler beim Speichern der Journaldaten.')

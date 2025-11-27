@@ -7,7 +7,7 @@ const { notifications, removeNotification } = useNotifications()
 </script>
 
 <template>
-  <div class="global-alerts container mt-3">
+  <div class="global-alerts mt-3">
     <div
         v-for="n in notifications"
         :key="n.id"

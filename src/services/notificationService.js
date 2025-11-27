@@ -21,6 +21,10 @@ function removeNotification(id) {
     notifications.value = notifications.value.filter(n => n.id !== id)
 }
 
+function clearNotifications() {
+    notifications.value = [];
+}
+
 function notifySuccess(message, timeout = 0) {
     return addNotification({ type: 'success', message, timeout })
 }
@@ -40,6 +44,7 @@ export function useNotifications() {
         notifySuccess,
         notifyError,
         notifyInfo,
+        clearNotifications,
     }
 }
 
@@ -48,4 +53,5 @@ export const notificationService = {
     notifyError,
     notifyInfo,
     removeNotification,
+    clearNotifications,
 }
