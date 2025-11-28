@@ -1,5 +1,7 @@
 <script setup>
 
+import {ref} from "vue";
+
 const {headline, classes} = defineProps({
   headline: { type: String, default: ''},
   classes: { type: String, default: ''}
