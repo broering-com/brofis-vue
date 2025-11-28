@@ -30,14 +30,10 @@ async function loadHousingData() {
   }
 }
 
-onMounted(async () => {
-  await loadHousingData();
-});
-
 watch([selectedHouse, flockNumber], () => {
   currentPage.value = 0
   loadHousingData()
-})
+},)
 
 watch(currentPage, () => {
   loadHousingData()

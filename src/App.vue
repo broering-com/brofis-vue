@@ -8,14 +8,13 @@ onMounted(() => {
   const {loadMessages} = useI18n()
   const {userConfig} = useUserConfig()
   const lang = userConfig.value?.language || 'de'
-  loadMessages(lang)
 
   watch(
       () => userConfig.value?.language,
       (newLang, oldLang) => {
         if (!newLang || newLang === oldLang) return
         loadMessages(newLang)
-      }
+      }, {initial: true}
   )
 })
 </script>
