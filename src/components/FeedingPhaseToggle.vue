@@ -50,17 +50,22 @@
   <div class="feeding-phase-toggle">
     <div class="d-flex justify-content-between mb-1">
       <span class="">{{ $t(label) }}</span>
-      <span class="text-end text-muted">{{ $t('general.yesterday')}}</span>
+      <span class="text-end text-muted">{{ $t('general.yesterday') }}</span>
     </div>
 
-    <div class="btn-group w-100" role="group" aria-label="Futterphasen">
+    <div
+      class="btn-group w-100"
+      role="group"
+      aria-label="Futterphasen"
+    >
       <button
-          v-for="phase in phases"
-          :key="phase.key"
-          type="button"
-          class="btn flex-fill"
-          :class="isActive(phase.key) ? 'btn-primary' : 'btn-outline-primary'"
-          @click="togglePhase(phase.key)">
+        v-for="phase in phases"
+        :key="phase.key"
+        type="button"
+        class="btn flex-fill"
+        :class="isActive(phase.key) ? 'btn-primary' : 'btn-outline-primary'"
+        @click="togglePhase(phase.key)"
+      >
         {{ phase.label }}
       </button>
     </div>

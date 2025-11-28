@@ -10,5 +10,5 @@ if (id) {
 </script>
 
 <template>
-HousingDetailsView!
+  HousingDetailsView!
 </template>

@@ -3,7 +3,7 @@
 import Alert from "@/components/utils/Alert.vue";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
-import {onMounted, reactive, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useHousingService} from "@/services/housingService";
 import {useNotifications} from "@/services/notificationService"
 import HousingOverviewCard from "@/components/events/HousingOverviewCard.vue";
@@ -28,7 +28,6 @@ async function loadHousingData() {
   } else {
     notifyError(result.message)
   }
-  console.log(housings.value)
 }
 
 onMounted(async () => {
@@ -47,25 +46,52 @@ watch(currentPage, () => {
 </script>
 
 <template>
-  <h1 class="title"> {{ $t('events.housings.pagetitle') }} </h1>
-  <RouterLink class="btn btn-primary" type="button" :to="{name: 'housingDetails'}">{{ $t('events.housings.add') }}</RouterLink>
-  <Alert type="info" class="my-4">{{ $t('events.housings.info') }}</Alert>
+  <h1 class="title">
+    {{ $t('events.housings.pagetitle') }}
+  </h1>
+  <RouterLink
+    class="btn btn-primary"
+    type="button"
+    :to="{name: 'housingDetails'}"
+  >
+    {{ $t('events.housings.add') }}
+  </RouterLink>
+  <Alert
+    type="info"
+    class="my-4"
+  >
+    {{ $t('events.housings.info') }}
+  </Alert>
 
   <div class="row">
-    <HouseSelect class="col-6" v-model="selectedHouse" :showAllOption="true"></HouseSelect>
-    <BaseInput v-model="flockNumber" label="events.housings.herd" class="col-6"></BaseInput>
+    <HouseSelect
+      v-model="selectedHouse"
+      class="col-6"
+      :show-all-option="true"
+    />
+    <BaseInput
+      v-model="flockNumber"
+      label="events.housings.herd"
+      class="col-6"
+    />
   </div>
 
   <template v-if="housings.length > 0">
-    <HousingOverviewCard v-for="housing in housings"
-                         :housing="housing"
-                         :key="housing.ID"></HousingOverviewCard>
+    <HousingOverviewCard
+      v-for="housing in housings"
+      :key="housing.ID"
+      :housing="housing"
+    />
   </template>
   <template v-else>
     <Card class="text-center">
-      {{$t('general.no_data')}}
+      {{ $t('general.no_data') }}
     </Card>
   </template>
 
-  <Pagination v-model:current-page="currentPage" :last-page="15" :items-per-page="15"></Pagination>
+  <Pagination
+    v-model:current-page="currentPage"
+    :last-page="15"
+    :items-per-page="15"
+  />
 </template>

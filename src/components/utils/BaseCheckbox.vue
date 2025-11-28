@@ -51,31 +51,39 @@ function onChange(e) {
 
 <template>
   <div class="mb-3">
-
     <div
-        class="form-check"
-        :class="{ 'form-switch': variant === 'switch' }"
+      class="form-check"
+      :class="{ 'form-switch': variant === 'switch' }"
     >
       <input
-          class="form-check-input"
-          :id="inputId"
-          type="checkbox"
-          :checked="modelValue"
-          @change="onChange"
-          :required="required"
-          :disabled="disabled"
-          :role="variant === 'switch' ? 'switch' : null"
-          :class="{ 'is-invalid': error }"
-      />
+        :id="inputId"
+        class="form-check-input"
+        type="checkbox"
+        :checked="modelValue"
+        :required="required"
+        :disabled="disabled"
+        :role="variant === 'switch' ? 'switch' : null"
+        :class="{ 'is-invalid': error }"
+        @change="onChange"
+      >
 
-      <label class="form-check-label" :for="inputId">
+      <label
+        class="form-check-label"
+        :for="inputId"
+      >
         <!-- i18n-Label -->
         {{ $t(label) }}
-        <span v-if="required" class="text-danger">*</span>
+        <span
+          v-if="required"
+          class="text-danger"
+        >*</span>
       </label>
     </div>
 
-    <div v-if="error" class="invalid-feedback d-block">
+    <div
+      v-if="error"
+      class="invalid-feedback d-block"
+    >
       {{ error }}
     </div>
   </div>

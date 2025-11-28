@@ -1,6 +1,6 @@
 <script setup>
 
-import {ref, defineProps} from "vue";
+import {defineProps} from "vue";
 
 const props = defineProps({
   type: {type: String, default: 'danger'},
@@ -9,10 +9,19 @@ const props = defineProps({
 </script>
 
 <template>
-<div class="alert" :class="`alert-${props.type}`" role="alert">
-  <h4 v-if="props.headline" class="alert-heading fs-6">{{$t(props.headline)}}</h4>
-  <slot></slot>
-</div>
+  <div
+    class="alert"
+    :class="`alert-${props.type}`"
+    role="alert"
+  >
+    <h4
+      v-if="props.headline"
+      class="alert-heading fs-6"
+    >
+      {{ $t(props.headline) }}
+    </h4>
+    <slot />
+  </div>
 </template>
 
 <style scoped>

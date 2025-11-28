@@ -1,60 +1,85 @@
 <script setup>
 import BaseCheckbox from "@/components/utils/BaseCheckbox.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
-import { ref, watch } from "vue";
+import {computed, ref, watch} from "vue";
 
 const props = defineProps({
   form: { type: Object, required: true },
 })
-
+const emit = defineEmits(['update:form'])
 const showPercentages = ref(false)
 const sum = ref(0)
 const percentage = ref(0)
 
+const form = computed({
+  get: () => props.form,
+  set: (value) => emit("update:form", value)
+})
+
+function updateForm(patch) {
+  form.value = {
+    ...form.value,
+    ...patch,
+  }
+}
 // auf den boolschen Wert reagieren
 watch(
-    () => props.form.eingabeInProzent,
+    showPercentages.value,
     (newVal) => {
-      showPercentages.value = newVal
+      showPercentages.value = newVal;
+
+      const mixfood = parseInt(form.value.mixfood || 0, 10);
+      const wheat = parseInt(form.value.wheat || 0, 10);
+
       if (newVal) {
-        sum.value= ( parseInt(props.form.mixfood) + parseInt(props.form.wheat) )
-        percentage.value = (parseInt(props.form.wheat) / (parseInt(sum.value))) * 100
+        // Prozente anzeigen → Summe & Prozent aus aktuellen Werten berechnen
+        const s = mixfood + wheat;
+        sum.value = s;
+
+        percentage.value = s > 0 ? (wheat / s) * 100 : 0;
       } else {
-        props.form.mixfood = (parseInt(sum.value) - (parseInt(sum.value) * parseInt(percentage.value) / 100))
-        props.form.wheat = (parseInt(sum.value) * parseInt(percentage.value) / 100)
+        // Prozente ausgeschaltet → aus gespeicherter sum/percentage wieder konkrete Werte berechnen
+        const newMixfood =
+            sum.value - (sum.value * percentage.value) / 100;
+        const newWheat =
+            (sum.value * percentage.value) / 100;
+
+        updateForm({
+          mixfood: Math.round(newMixfood),
+          wheat: Math.round(newWheat),
+        });
       }
     },
-    { immediate: true } // optional, dann wird der initiale Wert direkt übernommen
-)
+    { immediate: true }
+);
 </script>
 
 <template>
-
   <!-- Eingabe in % (Toggle) -->
   <BaseCheckbox
-      v-model="form.eingabeInProzent"
-      label="journal.form.eingabeInProzent"
-      variant="switch"
+    v-model="form.eingabeInProzent"
+    label="journal.form.eingabeInProzent"
+    variant="switch"
   />
 
   <!-- Misch -->
   <BaseInput
-      v-model="form.mixfood"
-      type="number"
-      label="journal.form.mischfutter"
-      label-end="general.yesterday"
-      groupUnit="kg"
-      :class="{ 'd-none': showPercentages }"
+    v-model="form.mixfood"
+    type="number"
+    label="journal.form.mischfutter"
+    label-end="general.yesterday"
+    group-unit="kg"
+    :class="{ 'd-none': showPercentages }"
   />
 
   <!-- Weizen -->
   <BaseInput
-      v-model="form.wheat"
-      type="number"
-      label="journal.form.weizen"
-      label-end="general.yesterday"
-      groupUnit="kg"
-      :class="{ 'd-none': showPercentages }"
+    v-model="form.wheat"
+    type="number"
+    label="journal.form.weizen"
+    label-end="general.yesterday"
+    group-unit="kg"
+    :class="{ 'd-none': showPercentages }"
   />
 
   <BaseInput
@@ -63,7 +88,8 @@ watch(
     label="journal.form.sum"
     label-end="general.yesterday"
     :class="{ 'd-none': !showPercentages }"
-    groupUnit="kg"/>
+    group-unit="kg"
+  />
 
   <BaseInput
     v-model="percentage"
@@ -71,8 +97,8 @@ watch(
     label="journal.form.percentage"
     label-end="general.yesterday"
     :class="{ 'd-none': !showPercentages }"
-    groupUnit="%"/>
-
+    group-unit="%"
+  />
 </template>
 
 <style scoped>

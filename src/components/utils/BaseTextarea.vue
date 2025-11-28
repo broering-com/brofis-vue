@@ -48,29 +48,37 @@ const onInput = (event) => {
 </script>
 
 <template>
-  <div class="mb-3" :class="formGroupClasses">
-
+  <div
+    class="mb-3"
+    :class="formGroupClasses"
+  >
     <!-- Label -->
     <label
-        v-if="label"
-        class="form-label pb-0 ps-0 mb-0 d-flex justify-content-between"
-        :for="textareaId"
+      v-if="label"
+      class="form-label pb-0 ps-0 mb-0 d-flex justify-content-between"
+      :for="textareaId"
     >
       <span>{{ $t(label) }}</span>
-      <span v-if="labelEnd" class="text-muted">{{ $t(labelEnd) }}</span>
+      <span
+        v-if="labelEnd"
+        class="text-muted"
+      >{{ $t(labelEnd) }}</span>
     </label>
 
     <textarea
-        :id="textareaId"
-        class="form-control"
-        :class="{ 'is-invalid': error }"
-        :placeholder="$t(placeholder)"
-        :value="modelValue"
-        :rows="rows"
-        @input="onInput"
-    ></textarea>
+      :id="textareaId"
+      class="form-control"
+      :class="{ 'is-invalid': error }"
+      :placeholder="$t(placeholder)"
+      :value="modelValue"
+      :rows="rows"
+      @input="onInput"
+    />
 
-    <div v-if="error" class="invalid-feedback">
+    <div
+      v-if="error"
+      class="invalid-feedback"
+    >
       {{ error }}
     </div>
   </div>

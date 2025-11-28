@@ -31,34 +31,61 @@ async function onSubmit() {
 
 <template>
   <section>
-    <img src="@/assets/logo.png" class="mx-auto d-block mb-4" alt="Logo" style="height: 48px;"/>
-    <alert type="info">{{ $t('login.subtitle') }}</alert>
+    <img
+      src="@/assets/logo.png"
+      class="mx-auto d-block mb-4"
+      alt="Logo"
+      style="height: 48px;"
+    >
+    <alert type="info">
+      {{ $t('login.subtitle') }}
+    </alert>
 
-    <h2 class="sr-only">{{ $t('login.title') }}</h2>
+    <h2 class="sr-only">
+      {{ $t('login.title') }}
+    </h2>
 
     <form @submit.prevent="onSubmit">
-      <Alert v-if="error" type="danger" headline="general.error_headline">
+      <Alert
+        v-if="error"
+        type="danger"
+        headline="general.error_headline"
+      >
         {{ error }}
       </Alert>
       <BaseInput
-          v-model="username"
-          label="general.username"
-          placeholder="..."
-          :error="errors.username"></BaseInput>
+        v-model="username"
+        label="general.username"
+        placeholder="..."
+        :error="errors.username"
+      />
       <BaseInput
-          v-model="password"
-          type="password"
-          label="Passwort"
-          placeholder="..."
-          :error="errors.password"
+        v-model="password"
+        type="password"
+        label="Passwort"
+        placeholder="..."
+        :error="errors.password"
       />
       <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="rememberMe" v-model="remember"/>
-        <label for="rememberMe" class="form-check-label">
-          {{$t('login.remember_me')}}
+        <input
+          id="rememberMe"
+          v-model="remember"
+          type="checkbox"
+          class="form-check-input"
+        >
+        <label
+          for="rememberMe"
+          class="form-check-label"
+        >
+          {{ $t('login.remember_me') }}
         </label>
       </div>
-      <button class="btn btn-primary w-100" type="submit">{{ $t('login.button_label') }}</button>
+      <button
+        class="btn btn-primary w-100"
+        type="submit"
+      >
+        {{ $t('login.button_label') }}
+      </button>
     </form>
   </section>
 </template>

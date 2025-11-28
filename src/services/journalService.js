@@ -1,7 +1,6 @@
 // src/services/authService.js
-import {ref, computed} from 'vue'
+import {ref} from 'vue'
 import {httpClient} from './httpClient'
-import {userConfigService} from "@/services/userConfigService.js";
 import {notificationService} from '@/services/notificationService.js'
 
 
@@ -9,9 +8,7 @@ import {notificationService} from '@/services/notificationService.js'
 const currentUser = ref(null)
 
 // HILFSFUNKTION: Daten nach erfolgreichem Login setzen
-function setSession(data, stayLoggedIn = false) {
-    // TODO: an dein Backend anpassen
-    // Ich gehe davon aus: data = { token, user }
+/*function setSession(data, stayLoggedIn = false) {
     const token = data?.token
 
     if (!token) {
@@ -23,20 +20,19 @@ function setSession(data, stayLoggedIn = false) {
     } else {
         localStorage.setItem('token', token)
     }
-    isAuthenticatedState.value = true
 
     if (data.user) {
         currentUser.value = data.user
         localStorage.setItem('user', JSON.stringify(data.user))
     }
-}
+}*/
 
 // Bei App-Start evtl. gespeicherten User laden
 const storedUser = localStorage.getItem('user')
 if (storedUser) {
     try {
         currentUser.value = JSON.parse(storedUser)
-    } catch (e) {
+    } catch {
         currentUser.value = null
     }
 }

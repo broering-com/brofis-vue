@@ -1,8 +1,6 @@
 // src/services/authService.js
-import {ref, computed} from 'vue'
+import {ref} from 'vue'
 import {httpClient} from './httpClient'
-import {userConfigService} from "@/services/userConfigService.js";
-import {notificationService} from '@/services/notificationService.js'
 
 
 // Optional: User-Infos speichern
@@ -14,7 +12,7 @@ const storedUser = localStorage.getItem('user')
 if (storedUser) {
     try {
         currentUser.value = JSON.parse(storedUser)
-    } catch (e) {
+    } catch {
         currentUser.value = null
     }
 }
@@ -25,7 +23,7 @@ async function getHousingData(house, page = 0, flockNumber = '') {
 
     try {
         const params = {
-            page: page,
+            page,
         }
         if (flockNumber) {
             params.flockNumber = flockNumber
@@ -52,7 +50,8 @@ async function getHousingData(house, page = 0, flockNumber = '') {
     }
 }
 
-async function getHousingDetailsData(house, date) {
+// für später, wenn wir die Details-Seite aufrufen
+/*async function getHousingDetailsData(house, date) {
     try {
         let response
         if (house && date) {
@@ -60,7 +59,7 @@ async function getHousingDetailsData(house, date) {
         } else if (date) {
             response = await httpClient.get(`/housing/${date}`)
         } else {
-            response = await httpClient.get('/housing', {page: page})
+            response = await httpClient.get('/housing')
         }
         console.log('### response in service', response)
 
@@ -74,7 +73,7 @@ async function getHousingDetailsData(house, date) {
             raw: error.data,
         }
     }
-}
+}*/
 
 
 // Für Komponenten (setup)

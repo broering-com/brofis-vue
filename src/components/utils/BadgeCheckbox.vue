@@ -4,7 +4,7 @@ import {computed} from "vue";
 const props = defineProps({
   modelValue: {
     type: String,
-    default: false
+    default: ''
   },
   label: {
     type: String,
@@ -41,20 +41,25 @@ const inputId = computed(() => {
 </script>
 
 <template>
-
   <div class="form-check">
     <input
-        class="form-check-input"
-        :id="inputId"
-        type="checkbox"
-        :checked="modelValue.length > 0"
-        @change="onChange"
-        :class="{ 'is-invalid': error }"
-    />
+      :id="inputId"
+      class="form-check-input"
+      type="checkbox"
+      :checked="modelValue.length > 0"
+      :class="{ 'is-invalid': error }"
+      @change="onChange"
+    >
 
-    <label class="form-check-label" :for="inputId">
+    <label
+      class="form-check-label"
+      :for="inputId"
+    >
       <!-- i18n-Label -->
-      <span v-if="modelValue" class="badge bg-primary">{{modelValue}} {{$t('general.oclock')}}</span>
+      <span
+        v-if="modelValue"
+        class="badge bg-primary"
+      >{{ modelValue }} {{ $t('general.oclock') }}</span>
       {{ $t(label) }}
     </label>
   </div>

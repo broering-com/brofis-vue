@@ -57,43 +57,61 @@ const onInput = (event) => {
 </script>
 
 <template>
-  <div class="mb-3" :class="props.formGroupClasses">
+  <div
+    class="mb-3"
+    :class="props.formGroupClasses"
+  >
     <label
-        v-if="label || labelEnd"
-        class="form-label pb-0 ps-0 mb-0 w-100 col-12 d-flex justify-content-between"
-        :for="inputId"
+      v-if="label || labelEnd"
+      class="form-label pb-0 ps-0 mb-0 w-100 col-12 d-flex justify-content-between"
+      :for="inputId"
     >
-      <span class="" v-if="label">{{ $t(label) }}</span>
-      <span v-if="required && label" class="text-danger">*</span>
-      <span v-if="labelEnd" class="text-muted text-end">{{$t(labelEnd)}}</span>
+      <span
+        v-if="label"
+        class=""
+      >{{ $t(label) }}</span>
+      <span
+        v-if="required && label"
+        class="text-danger"
+      >*</span>
+      <span
+        v-if="labelEnd"
+        class="text-muted text-end"
+      >{{ $t(labelEnd) }}</span>
     </label>
 
-    <div class="input-group" v-if="groupUnit">
+    <div
+      v-if="groupUnit"
+      class="input-group"
+    >
       <input
-          :id="inputId"
-          :type="type"
-          class="form-control"
-          :class="{ 'is-invalid': error }"
-          :placeholder="$t(placeholder) || '...'"
-          :value="modelValue"
-          @input="onInput"
-          :required="required"
-      />
-      <span class="input-group-text col-2 justify-content-center">{{groupUnit}}</span>
-    </div>
-    <input
-        v-else
         :id="inputId"
         :type="type"
         class="form-control"
         :class="{ 'is-invalid': error }"
         :placeholder="$t(placeholder) || '...'"
         :value="modelValue"
-        @input="onInput"
         :required="required"
-    />
+        @input="onInput"
+      >
+      <span class="input-group-text col-2 justify-content-center">{{ groupUnit }}</span>
+    </div>
+    <input
+      v-else
+      :id="inputId"
+      :type="type"
+      class="form-control"
+      :class="{ 'is-invalid': error }"
+      :placeholder="$t(placeholder) || '...'"
+      :value="modelValue"
+      :required="required"
+      @input="onInput"
+    >
 
-    <div v-if="error" class="invalid-feedback">
+    <div
+      v-if="error"
+      class="invalid-feedback"
+    >
       {{ error }}
     </div>
   </div>

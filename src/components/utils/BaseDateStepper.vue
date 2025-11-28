@@ -79,41 +79,48 @@ function changeByDays(delta) {
 <template>
   <div class="mb-3">
     <label
-        v-if="label"
-        class="form-label pb-0 ps-0 mb-1"
-        :for="inputId">
+      v-if="label"
+      class="form-label pb-0 ps-0 mb-1"
+      :for="inputId"
+    >
       {{ $t(label) }}
-      <span v-if="required" class="text-danger">*</span>
+      <span
+        v-if="required"
+        class="text-danger"
+      >*</span>
     </label>
 
     <div class="input-group">
       <button
-          class="btn btn-primary"
-          type="button"
-          @click="changeByDays(-1)"
-          :disabled="disabled"
+        class="btn btn-primary"
+        type="button"
+        :disabled="disabled"
+        @click="changeByDays(-1)"
       >
-        <i class="bi bi-arrow-left-square"></i>
+        <i class="bi bi-arrow-left-square" />
       </button>
 
       <input
-          :id="inputId"
-          type="date"
-          class="form-control"
-          :value="internalValue"
-          @input="event => { internalValue = event.target.value; emit('update:modelValue', internalValue) }"
-      />
+        :id="inputId"
+        type="date"
+        class="form-control"
+        :value="internalValue"
+        @input="event => { internalValue = event.target.value; emit('update:modelValue', internalValue) }"
+      >
 
       <button
-          class="btn btn-primary"
-          type="button"
-          @click="changeByDays(1)"
-          :disabled="disabled"
+        class="btn btn-primary"
+        type="button"
+        :disabled="disabled"
+        @click="changeByDays(1)"
       >
-        <i class="bi bi-arrow-right-square"></i>
+        <i class="bi bi-arrow-right-square" />
       </button>
 
-      <div v-if="error" class="invalid-feedback">
+      <div
+        v-if="error"
+        class="invalid-feedback"
+      >
         {{ error }}
       </div>
     </div>

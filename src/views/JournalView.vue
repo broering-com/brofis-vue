@@ -1,13 +1,11 @@
 <script setup>
 
 import Alert from "@/components/utils/Alert.vue";
-import {useUserConfig} from "@/services/userConfigService.js";
 import {reactive, ref, watch} from "vue";
 import {useJournalService} from "@/services/journalService.js";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseDateStepper from "@/components/utils/BaseDateStepper.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
-import BaseCheckbox from "@/components/utils/BaseCheckbox.vue";
 import FeedingPhaseToggle from "@/components/FeedingPhaseToggle.vue";
 import MixFoodPercentageCalc from "@/components/journal/MixFoodPercentageCalc.vue";
 import LossForm from "@/components/journal/LossForm.vue";
@@ -17,7 +15,6 @@ import Card from "@/components/ui/Card.vue";
 
 
 const {getJournalData, putJournalData} = useJournalService()
-const {userConfig, isUserConfigLoading, userConfigError} = useUserConfig()
 
 const selectedHouse = ref(localStorage.getItem('selectedHouse') || '')
 const selectedDate = ref(localStorage.getItem('selectedDate') || '')
@@ -164,31 +161,37 @@ function submit() {
 </script>
 
 <template>
-
-  <form @submit.prevent="submit" class="">
+  <form
+    class=""
+    @submit.prevent="submit"
+  >
     <Card classes="mb-4">
-      <Alert type="info">{{ $t('journal.info') }}</Alert>
-      <HouseSelect v-model="selectedHouse"/>
-      <BaseDateStepper v-model="selectedDate"
-                       id="txtDatumTB"/>
+      <Alert type="info">
+        {{ $t('journal.info') }}
+      </Alert>
+      <HouseSelect v-model="selectedHouse" />
+      <BaseDateStepper
+        id="txtDatumTB"
+        v-model="selectedDate"
+      />
     </Card>
 
     <Card>
       <BaseInput
-          v-model="form.animalWeight"
-          type="number"
-          label="journal.form.tiergewicht"
-          label-end="general.yesterday"
-          groupUnit="g"
+        v-model="form.animalWeight"
+        type="number"
+        label="journal.form.tiergewicht"
+        label-end="general.yesterday"
+        group-unit="g"
       />
 
       <!-- Wasser -->
       <BaseInput
-          v-model="form.water"
-          type="number"
-          label="journal.form.wasser"
-          label-end="general.yesterday"
-          groupUnit="l"
+        v-model="form.water"
+        type="number"
+        label="journal.form.wasser"
+        label-end="general.yesterday"
+        group-unit="l"
       />
     </Card>
 
@@ -199,70 +202,92 @@ function submit() {
         {{ $t('journal.form.phase_question') }}
       </alert>
 
-      <FeedingPhaseToggle v-model="form.feedingPhases" label="journal.form.feedingphase"></FeedingPhaseToggle>
+      <FeedingPhaseToggle
+        v-model="form.feedingPhases"
+        label="journal.form.feedingphase"
+      />
     </Card>
 
     <Card classes="mb-4">
       <div class="row">
-        <BaseInput v-model="form.tempMin"
-                   type="text"
-                   label="journal.form.temperature"
-                   groupUnit="°C"
-                   formGroupClasses="col-6"
-                   placeholder="journal.form.temperature_min"></BaseInput>
-        <BaseInput v-model="form.tempMax"
-                   type="text"
-                   groupUnit="°C"
-                   label="&nbsp;"
-                   labelEnd="Gestern"
-                   formGroupClasses="col-6"
-                   placeholder="journal.form.temperature_max"></BaseInput>
+        <BaseInput
+          v-model="form.tempMin"
+          type="text"
+          label="journal.form.temperature"
+          group-unit="°C"
+          form-group-classes="col-6"
+          placeholder="journal.form.temperature_min"
+        />
+        <BaseInput
+          v-model="form.tempMax"
+          type="text"
+          group-unit="°C"
+          label="&nbsp;"
+          label-end="Gestern"
+          form-group-classes="col-6"
+          placeholder="journal.form.temperature_max"
+        />
       </div>
 
       <div class="row">
-        <BaseInput v-model="form.humidityMin"
-                   type="text"
-                   label="journal.form.humidity"
-                   groupUnit="%"
-                   formGroupClasses="col-6"
-                   placeholder="journal.form.humidity_min"></BaseInput>
-        <BaseInput v-model="form.humidityMax"
-                   type="text"
-                   groupUnit="°C"
-                   formGroupClasses="col-6"
-                   label="&nbsp;"
-                   labelEnd="Gestern"
-                   placeholder="journal.form.humidity_max"></BaseInput>
+        <BaseInput
+          v-model="form.humidityMin"
+          type="text"
+          label="journal.form.humidity"
+          group-unit="%"
+          form-group-classes="col-6"
+          placeholder="journal.form.humidity_min"
+        />
+        <BaseInput
+          v-model="form.humidityMax"
+          type="text"
+          group-unit="°C"
+          form-group-classes="col-6"
+          label="&nbsp;"
+          label-end="Gestern"
+          placeholder="journal.form.humidity_max"
+        />
       </div>
     </Card>
 
 
     <Card classes="mb-4">
-      <LossForm :form="form"></LossForm>
+      <LossForm v-model:form="form" />
     </Card>
 
     <Card classes="mb-4">
-
-      <BaseTextarea v-model="form.notes"
-                    label="journal.form.notes"
-                    label-end="general.today"
-      ></BaseTextarea>
+      <BaseTextarea
+        v-model="form.notes"
+        label="journal.form.notes"
+        label-end="general.today"
+      />
     </Card>
 
     <Card classes="mb-4">
       <label class="form-label pb-0 ps-0 d-flex justify-content-between">
-        <span>{{ $t('journal.form.technology_checklist')}}</span>
+        <span>{{ $t('journal.form.technology_checklist') }}</span>
         <span class="text-muted text-end">{{ $t('general.today') }}</span>
       </label>
-      <BadgeCheckbox v-model="form.alarm" label="journal.form.alarm"></BadgeCheckbox>
-      <BadgeCheckbox v-model="form.technology" label="journal.form.stalltechnik"></BadgeCheckbox>
-      <BadgeCheckbox v-model="form.emergencyPower" label="journal.form.notstrom"></BadgeCheckbox>
+      <BadgeCheckbox
+        v-model="form.alarm"
+        label="journal.form.alarm"
+      />
+      <BadgeCheckbox
+        v-model="form.technology"
+        label="journal.form.stalltechnik"
+      />
+      <BadgeCheckbox
+        v-model="form.emergencyPower"
+        label="journal.form.notstrom"
+      />
     </Card>
 
 
 
-    <button @submit.prevent="submit"
-            class="btn btn-primary col-12">
+    <button
+      class="btn btn-primary col-12"
+      @submit.prevent="submit"
+    >
       {{ $t('general.submit') }}
     </button>
   </form>

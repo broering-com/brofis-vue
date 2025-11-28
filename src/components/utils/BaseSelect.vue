@@ -78,44 +78,51 @@ const onChange = (event) => {
 <template>
   <div class="mb-3">
     <label
-        v-if="label"
-        class="form-label pb-0 ps-0 mb-0"
-        :for="selectId"
+      v-if="label"
+      class="form-label pb-0 ps-0 mb-0"
+      :for="selectId"
     >
       {{ $t(label) }}
-      <span v-if="required" class="text-danger">*</span>
+      <span
+        v-if="required"
+        class="text-danger"
+      >*</span>
     </label>
 
     <select
-        :id="selectId"
-        class="form-select"
-        :class="{ 'is-invalid': error }"
-        :multiple="multiple"
-        :required="required"
-        :disabled="disabled"
-        :value="modelValue"
-        @change="onChange"
+      :id="selectId"
+      class="form-select"
+      :class="{ 'is-invalid': error }"
+      :multiple="multiple"
+      :required="required"
+      :disabled="disabled"
+      :value="modelValue"
+      @change="onChange"
     >
       <!-- Placeholder nur bei Single-Select sinnvoll -->
       <option
-          v-if="!multiple && placeholder"
-          disabled
-          value=""
-          :selected="modelValue === '' || modelValue === null"
+        v-if="!multiple && placeholder"
+        disabled
+        value=""
+        :selected="modelValue === '' || modelValue === null"
       >
         {{ $t(placeholder) }}
       </option>
 
       <option
-          v-for="opt in normalizedOptions"
-          :key="opt.value"
-          :value="opt.value">
+        v-for="opt in normalizedOptions"
+        :key="opt.value"
+        :value="opt.value"
+      >
         <!-- wenn label wie ein i18n-Key aussieht, mit $t behandeln -->
         {{ opt.label && typeof opt.label === 'string' ? $t(opt.label) : opt.label }}
       </option>
     </select>
 
-    <div v-if="error" class="invalid-feedback">
+    <div
+      v-if="error"
+      class="invalid-feedback"
+    >
       {{ error }}
     </div>
   </div>

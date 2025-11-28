@@ -39,7 +39,7 @@ const storedUser = localStorage.getItem('user')
 if (storedUser) {
     try {
         currentUser.value = JSON.parse(storedUser)
-    } catch (e) {
+    } catch {
         currentUser.value = null
     }
 }

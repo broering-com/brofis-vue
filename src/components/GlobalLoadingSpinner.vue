@@ -6,8 +6,11 @@ const { isHttpLoading } = useHttpLoading()
 </script>
 
 <template>
-  <div v-if="isHttpLoading" class="loading-overlay">
-    <div class="spinner"></div>
+  <div
+    v-if="isHttpLoading"
+    class="loading-overlay"
+  >
+    <div class="spinner" />
   </div>
 </template>
 

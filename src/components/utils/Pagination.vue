@@ -1,6 +1,5 @@
 <script setup>
 import {computed} from "vue";
-import BaseSelect from "@/components/utils/BaseSelect.vue";
 
 const emit = defineEmits(['update:currentPage']);
 
@@ -107,18 +106,22 @@ function goTo(page) {
 </script>
 
 <template>
-  <nav v-if="totalPages > 1"
-       aria-label="Page navigation">
+  <nav
+    v-if="totalPages > 1"
+    aria-label="Page navigation"
+  >
     <ul class="pagination justify-content-center">
-
       <!-- Previous -->
-      <li class="page-item" :class="{ disabled: currentPage1 === 1 }">
+      <li
+        class="page-item"
+        :class="{ disabled: currentPage1 === 1 }"
+      >
         <button
-            class="page-link"
-            type="button"
-            @click="goTo('previous')"
-            :disabled="currentPage1 === 1"
-            aria-label="Previous"
+          class="page-link"
+          type="button"
+          :disabled="currentPage1 === 1"
+          aria-label="Previous"
+          @click="goTo('previous')"
         >
           <span aria-hidden="true">&laquo;</span>
         </button>
@@ -126,43 +129,45 @@ function goTo(page) {
 
       <!-- Page Buttons + Dots -->
       <li
-          v-for="item in pageItems"
-          :key="item + ''"
-          class="page-item"
-          :class="{
+        v-for="item in pageItems"
+        :key="item + ''"
+        class="page-item"
+        :class="{
           active: typeof item === 'number' && item === currentPage1,
           disabled: typeof item !== 'number',
         }"
       >
         <span
-            v-if="typeof item !== 'number'"
-            class="page-link"
+          v-if="typeof item !== 'number'"
+          class="page-link"
         >
           …
         </span>
         <button
-            v-else
-            class="page-link"
-            type="button"
-            @click="goTo(item)"
+          v-else
+          class="page-link"
+          type="button"
+          @click="goTo(item)"
         >
           {{ item }}
         </button>
       </li>
 
       <!-- Next -->
-      <li class="page-item" :class="{ disabled: currentPage1 === totalPages }">
+      <li
+        class="page-item"
+        :class="{ disabled: currentPage1 === totalPages }"
+      >
         <button
-            class="page-link"
-            type="button"
-            @click="goTo('next')"
-            :disabled="currentPage1 === totalPages"
-            aria-label="Next"
+          class="page-link"
+          type="button"
+          :disabled="currentPage1 === totalPages"
+          aria-label="Next"
+          @click="goTo('next')"
         >
           <span aria-hidden="true">&raquo;</span>
         </button>
       </li>
-
     </ul>
   </nav>
 <!--

@@ -28,7 +28,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const {userConfig, isUserConfigLoading, userConfigError} = useUserConfig()
+const {userConfig} = useUserConfig()
 
 // internes Ref, das mit v-model synchronisiert wird
 const selectedHouse = ref(props.modelValue)
@@ -81,9 +81,9 @@ watch(selectedHouse, (val) => {
 <template>
   <div class="mb-3">
     <BaseSelect
-        v-model="selectedHouse"
-        :label="label"
-        :options="houseOptions"
+      v-model="selectedHouse"
+      :label="label"
+      :options="houseOptions"
     />
   </div>
 </template>
