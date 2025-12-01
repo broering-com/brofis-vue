@@ -35,19 +35,16 @@ const routes = [
                 meta: {isNarrow: true}
             },
             {
-                path: '/housings',
+                path: 'housings',
                 name: 'housings',
                 component: HousingView
             },
             {
-                path: '/housings/details',
+                path: 'housings/details/:id?',
                 name: 'housingDetails',
-                component: HousingDetailsView
-            },
-            {
-                path: '/housings/details/:id?',
-                name: 'housingDetailsWithId',
-                component: HousingDetailsView
+                component: HousingDetailsView,
+                meta: {isNarrow: true},
+                props: true, // damit ID als prop an die Komponente übergeben wird
             }
         ]
     },

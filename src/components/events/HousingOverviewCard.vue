@@ -11,12 +11,16 @@ const {housing} = defineProps(
     }
 )
 
-const emit = defineEmits(["duplicate", "delete"])
+const emit = defineEmits(["duplicate", "edit", "delete"])
 function onDuplicateClick() {
   emit("duplicate", housing)
 }
 function onDeletionClick() {
   emit("delete", housing)
+}
+
+function onEditClick() {
+  emit("edit", housing)
 }
 </script>
 
@@ -30,10 +34,10 @@ function onDeletionClick() {
         {{ housing.Stall }}
       </div>
       <div class="col-6 col-md-4 col-lg-2 center-vertical">
-        Herde: {{ housing.Herde ?? '-' }}
+        {{$t('events.housings.herd')}}: {{ housing.Herde ?? '-' }}
       </div>
       <div class="col-6 col-md-4 col-lg-2 center-vertical">
-        LW {{ housing.Lebenswoche ?? '-' }}
+        {{ $t('events.housings.week_of_life_short') }}: {{ housing.Lebenswoche ?? '-' }}
       </div>
       <div class="col-12 col-md-12 col-lg-4 text-end">
         <button
@@ -46,6 +50,7 @@ function onDeletionClick() {
         <button
           class="btn btn-primary my-1 mx-1"
           type="button"
+          @click="onEditClick"
         >
           {{ $t('general.edit') }}
         </button>

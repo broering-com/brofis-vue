@@ -36,8 +36,6 @@ async function getHousingData(house, page = 0, flockNumber = '') {
             params: params
         })
 
-        console.log('### response in service', response)
-
         return {success: true, data: response}
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
@@ -84,8 +82,7 @@ async function deleteHousingData(housingdata) {
     }
 }
 
-// für später, wenn wir die Details-Seite aufrufen
-/*async function getHousingDetailsData(house, date) {
+async function getHousingDetailsData(house, date) {
     try {
         let response
         if (house && date) {
@@ -107,7 +104,7 @@ async function deleteHousingData(housingdata) {
             raw: error.data,
         }
     }
-}*/
+}
 
 
 // Für Komponenten (setup)
@@ -115,7 +112,8 @@ export function useHousingService() {
     return {
         getHousingData,
         duplicateHousingData,
-        deleteHousingData
+        deleteHousingData,
+        getHousingDetailsData,
     }
 }
 
@@ -123,5 +121,6 @@ export function useHousingService() {
 export const housingService = {
     getHousingData,
     duplicateHousingData,
-    deleteHousingData
+    deleteHousingData,
+    getHousingDetailsData,
 }

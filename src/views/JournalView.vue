@@ -155,7 +155,6 @@ function submit() {
       payload[mapToV1Api(key)] = form[key];
     }
   })
-  console.log('### foobar',payload, {...form})
   putJournalData(selectedHouse.value, selectedDate.value, payload)
 }
 </script>

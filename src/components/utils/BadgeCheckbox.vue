@@ -26,7 +26,6 @@ function onChange(e) {
     const h = today.getHours()
     const m = String(today.getMinutes()).padStart(2, '0')
     const s = String(today.getSeconds()).padStart(2, '0')
-    console.log(`${h}:${m}:${s}`)
     emit('update:modelValue', `${h}:${m}:${s}`)
   } else {
     emit('update:modelValue', '')

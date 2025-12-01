@@ -57,6 +57,7 @@ const {notifications, removeNotification} = useNotifications()
 .alert-leave-active {
   transition: opacity 0.2s ease-in, transform 0.2s ease-in;
 }
+
 .alert-leave-to {
   opacity: 0;
   transform: translateY(-8px) scale(0.95);

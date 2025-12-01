@@ -15,8 +15,6 @@ const {duplicationTargetName} = defineProps({
 })
 
 onMounted(() => {
-  console.log('### userConfig', userConfig.value.houses)
-  console.log(duplicationTargetName)
   houses.value = userConfig.value.houses
 })
 

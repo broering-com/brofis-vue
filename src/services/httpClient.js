@@ -35,7 +35,6 @@ function getAuthToken() {
 
 function buildUrl(path, params) {
     let url = API_PREFIX
-    console.log(path);
 
     if (path.startsWith('/')) {
         url += path
