@@ -7,7 +7,7 @@ import {useI18n} from "@/services/i18nService.js";
 onMounted(() => {
   const {loadMessages} = useI18n()
   const {userConfig} = useUserConfig()
-  const lang = userConfig.value?.language || 'de'
+  // const lang = userConfig.value?.language || 'de' // für den Sprachenwechsel später
 
   watch(
       () => userConfig.value?.language,

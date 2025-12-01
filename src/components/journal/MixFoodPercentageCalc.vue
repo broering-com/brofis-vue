@@ -24,7 +24,7 @@ function updateForm(patch) {
 }
 // auf den boolschen Wert reagieren
 watch(
-    showPercentages.value,
+    () => showPercentages.value,
     (newVal) => {
       showPercentages.value = newVal;
 

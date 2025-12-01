@@ -26,6 +26,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  containerClasses: {
+    type: String,
+    default: 'mb-3'
+  },
 
   /**
    * checkbox → normale Checkbox
@@ -50,7 +54,7 @@ function onChange(e) {
 </script>
 
 <template>
-  <div class="mb-3">
+  <div :class="containerClasses">
     <div
       class="form-check"
       :class="{ 'form-switch': variant === 'switch' }"

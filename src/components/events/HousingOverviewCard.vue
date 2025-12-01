@@ -7,9 +7,17 @@ const {housing} = defineProps(
       housing: {
         type: Object,
         required: true,
-      }
+      },
     }
 )
+
+const emit = defineEmits(["duplicate", "delete"])
+function onDuplicateClick() {
+  emit("duplicate", housing)
+}
+function onDeletionClick() {
+  emit("delete", housing)
+}
 </script>
 
 <template>
@@ -31,6 +39,7 @@ const {housing} = defineProps(
         <button
           class="btn btn-primary my-1 mx-1 "
           type="button"
+          @click="onDuplicateClick"
         >
           {{ $t('general.duplicate') }}
         </button>
@@ -43,6 +52,7 @@ const {housing} = defineProps(
         <button
           class="btn btn-outline-danger my-1 ms-1"
           type="button"
+          @click="onDeletionClick"
         >
           {{ $t('general.delete') }}
         </button>

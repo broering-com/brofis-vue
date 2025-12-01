@@ -50,6 +50,40 @@ async function getHousingData(house, page = 0, flockNumber = '') {
     }
 }
 
+async function duplicateHousingData(housingdata, targets) {
+    try {
+        let house = housingdata?.Stall
+        let date = housingdata?.Datum
+        let response = await httpClient.put(`/housing/${house}/${date}`, targets)
+
+        return {success: true, data: response}
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message || 'Fehler beim Löschen der Einstallungsdaten',
+            status: error.status,
+            raw: error.data
+        }
+    }
+}
+
+async function deleteHousingData(housingdata) {
+    try {
+        let house = housingdata?.Stall
+        let date = housingdata?.Datum
+        let response = await httpClient.delete(`/housing/${house}/${date}`)
+
+        return {success: true, data: response}
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message || 'Fehler beim Löschen der Einstallungsdaten',
+            status: error.status,
+            raw: error.data
+        }
+    }
+}
+
 // für später, wenn wir die Details-Seite aufrufen
 /*async function getHousingDetailsData(house, date) {
     try {
@@ -80,11 +114,14 @@ async function getHousingData(house, page = 0, flockNumber = '') {
 export function useHousingService() {
     return {
         getHousingData,
-
+        duplicateHousingData,
+        deleteHousingData
     }
 }
 
 // Für Router usw.
 export const housingService = {
     getHousingData,
+    duplicateHousingData,
+    deleteHousingData
 }
