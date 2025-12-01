@@ -25,7 +25,7 @@ function clearNotifications() {
     notifications.value = [];
 }
 
-function notifySuccess(message, timeout = 0) {
+function notifySuccess(message, timeout = 5000) {
     return addNotification({ type: 'success', message, timeout })
 }
 
