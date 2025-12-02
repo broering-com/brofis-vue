@@ -106,7 +106,6 @@ async function getHousingDetailsData(house, date) {
 }
 
 async function putHousingDetailsData(house, date, data) {
-    console.log('### data in HousingService', data)
     try {
         let response = await httpClient.put(`/housing/${house}/${date}`, data)
         return {success: true, data: response}

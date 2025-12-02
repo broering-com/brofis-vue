@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {useHousingService} from "@/services/housingService";
 import {useDateService} from "@/services/dateService.js";
 import {useNotifications} from "@/services/notificationService.js";
@@ -64,8 +64,8 @@ function createEmptyForm() {
     id: "",
     itw: false,
     import: 0,
-    dayOfLife: "",
-    weekOfLife: "",
+    weekOfLife: null,
+    productionWeek: null,
     deliveryNote: "",
     qs: false,
     race: "",
@@ -122,7 +122,7 @@ const apiV1Map = {
   flockNumber: "Herde",
   weekOfLife: "Lebenswoche",
   deliveryNotes: "Lieferschein",
-  dayOfLife: "Lebenstag",
+  productionWeek: "Produktionswoche",
   animalWeight: "Tiergewicht",
   animalLosses: "Tierverluste",
   origin: "Herkunft",
@@ -160,14 +160,12 @@ function oncancel() {
 }
 
 async function submit() {
-  console.log('### submit', form.value)
   let payload = {};
   Object.keys(form.value).forEach(key => {
     if (form.value[key] !== '') {
       payload[mapFormToApi(key)] = form.value[key];
     }
   })
-  console.log('### payload', payload)
   const result = await putHousingDetailsData(form.value.housing, form.value.date, payload)
 
   if (result.success) {
@@ -179,6 +177,15 @@ async function submit() {
 onMounted(() => {
   loadHousing();
 });
+
+watch(
+    () => form.value.weekOfLife,
+    (val) => {
+      if (parseInt(val) >= 25) {
+        form.value.productionWeek = Math.max((parseInt(val) - 25), 0)
+      }
+    }
+)
 </script>
 
 <template>
@@ -239,8 +246,8 @@ onMounted(() => {
         />
 
         <BaseInput
-          v-model="form.dayOfLife"
-          label="events.housings.details.day_of_life"
+          v-model="form.productionWeek"
+          label="events.housings.details.production_week"
           class="col-6"
           :disabled="true"
         />
