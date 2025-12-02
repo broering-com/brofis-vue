@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { httpClient } from './httpClient'
 import {userConfigService} from "@/services/userConfigService.js";
+import {catalogService} from "@/services/catalogService.js";
 
 // Reaktiver Auth-Status
 const isAuthenticatedState = ref(
@@ -59,6 +60,7 @@ async function login(username, password, stayLoggedIn = false) {
 
         setSession(data, stayLoggedIn)
         await userConfigService.fetchUserConfig()
+        await catalogService.ensureCatalogUpToDate()
 
         return { success: true, data }
     } catch (error) {

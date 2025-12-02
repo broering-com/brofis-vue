@@ -92,7 +92,6 @@ async function getHousingDetailsData(house, date) {
         } else {
             response = await httpClient.get('/housing')
         }
-        console.log('### response in service', response)
 
         return {success: true, data: response}
     } catch (error) {
@@ -100,6 +99,21 @@ async function getHousingDetailsData(house, date) {
         return {
             success: false,
             message: error.message || 'Fehler beim Abruf der Einstallungsdaten.',
+            status: error.status,
+            raw: error.data,
+        }
+    }
+}
+
+async function putHousingDetailsData(house, date, data) {
+    console.log('### data in HousingService', data)
+    try {
+        let response = await httpClient.put(`/housing/${house}/${date}`, data)
+        return {success: true, data: response}
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message || 'Fehler beim Speichern der Einstallungsdaten.',
             status: error.status,
             raw: error.data,
         }
@@ -114,6 +128,7 @@ export function useHousingService() {
         duplicateHousingData,
         deleteHousingData,
         getHousingDetailsData,
+        putHousingDetailsData
     }
 }
 
@@ -123,4 +138,5 @@ export const housingService = {
     duplicateHousingData,
     deleteHousingData,
     getHousingDetailsData,
+    putHousingDetailsData
 }

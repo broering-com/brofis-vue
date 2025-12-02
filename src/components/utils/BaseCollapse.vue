@@ -38,7 +38,6 @@ function toggle() {
   if (props.disabled) return;
   isOpen.value = !isOpen.value;
   emit("toggle", isOpen.value);
-  console.log("toggle", isOpen.value);
 }
 </script>
 
@@ -54,7 +53,7 @@ function toggle() {
       <div class="collapse-header-inner">
         <span class="collapse-title">
           <slot name="title">
-            {{ title }}
+            {{ $t(title) }}
           </slot>
         </span>
 

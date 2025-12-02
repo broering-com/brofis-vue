@@ -285,7 +285,7 @@ function submit() {
 
     <button
       class="btn btn-primary col-12"
-      @submit.prevent="submit"
+      type="submit"
     >
       {{ $t('general.submit') }}
     </button>

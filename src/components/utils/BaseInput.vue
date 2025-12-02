@@ -40,7 +40,11 @@ const props = defineProps({
   },
   formGroupClasses: {
     type: String,
-    default: ''
+    default: 'mb-3'
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -58,7 +62,6 @@ const onInput = (event) => {
 
 <template>
   <div
-    class="mb-3"
     :class="props.formGroupClasses"
   >
     <label
@@ -92,6 +95,7 @@ const onInput = (event) => {
         :placeholder="$t(placeholder) || '...'"
         :value="modelValue"
         :required="required"
+        :disabled="disabled"
         @input="onInput"
       >
       <span class="input-group-text col-2 justify-content-center">{{ groupUnit }}</span>
@@ -105,6 +109,7 @@ const onInput = (event) => {
       :placeholder="$t(placeholder) || '...'"
       :value="modelValue"
       :required="required"
+      :disabled="disabled"
       @input="onInput"
     >
 

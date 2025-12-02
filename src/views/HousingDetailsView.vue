@@ -1,15 +1,23 @@
 <script setup>
-import { computed, ref, watch, onMounted } from "vue";
-import { useHousingService } from "@/services/housingService";
-import { useNotifications } from "@/services/notificationService";
-import { useHousingSelection } from "@/composables/useHousingSelection.js";
+import {computed, ref, watch, onMounted} from "vue";
+import {useHousingService} from "@/services/housingService";
+import {useNotifications} from "@/services/notificationService";
+import {useHousingSelection} from "@/composables/useHousingSelection.js";
+import {useDateService} from "@/services/dateService.js";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 import Card from "@/components/ui/Card.vue";
 import BaseCollapse from "@/components/utils/BaseCollapse.vue";
 import Alert from "@/components/utils/Alert.vue";
+import BaseCheckbox from "@/components/utils/BaseCheckbox.vue";
+import ToggleButtonGroup from "@/components/utils/ToggleButtonGroup.vue";
+import router from "@/router/index.js";
+import RaceSelect from "@/components/events/RaceSelect.vue";
+import HatcherySelect from "@/components/events/HatcherySelect.vue";
+import EmergingChicksSelect from "@/components/events/EmergingChicksSelect.vue";
 
-const { selectedHousing } = useHousingSelection();
+const {selectedHousing} = useHousingSelection();
+const {today, subtractDays} = useDateService();
 
 const props = defineProps({
   id: {
@@ -18,10 +26,10 @@ const props = defineProps({
   },
 })
 
-const { getHousingDetailsData } = useHousingService();
-const { notifyError } = useNotifications();
+const {getHousingDetailsData, putHousingDetailsData} = useHousingService()
+const {notifyError} = useNotifications()
 
-const isEditMode = computed(() => !!props.id);
+const isEditMode = computed(() => !!props.id)
 
 const form = ref(createEmptyForm()) // deine eigene Funktion / Struktur
 const isAnimalCollapseOpen = ref(false)
@@ -29,12 +37,16 @@ const isQsCollapseOpen = ref(false)
 const isCleaningCollapseOpen = ref(false)
 
 function createEmptyForm() {
+  const threeDaysAgo = subtractDays(new Date(Date.now()), 3)
+  const thisDay = today()
+  const selectedHouse = ref(localStorage.getItem('selectedHouse') || '')
+
   return {
     hatchery: "",
-    date: "",
-    disinfectantSurfacesDate: "",
+    date: thisDay,
+    disinfectantSurfacesDate: threeDaysAgo,
     disinfectantSurfaces: "",
-    disinfectantWateringPlaceDate: "",
+    disinfectantWateringPlaceDate: threeDaysAgo,
     disinfectantWateringPlace: "",
     bedding: "",
     food: "",
@@ -49,10 +61,10 @@ function createEmptyForm() {
     qs: false,
     race: "",
     regionalWindow: false,
-    rodendPests: "",
+    rodendPests: threeDaysAgo,
     rodendPestsContinuity: false,
     emergingChicks: "",
-    housing: "",
+    housing: selectedHouse.value,
     animalWeight: "",
     animalWelfareLabel: "",
     animalLosses: "",
@@ -65,7 +77,6 @@ function createEmptyForm() {
 }
 
 async function loadHousing() {
-  console.log('### loadHousing', isEditMode.value, props, props.id)
   if (!isEditMode.value) {
     // kein Edit → leeres Formular
     form.value = createEmptyForm();
@@ -77,14 +88,12 @@ async function loadHousing() {
 
   try {
     const housing = selectedHousing.value;
-    console.log(housing);
     const result = await getHousingDetailsData(housing.Stall, housing.Datum);
     if (result.success) {
       // API-Response passend ins Form mappen
       Object.keys(result.data).forEach((key) => {
         form.value[mapApiToForm(key)] = result.data[key];
       })
-      console.log(form.value);
     } else {
       notifyError(result.message || "Fehler beim Laden der Einstallung.");
     }
@@ -95,37 +104,35 @@ async function loadHousing() {
 }
 
 const apiV1Map = {
-    id: "ID",
-    housing: "Stall",
-    date: "Datum",
-    animalCount: "Tierzahl",
-    hatchery: "Brueterei",
-    race: "Rasse",
-    emergingChicks: "Schlupfbrut",
-    flockNumber: "Herde",
-    weekOfLife: "Lebenswoche",
-    deliveryNotes: "Lieferschein",
-    dayOfLife: "Lebenstag",
-    animalWeight: "Tiergewicht",
-    food: "Futter",
-    water: "Wasser",
-    animalLosses: "Tierverluste",
-    origin: "Herkunft",
-    originDetails: "HerkunftDetail",
-    qs: "QS",
-    itw: "ITW",
-    vlog: "VLOG",
-    animalWelfareLabel: "Tierschutzlabel1",
-    regionalWindow: "Regionalfenster",
-    bedding: "Einstreu",
-    wateringPlace: "Wasserversorgung",
-    rodendPests: "Schadnager",
-    disinfectantSurfacesDate: "DesinfektionFlaecheDatum",
-    disinfectantWateringPlaceDate: "DesinfektionTraenkeDatum",
-    rodendPestsContinuity: "SchadnagerKontinuierlich",
-    disinfectantSurfaces: "DesinfektionFlaecheMittel",
-    disinfectantWateringPlace: "DesinfektionTraenkeMittel",
-    import: "Import",
+  id: "ID",
+  housing: "Stall",
+  date: "Datum",
+  animalCount: "Tierzahl",
+  hatchery: "Brueterei",
+  race: "Rasse",
+  emergingChicks: "Schlupfbrut",
+  flockNumber: "Herde",
+  weekOfLife: "Lebenswoche",
+  deliveryNotes: "Lieferschein",
+  dayOfLife: "Lebenstag",
+  animalWeight: "Tiergewicht",
+  animalLosses: "Tierverluste",
+  origin: "Herkunft",
+  originDetails: "HerkunftDetail",
+  qs: "QS",
+  itw: "ITW",
+  vlog: "VLOG",
+  animalWelfareLabel: "Tierschutzlabel1",
+  regionalWindow: "Regionalfenster",
+  bedding: "Einstreu",
+  wateringPlace: "Wasserversorgung",
+  rodendPests: "Schadnager",
+  disinfectantSurfacesDate: "DesinfektionFlaecheDatum",
+  disinfectantWateringPlaceDate: "DesinfektionTraenkeDatum",
+  rodendPestsContinuity: "SchadnagerKontinuierlich",
+  disinfectantSurfaces: "DesinfektionFlaecheMittel",
+  disinfectantWateringPlace: "DesinfektionTraenkeMittel",
+  import: "Import",
 }
 
 const apiV1ReverseMap = Object.fromEntries(
@@ -140,6 +147,22 @@ function mapApiToForm(key) {
   return apiV1ReverseMap[key] || key;
 }
 
+function oncancel() {
+  router.push({name: "housings"});
+}
+
+function submit() {
+  console.log('### submit', form.value)
+  let payload = {};
+  Object.keys(form.value).forEach(key => {
+    if (form.value[key] !== '') {
+      payload[mapFormToApi(key)] = form.value[key];
+    }
+  })
+  console.log('### payload', payload)
+  putHousingDetailsData(form.value.housing, form.value.date, payload)
+}
+
 onMounted(() => {
   loadHousing();
 });
@@ -147,79 +170,171 @@ onMounted(() => {
 
 <template>
   <h1 class="title">
-    <button class="btn btn-outline-primary">
+    <button
+      class="btn btn-outline-primary"
+      @click="oncancel"
+    >
       <i class="bi bi-arrow-left-square" /> (cancel)
     </button>
-    {{$t('events.housings.details.title') }}
+    {{ $t('events.housings.details.title') }}
   </h1>
+  <form @submit.prevent="submit">
+    <Card class="mb-3">
+      <house-select v-model="form.housing" />
+      <base-input
+        v-model="form.date"
+        label="events.housings.date"
+        type="date"
+      />
+    </Card>
 
-  <Card class="mb-3">
-    <house-select v-model="form.housing" />
-    <base-input
-      v-model="form.date"
-      label="events.housings.date"
-      type="date"
-    />
-  </Card>
-
-  <BaseCollapse
-    v-model="isAnimalCollapseOpen"
-    title="events.housings.details.animals">
-    <BaseInput
-      v-model="form.hatchery"
-      label="events.housings.details.hatchery"
-    />
-    <BaseInput
-      v-model="form.race"
-      label="events.housings.details.race"
-    />
-    <BaseInput
-      v-model="form.emergingChicks"
-      label="events.housings.details.emerging_chicks"
-    />
-
-    <Alert type="info">
-      {{ $t('events.housings.details.multiple_herds_info')}}
-    </Alert>
-
-    <BaseInput
-      v-model="form.flockNumber"
-      label="events.housings.details.flock_number"
-    />
-
-    <div class="row">
+    <BaseCollapse
+      v-model="isAnimalCollapseOpen"
+      title="events.housings.details.animals"
+    >
+      <HatcherySelect
+        v-model="form.hatchery"
+        label="events.housings.details.hatchery"
+      />
+      <RaceSelect
+        v-model="form.race"
+        label="events.housings.details.race"
+      />
+      <EmergingChicksSelect
+        v-model="form.emergingChicks"
+        label="events.housings.details.emerging_chicks"
+      />
       <BaseInput
-        v-model="form.weekOfLife"
-        label="events.housings.details.week_of_life"
-        class="col-6"
+        v-model="form.animalCount"
+        label="events.housings.details.animal_count"
+      />
+
+      <Alert type="info">
+        {{ $t('events.housings.details.multiple_flocks_info') }}
+      </Alert>
+
+      <BaseInput
+        v-model="form.flockNumber"
+        label="events.housings.details.flock_number"
+      />
+
+      <div class="row">
+        <BaseInput
+          v-model="form.weekOfLife"
+          label="events.housings.details.week_of_life"
+          class="col-6"
+        />
+
+        <BaseInput
+          v-model="form.dayOfLife"
+          label="events.housings.details.day_of_life"
+          class="col-6"
+          :disabled="true"
+        />
+      </div>
+
+      <BaseInput
+        v-model="form.deliveryNote"
+        label="events.housings.details.delivery_note"
+      />
+    </BaseCollapse>
+
+    <BaseCollapse
+      v-model="isQsCollapseOpen"
+      title="events.housings.details.qs"
+    >
+      Herkunft-Button-Auswahl
+      <ToggleButtonGroup
+        v-model="form.origin"
+        label="events.housings.details.origin"
+        :options="[{value: 'bornAndRaised', label: 'events.housings.details.born_and_raised'}, {value: 'raised', label: 'events.housings.details.raised'}, {value: 'raisedIn', label: 'events.housings.details.raised_in'}]"
+        :class="form.origin === 'raisedIn' ? 'mb-1' : 'mb-3'"
+      />
+      <BaseInput
+        v-show="form.origin === 'raisedIn'"
+        v-model="form.originDetails"
+        placeholder="events.housings.details.origin_details_placeholder"
+      />
+
+      <label class="form-label">
+        {{ $t('events.housings.details.labels_and_programs') }}
+      </label>
+      <BaseCheckbox
+        v-model="form.qs"
+        label="events.housings.details.qs_label"
+        container-classes="mb-1"
+      />
+      <BaseCheckbox
+        v-model="form.itw"
+        label="events.housings.details.itw_label"
+        container-classes="mb-1"
+      />
+      <BaseCheckbox
+        v-model="form.vlog"
+        label="events.housings.details.vlog_label"
+        container-classes="mb-1"
+      />
+      <BaseCheckbox
+        v-model="form.animalWelfareLabel"
+        label="events.housings.details.animal_welfare_label"
+        container-classes="mb-4"
       />
 
       <BaseInput
-        v-model="form.dayOfLife"
-        label="events.housings.details.day_of_life"
-        class="col-6"
+        v-model="form.bedding"
+        label="events.housings.details.bedding"
       />
-    </div>
 
-    <BaseInput
-      v-model="form.deliveryNote"
-      label="events.housings.details.delivery_note"
-    />
-  </BaseCollapse>
+      <ToggleButtonGroup
+        v-model="form.wateringPlace"
+        :options="[{value: 'Öffentlich', label: 'events.housings.details.watering_place_public'}, {value: 'Privat', label: 'events.housings.details.watering_place_private'}]"
+        label="events.housings.details.watering_place"
+      />
 
-  <BaseCollapse
-    v-model="isQsCollapseOpen"
-    title="events.housings.details.qs"
-  >
-    Test
-  </BaseCollapse>
+      <BaseInput
+        v-model="form.rodendPests"
+        label="events.housings.details.rodend_pests"
+        type="date"
+        form-group-classes="mb-0"
+      />
+      <BaseCheckbox
+        v-model="form.rodendPestsContinuity"
+        label="events.housings.details.rodend_pests_continuity"
+      />
+    </BaseCollapse>
 
-  <BaseCollapse
-    v-model="isCleaningCollapseOpen"
-    title="events.housings.details.cleaning"
-  >
-    Test
-  </BaseCollapse>
+    <BaseCollapse
+      v-model="isCleaningCollapseOpen"
+      title="events.housings.details.cleaning"
+    >
+      <BaseInput
+        v-model="form.disinfectantSurfaces"
+        label="events.housings.details.disinfectant_surfaces"
+        form-group-classes="mb-1"
+      />
+      <BaseInput
+        v-model="form.disinfectantSurfacesDate"
+        type="date"
+      />
+
+      <BaseInput
+        v-model="form.disinfectantWateringPlace"
+        label="events.housings.details.disinfectant_watering_place"
+        form-group-classes="mb-1"
+      />
+      <BaseInput
+        v-model="form.disinfectantWateringPlaceDate"
+        type="date"
+      />
+    </BaseCollapse>
+
+    <button
+      class="btn btn-primary w-100 mb-3"
+      type="submit"
+    >
+      {{ $t('events.housings.details.submit') }}
+    </button>
+  </form>
 
   <!-- dein Formular mit v-model="form.Feld" -->
 </template>
