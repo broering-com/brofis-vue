@@ -19,36 +19,23 @@ if (storedUser) {
 
 // --- Public API ---
 
-async function getHousings(house) {
-    if (house !== 'all') {
-        try {
-            let response = await httpClient.get(`/housing/${house}`)
-            return {success: true, data: response}
-        } catch (error) {
-            return {
-                success: false,
-                message: error.message || 'Fehler beim Abruf der Einstallungsdaten.',
-                status: error.status,
-                raw: error.data,
-            }
-        }
-    }
-}
-
-async function getHousingData(house, page = 0, flockNumber = '') {
+async function getMedicationData(house, page = 0, housing = '', type = '') {
 
     try {
         const params = {
             page,
         }
-        if (flockNumber) {
-            params.flockNumber = flockNumber
+        if (housing) {
+            params.housing = housing
+        }
+        if (type) {
+            params.type = type
         }
         if (house) {
             params.house = house
         }
 
-        let response = await httpClient.get('/housing', {
+        let response = await httpClient.get('/medication', {
             params: params
         })
 
@@ -64,11 +51,10 @@ async function getHousingData(house, page = 0, flockNumber = '') {
     }
 }
 
-async function duplicateHousingData(housingdata, targets) {
+async function duplicateMedicationData(medicationdata, targets) {
     try {
-        let house = housingdata?.Stall
-        let date = housingdata?.Datum
-        let response = await httpClient.put(`/housing/${house}/${date}`, targets)
+        let id = medicationdata?.ID
+        let response = await httpClient.post(`/medication?sourceId=${id}`, targets)
 
         return {success: true, data: response}
     } catch (error) {
@@ -81,11 +67,10 @@ async function duplicateHousingData(housingdata, targets) {
     }
 }
 
-async function deleteHousingData(housingdata) {
+async function deleteMedicationData(medicationdata) {
     try {
-        let house = housingdata?.Stall
-        let date = housingdata?.Datum
-        let response = await httpClient.delete(`/housing/${house}/${date}`)
+        let id = medicationdata?.ID
+        let response = await httpClient.delete(`/medication/${id}`)
 
         return {success: true, data: response}
     } catch (error) {
@@ -98,15 +83,11 @@ async function deleteHousingData(housingdata) {
     }
 }
 
-async function getHousingDetailsData(house, date) {
+async function getMedicationDetailsData(id) {
     try {
         let response
-        if (house && date) {
-            response = await httpClient.get(`/housing/${house}/${date}`)
-        } else if (date) {
-            response = await httpClient.get(`/housing/${date}`)
-        } else {
-            response = await httpClient.get('/housing')
+        if (id) {
+            response = await httpClient.get(`/medication/${id}`)
         }
 
         return {success: true, data: response}
@@ -121,9 +102,9 @@ async function getHousingDetailsData(house, date) {
     }
 }
 
-async function putHousingDetailsData(house, date, data) {
+async function putMedicationDetailsData(house, date, data) {
     try {
-        let response = await httpClient.put(`/housing/${house}/${date}`, data)
+        let response = await httpClient.put(`/medication/${house}/${date}`, data)
         return {success: true, data: response}
     } catch (error) {
         return {
@@ -137,22 +118,21 @@ async function putHousingDetailsData(house, date, data) {
 
 
 // Für Komponenten (setup)
-export function useHousingService() {
+export function useMedicationService() {
     return {
-        getHousings,
-        getHousingData,
-        duplicateHousingData,
-        deleteHousingData,
-        getHousingDetailsData,
-        putHousingDetailsData
+        getMedicationData,
+        duplicateMedicationData,
+        deleteMedicationData,
+        getMedicationDetailsData,
+        putMedicationDetailsData
     }
 }
 
 // Für Router usw.
-export const housingService = {
-    getHousingData,
-    duplicateHousingData,
-    deleteHousingData,
-    getHousingDetailsData,
-    putHousingDetailsData
+export const medicationService = {
+    getMedicationData,
+    duplicateMedicationData,
+    deleteMedicationData,
+    getMedicationDetailsData,
+    putMedicationDetailsData
 }

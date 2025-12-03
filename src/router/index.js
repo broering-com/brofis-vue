@@ -10,6 +10,8 @@ import {authService} from '@/services/authService';
 import {userConfigService} from "@/services/userConfigService";
 import HousingView from "@/views/HousingView.vue";
 import HousingDetailsView from "@/views/HousingDetailsView.vue";
+import MedicationsView from "@/views/MedicationsView.vue";
+import MedicationsDetailsView from "@/views/MedicationsDetailsView.vue";
 
 const routes = [
     {
@@ -45,7 +47,18 @@ const routes = [
                 name: 'housingDetails',
                 component: HousingDetailsView,
                 meta: {isNarrow: true},
-                props: true, // damit ID als prop an die Komponente übergeben wird
+                props: true, // damit House und Date als prop an die Komponente übergeben wird
+            },
+            {
+                path: 'medications',
+                name: 'medications',
+                component: MedicationsView
+            },
+            {
+                path: 'medications/details/:id?',
+                name: 'medicationDetails',
+                component: MedicationsDetailsView,
+                props: true,
             }
         ]
     },
