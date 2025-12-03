@@ -1,6 +1,7 @@
 <script setup>
 
 import Card from "@/components/ui/Card.vue";
+import {useDateService} from "@/services/dateService.js";
 
 const {housing} = defineProps(
     {
@@ -12,6 +13,9 @@ const {housing} = defineProps(
 )
 
 const emit = defineEmits(["duplicate", "edit", "delete"])
+
+const {formatReadable} = useDateService()
+
 function onDuplicateClick() {
   emit("duplicate", housing)
 }
@@ -28,7 +32,7 @@ function onEditClick() {
   <Card>
     <div class="row">
       <div class="col-6 col-md-4 col-lg-2 fw-bold center-vertical">
-        {{ housing.Datum }}
+        {{ formatReadable(housing.Datum) }}
       </div>
       <div class="col-6 col-md-4 col-lg-2 center-vertical my-lg-3">
         {{ housing.Stall }}

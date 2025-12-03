@@ -12,12 +12,13 @@ import {useNotifications} from "@/services/notificationService";
 import MedicationOverviewCard from "@/components/events/MedicationOverviewCard.vue";
 import {ref, watch} from "vue";
 import router from "@/router/index.js";
-import BaseInput from "@/components/utils/BaseInput.vue";
 import MedicationTypeSelect from "@/components/events/MedicationTypeSelect.vue";
 import HousingSelect from "@/components/events/HousingSelect.vue";
+import {useDateService} from "@/services/dateService.js";
 
 const { getMedicationData, duplicateMedicationData, deleteMedicationData } = useMedicationService();
 const { notifySuccess, notifyError } = useNotifications();
+const { formatReadable } = useDateService()
 
 const selectedHouse = ref("")
 const selectedHousing = ref("")
@@ -223,8 +224,8 @@ async function confirmDeletion() {
       <p v-if="duplicateTarget">
         {{
           $t("events.medications.duplicate_modal_description", {
-            date: duplicateTarget.Datum,
-            medication: duplicateTarget.Stall,
+            date: formatReadable(duplicateTarget.Datum),
+            housing: duplicateTarget.Stall,
           })
         }}
       </p>
@@ -264,8 +265,8 @@ async function confirmDeletion() {
       <p v-if="deletionTarget">
         {{
           $t("events.medications.deletion_modal_content", {
-            date: deletionTarget.Datum,
-            medication: deletionTarget.Stall,
+            date: formatReadable(deletionTarget.Datum),
+            housing: deletionTarget.Stall,
           })
         }}
       </p>

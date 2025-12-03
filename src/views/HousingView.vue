@@ -12,10 +12,12 @@ import HouseSelectionCheckboxes from "@/components/events/HouseSelectionCheckbox
 
 import {useHousingService} from "@/services/housingService";
 import {useNotifications} from "@/services/notificationService";
+import {useDateService} from "@/services/dateService.js";
 import router from "@/router/index.js";
 
 const { getHousingData, duplicateHousingData, deleteHousingData } = useHousingService();
 const { notifySuccess, notifyError } = useNotifications();
+const { formatReadable } = useDateService();
 
 // Filter / Pagination
 const selectedHouse = ref("");
@@ -209,7 +211,7 @@ async function confirmDeletion() {
       <p v-if="duplicateTarget">
         {{
           $t("events.housings.duplicate_modal_description", {
-            date: duplicateTarget.Datum,
+            date: formatReadable(duplicateTarget.Datum),
             housing: duplicateTarget.Stall,
           })
         }}
@@ -250,7 +252,7 @@ async function confirmDeletion() {
       <p v-if="deletionTarget">
         {{
           $t("events.housings.deletion_modal_content", {
-            date: deletionTarget.Datum,
+            date: formatReadable(deletionTarget.Datum),
             housing: deletionTarget.Stall,
           })
         }}

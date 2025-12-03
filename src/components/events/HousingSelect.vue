@@ -2,6 +2,7 @@
 import BaseSelect from "@/components/utils/BaseSelect.vue";
 import {computed, onMounted, ref, watch} from "vue";
 import {useHousingService} from "@/services/housingService.js";
+import {useDateService} from '@/services/dateService.js';
 
 const props = defineProps({
   modelValue: {
@@ -16,6 +17,7 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 const { getHousings } = useHousingService()
+const { formatReadable } = useDateService()
 
 const defaultOption = {value: 'all', label: 'general.all'}
 const options = ref([{value: 'all', label: 'general.all'}])
@@ -38,7 +40,7 @@ async function loadHousingsforHouse(house) {
       const housingOptions = result.data.map((housing) => {
         return {
           "value": housing,
-          "label": housing
+          "label": formatReadable(housing)
         }
       })
       options.value = [defaultOption, ...housingOptions]

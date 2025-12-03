@@ -16,6 +16,18 @@ function format(date) {
     return `${year}-${month}-${day}`;
 }
 
+function formatReadable(date) {
+    if (!(date instanceof Date)) {
+        date = new Date(date);
+    }
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+
+    return `${day}.${month}.${year}`;
+}
+
 // aktuelles Datum
 function today() {
     return format(new Date());
@@ -40,6 +52,7 @@ function subtractDays(date, amount) {
 export function useDateService() {
     return {
         format,
+        formatReadable,
         today,
         toDate,
         addDays,
