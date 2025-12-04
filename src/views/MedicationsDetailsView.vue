@@ -4,7 +4,7 @@ import Card from "@/components/ui/Card.vue";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 import router from "@/router/index.js";
-import {onMounted, ref, watch} from "vue";
+import {nextTick, onMounted, ref, watch} from "vue";
 import {useDateService} from "@/services/dateService.js";
 import ToggleButtonGroup from "@/components/utils/ToggleButtonGroup.vue";
 import {MEDICATION_TYPE_TOGGLE_OPTIONS} from "@/constants/medicationTypeToggleOptions.js";
@@ -12,7 +12,7 @@ import AutoSuggestInput from "@/components/utils/AutoSuggestInput.vue";
 import {useCatalogService} from "@/services/catalogService.js";
 import BaseSelect from "@/components/utils/BaseSelect.vue";
 import {MEDICATION_UNITS} from "@/constants/medicationUnits.js";
-import { useMedicationService } from "@/services/medicationService.js";
+import {useMedicationService} from "@/services/medicationService.js";
 import {useNotifications} from "@/services/notificationService.js";
 
 const props = defineProps({
@@ -29,6 +29,7 @@ const {notifySuccess} = useNotifications();
 
 const form = ref(createEmptyForm())
 const productSuggestions = ref([])
+const personSuggestions = ref([])
 const unitOptions = ref(MEDICATION_UNITS)
 
 function createEmptyForm(type) {
@@ -87,15 +88,6 @@ function getProductSuggestionsForType(type) {
   return getCatalogData(type)
 }
 
-watch(
-    () => form.value.type,
-    async (val) => {
-      form.value = createEmptyForm(val);
-      const key = MEDICATION_TYPE_TOGGLE_OPTIONS.find(option => option.value === val).catalogKey;
-      productSuggestions.value = await getProductSuggestionsForType(key);
-    }
-)
-
 function onSelect(selectedObject) {
   form.value.manufacturer = selectedObject.Hersteller
   form.value.waitingTime = selectedObject.Wartezeit
@@ -106,20 +98,40 @@ function oncancel() {
   router.push({name: 'medications'})
 }
 
-function loadMedication() {
+async function loadMedication() {
   if (!props.id) {
     form.value = createEmptyForm();
     return
   }
-  getMedicationDetailsData(props.id).then(result => {
-    if (result.success) {
-      Object.keys(result.data).forEach(key => {
-        console.log(key, mapApiToForm(key), result.data[key])
-        form.value[mapApiToForm(key)] = result.data[key];
-      })
-      console.log(form.value)
-    }
-  })
+  const result = await getMedicationDetailsData(props.id)
+  if (result.success) {
+    Object.keys(result.data).forEach(key => {
+      form.value[mapApiToForm(key)] = result.data[key];
+    })
+
+    await loadProductSuggestions()
+    await loadPersonSuggestions()
+  }
+}
+
+async function loadProductSuggestions() {
+  const key = MEDICATION_TYPE_TOGGLE_OPTIONS.find(option => option.value === form.value.type).catalogKey;
+  productSuggestions.value = await getProductSuggestionsForType(key);
+}
+
+async function onTypeChange(val) {
+  // Nur hier Formular leeren – dieser Handler feuert nur bei Userinput
+  form.value = createEmptyForm(val)
+
+  const option = MEDICATION_TYPE_TOGGLE_OPTIONS.find(option => option.value === val)
+  if (option) {
+    await loadProductSuggestions()
+  }
+}
+
+async function loadPersonSuggestions() {
+  const result = await getCatalogData('personen')
+  personSuggestions.value = result
 }
 
 async function submit() {
@@ -148,13 +160,13 @@ onMounted(() => {
       class="btn btn-outline-primary"
       @click="oncancel"
     >
-      <i class="bi bi-arrow-left-square"/> (cancel)
+      <i class="bi bi-arrow-left-square" /> (cancel)
     </button>
     {{ $t('events.medications.details.title') }}
   </h1>
   <form @submit.prevent="submit">
     <Card class="mb-3">
-      <house-select v-model="form.housing"/>
+      <house-select v-model="form.housing" />
       <base-input
         v-model="form.date"
         label="events.medications.date"
@@ -165,6 +177,7 @@ onMounted(() => {
         v-model="form.type"
         label="events.medications.details.type"
         :options="MEDICATION_TYPE_TOGGLE_OPTIONS"
+        @update:model-value="onTypeChange"
       />
 
       <AutoSuggestInput
@@ -223,9 +236,10 @@ onMounted(() => {
         v-model="form.receipt"
         label="events.medications.details.receipt"
       />
-      <BaseInput
+      <AutoSuggestInput
         v-model="form.person"
         label="events.medications.details.person"
+        :options="personSuggestions"
       />
 
       <button

@@ -37,7 +37,7 @@ const innerValue = computed({
   <div class="mb-3">
     <label
       v-if="label"
-      class="form-label"
+      class="form-label pb-0 ps-0 mb-0 w-100 col-12 d-flex justify-content-between"
     >
       {{ $t ? $t(label) : label }}
     </label>

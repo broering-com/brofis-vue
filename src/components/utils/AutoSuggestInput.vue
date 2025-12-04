@@ -18,7 +18,6 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  // optional: für Fehlermeldungen etc.
   error: {
     type: String,
     default: "",
@@ -26,35 +25,39 @@ const props = defineProps({
   displayKey: {
     type: String,
     default: "label",
-  }
+  },
 });
 
 const emit = defineEmits(["update:modelValue", "select"]);
 
-// interner Input-Text
-const inputValue = computed({
-  get: () => props.modelValue,
-  set: (val) => {
-    emit("update:modelValue", val);
-  },
-})
-const isOpen = ref(false);
-const highlightedIndex = ref(-1);
+// 🔹 eigener interner Input-Text, entkoppelt von props.modelValue
+const inputValue = ref(props.modelValue ?? "");
 
+// wenn sich das v-model von außen ändert, spiegeln wir es rein
 watch(
     () => props.modelValue,
     (val) => {
-      if (val !== inputValue.value) {
-        inputValue.value = val ?? "";
-      }
+      inputValue.value = val ?? "";
     }
 );
 
+// 🔑 Hilfsfunktion: Label einer Option holen (String oder Objekt)
+function getOptionLabel(option) {
+  if (typeof option === "string") {
+    return option;
+  }
+  return option?.[props.displayKey] ?? "";
+}
+
+const isOpen = ref(false);
+const highlightedIndex = ref(-1);
+
 const filteredOptions = computed(() => {
-  const term = inputValue.value.toLowerCase().trim();
+  const term = (inputValue.value ?? "").toString().toLowerCase().trim();
   if (!term) return props.options;
+
   return props.options.filter((opt) =>
-      String(opt[props.displayKey]).toLowerCase().includes(term)
+      getOptionLabel(opt).toLowerCase().includes(term)
   );
 });
 
@@ -72,8 +75,9 @@ function onInput(event) {
 }
 
 function selectOption(option) {
-  inputValue.value = option[props.displayKey];
-  emit("update:modelValue", option[props.displayKey]);
+  const label = getOptionLabel(option);
+  inputValue.value = label;
+  emit("update:modelValue", label);
   emit("select", option);
   isOpen.value = false;
   highlightedIndex.value = -1;
@@ -108,8 +112,8 @@ function onKeydown(e) {
   }
 }
 
-// kleine Delay, damit Klicks auf die Liste noch durchkommen
 function onBlur() {
+  // kein auto-select – nur schließen
   setTimeout(() => {
     isOpen.value = false;
     highlightedIndex.value = -1;
@@ -120,51 +124,45 @@ function onBlur() {
 <template>
   <div class="position-relative mb-3">
     <label
-      v-if="label"
-      class="form-label"
+        v-if="label"
+        class="form-label"
     >
       {{ $t ? $t(label) : label }}
     </label>
 
     <input
-      class="form-control"
-      type="text"
-      :value="inputValue"
-      :placeholder="$t ? $t(placeholder) : placeholder"
-      @focus="onFocus"
-      @input="onInput"
-      @keydown="onKeydown"
-      @blur="onBlur"
+        class="form-control"
+        type="text"
+        :value="inputValue"
+        :placeholder="$t ? $t(placeholder) : placeholder"
+        @focus="onFocus"
+        @input="onInput"
+        @keydown="onKeydown"
+        @blur="onBlur"
     >
 
     <div
-      v-if="isOpen && filteredOptions.length > 0"
-      class="list-group position-absolute w-100 shadow-sm"
-      style="z-index: 1000; max-height: 200px; overflow-y: auto;"
+        v-if="isOpen && filteredOptions.length > 0"
+        class="list-group position-absolute w-100 shadow-sm"
+        style="z-index: 1000; max-height: 200px; overflow-y: auto;"
     >
       <button
-        v-for="(option, index) in filteredOptions"
-        :key="option"
-        type="button"
-        class="list-group-item list-group-item-action"
-        :class="{ active: index === highlightedIndex }"
-        @mousedown.prevent="selectOption(option)"
+          v-for="(option, index) in filteredOptions"
+          :key="getOptionLabel(option) + index"
+          type="button"
+          class="list-group-item list-group-item-action"
+          :class="{ active: index === highlightedIndex }"
+          @mousedown.prevent="selectOption(option)"
       >
-        {{ option[displayKey] }}
+        {{ getOptionLabel(option) }}
       </button>
     </div>
 
     <div
-      v-if="error"
-      class="invalid-feedback d-block"
+        v-if="error"
+        class="invalid-feedback d-block"
     >
       {{ error }}
     </div>
   </div>
 </template>
-
-<style scoped>
-.list-group-item.active {
-  /* optional: Styling vom Theme übernimmt normalerweise Bootstrap */
-}
-</style>
