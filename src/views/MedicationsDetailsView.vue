@@ -4,7 +4,7 @@ import Card from "@/components/ui/Card.vue";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 import router from "@/router/index.js";
-import {nextTick, onMounted, ref, watch} from "vue";
+import {onMounted, ref} from "vue";
 import {useDateService} from "@/services/dateService.js";
 import ToggleButtonGroup from "@/components/utils/ToggleButtonGroup.vue";
 import {MEDICATION_TYPE_TOGGLE_OPTIONS} from "@/constants/medicationTypeToggleOptions.js";
@@ -19,6 +19,7 @@ const props = defineProps({
   id: {
     type: String,
     required: false,
+    default: null
   }
 })
 

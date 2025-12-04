@@ -154,35 +154,35 @@ async function confirmDeletion() {
   </h1>
 
   <RouterLink
-      class="btn btn-primary"
-      type="button"
-      :to="{ name: 'salmonellaProbesDetails' }"
+    class="btn btn-primary"
+    type="button"
+    :to="{ name: 'salmonellaProbesDetails' }"
   >
     {{ $t("events.salmonellaProbes.add") }}
   </RouterLink>
 
   <Alert
-      type="info"
-      class="my-4"
+    type="info"
+    class="my-4"
   >
     {{ $t("events.salmonellaProbes.info") }}
   </Alert>
 
   <div class="row">
     <HouseSelect
-        v-model="selectedHouse"
-        :show-all-option="true"
+      v-model="selectedHouse"
+      :show-all-option="true"
     />
   </div>
 
   <template v-if="salmonellaProbes.length > 0">
     <SalmonellaProbeOverviewCard
-        v-for="probe in salmonellaProbes"
-        :key="probe.ID"
-        :salmonella-probe="probe"
-        @duplicate="openDuplicateModal"
-        @edit="openDetailsForm"
-        @delete="openDeletionModal"
+      v-for="probe in salmonellaProbes"
+      :key="probe.ID"
+      :salmonella-probe="probe"
+      @duplicate="openDuplicateModal"
+      @edit="openDetailsForm"
+      @delete="openDeletionModal"
     />
   </template>
   <template v-else>
@@ -192,15 +192,15 @@ async function confirmDeletion() {
   </template>
 
   <Pagination
-      v-model:current-page="currentPage"
-      :last-page="15"
-      :items-per-page="15"
+    v-model:current-page="currentPage"
+    :last-page="15"
+    :items-per-page="15"
   />
 
   <!-- DUPLICATE MODAL -->
   <BaseModal
-      v-model="showDuplicateModal"
-      :title="$t('events.salmonellaProbes.duplicate_modal_title')"
+    v-model="showDuplicateModal"
+    :title="$t('events.salmonellaProbes.duplicate_modal_title')"
   >
     <template #default>
       <p v-if="duplicateTarget">
@@ -213,25 +213,25 @@ async function confirmDeletion() {
       </p>
 
       <HouseSelectionCheckboxes
-          v-if="duplicateTarget"
-          :duplication-target-name="duplicateTarget.Stall"
-          @house-selected="(val) => onDuplicateSelect(val, true)"
-          @house-deselected="(val) => onDuplicateSelect(val, false)"
+        v-if="duplicateTarget"
+        :duplication-target-name="duplicateTarget.Stall"
+        @house-selected="(val) => onDuplicateSelect(val, true)"
+        @house-deselected="(val) => onDuplicateSelect(val, false)"
       />
     </template>
 
     <template #footer>
       <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="closeDuplicateModal"
+        class="btn btn-outline-secondary"
+        type="button"
+        @click="closeDuplicateModal"
       >
         {{ $t("general.cancel") }}
       </button>
       <button
-          class="btn btn-primary"
-          type="button"
-          @click="confirmDuplication"
+        class="btn btn-primary"
+        type="button"
+        @click="confirmDuplication"
       >
         {{ $t("general.submit") }}
       </button>
@@ -240,8 +240,8 @@ async function confirmDeletion() {
 
   <!-- DELETION MODAL -->
   <BaseModal
-      v-model="showDeletionModal"
-      :title="$t('events.salmonellaProbes.deletion_modal_title')"
+    v-model="showDeletionModal"
+    :title="$t('events.salmonellaProbes.deletion_modal_title')"
   >
     <template #default>
       <p v-if="deletionTarget">
@@ -256,16 +256,16 @@ async function confirmDeletion() {
 
     <template #footer>
       <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="closeDeletionModal"
+        class="btn btn-outline-secondary"
+        type="button"
+        @click="closeDeletionModal"
       >
         {{ $t("general.cancel") }}
       </button>
       <button
-          class="btn btn-danger"
-          type="button"
-          @click="confirmDeletion"
+        class="btn btn-danger"
+        type="button"
+        @click="confirmDeletion"
       >
         {{ $t("general.delete") }}
       </button>

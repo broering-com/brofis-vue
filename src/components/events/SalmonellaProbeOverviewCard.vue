@@ -32,7 +32,7 @@ function onEditClick() {
   <Card>
     <div class="row">
       <div class="col-6 col-lg-4 fw-bold center-vertical">
-        {{ $t('events.salmonellaProbes.probe')}}: {{ formatReadable(salmonellaProbe.SockenprobeDatum) }}
+        {{ $t('events.salmonellaProbes.probe') }}: {{ formatReadable(salmonellaProbe.SockenprobeDatum) }}
       </div>
       <div class="col-6 col-lg-4 center-vertical my-lg-3">
         {{ salmonellaProbe.Stall }}

@@ -1,6 +1,6 @@
 <script setup>
-import {computed, onMounted, watch} from 'vue'
-import { useUserConfig } from '@/services/userConfigService.js'
+import {computed, watch} from 'vue'
+import {useUserConfig} from '@/services/userConfigService.js'
 import BaseSelect from '@/components/utils/BaseSelect.vue'
 
 const props = defineProps({

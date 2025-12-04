@@ -21,6 +21,7 @@ const props = defineProps({
   id: {
     type: String,
     required: false,
+    default: null
   }
 })
 

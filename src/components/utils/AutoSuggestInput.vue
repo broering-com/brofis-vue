@@ -124,43 +124,43 @@ function onBlur() {
 <template>
   <div class="position-relative mb-3">
     <label
-        v-if="label"
-        class="form-label"
+      v-if="label"
+      class="form-label"
     >
       {{ $t ? $t(label) : label }}
     </label>
 
     <input
-        class="form-control"
-        type="text"
-        :value="inputValue"
-        :placeholder="$t ? $t(placeholder) : placeholder"
-        @focus="onFocus"
-        @input="onInput"
-        @keydown="onKeydown"
-        @blur="onBlur"
+      class="form-control"
+      type="text"
+      :value="inputValue"
+      :placeholder="$t ? $t(placeholder) : placeholder"
+      @focus="onFocus"
+      @input="onInput"
+      @keydown="onKeydown"
+      @blur="onBlur"
     >
 
     <div
-        v-if="isOpen && filteredOptions.length > 0"
-        class="list-group position-absolute w-100 shadow-sm"
-        style="z-index: 1000; max-height: 200px; overflow-y: auto;"
+      v-if="isOpen && filteredOptions.length > 0"
+      class="list-group position-absolute w-100 shadow-sm"
+      style="z-index: 1000; max-height: 200px; overflow-y: auto;"
     >
       <button
-          v-for="(option, index) in filteredOptions"
-          :key="getOptionLabel(option) + index"
-          type="button"
-          class="list-group-item list-group-item-action"
-          :class="{ active: index === highlightedIndex }"
-          @mousedown.prevent="selectOption(option)"
+        v-for="(option, index) in filteredOptions"
+        :key="getOptionLabel(option) + index"
+        type="button"
+        class="list-group-item list-group-item-action"
+        :class="{ active: index === highlightedIndex }"
+        @mousedown.prevent="selectOption(option)"
       >
         {{ getOptionLabel(option) }}
       </button>
     </div>
 
     <div
-        v-if="error"
-        class="invalid-feedback d-block"
+      v-if="error"
+      class="invalid-feedback d-block"
     >
       {{ error }}
     </div>
