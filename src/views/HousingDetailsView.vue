@@ -1,8 +1,8 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
-import {useHousingService} from "@/services/housingService";
-import {useDateService} from "@/services/dateService.js";
-import {useNotifications} from "@/services/notificationService.js";
+import { computed, onMounted, ref, watch } from "vue";
+import { useHousingService } from "@/services/housingService";
+import { useDateService } from "@/services/dateService.js";
+import { useNotifications } from "@/services/notificationService.js";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 import Card from "@/components/ui/Card.vue";
@@ -15,8 +15,8 @@ import RaceSelect from "@/components/events/RaceSelect.vue";
 import HatcherySelect from "@/components/events/HatcherySelect.vue";
 import EmergingChicksSelect from "@/components/events/EmergingChicksSelect.vue";
 
-const {today, subtractDays} = useDateService();
-const {notifySuccess} = useNotifications();
+const { today, subtractDays } = useDateService();
+const { notifySuccess } = useNotifications();
 
 const props = defineProps({
   /*id: { // wenn
@@ -35,8 +35,8 @@ const props = defineProps({
   }
 })
 
-const {getHousingDetailsData, putHousingDetailsData} = useHousingService()
-const {notifyError} = useNotifications()
+const { getHousingDetailsData, putHousingDetailsData } = useHousingService()
+const { notifyError } = useNotifications()
 
 const isEditMode = computed(() => !!props.house && !!props.date)
 
@@ -156,7 +156,7 @@ function mapApiToForm(key) {
 }
 
 function oncancel() {
-  router.push({name: "housings"});
+  router.push({ name: "housings" });
 }
 
 async function submit() {
@@ -170,7 +170,7 @@ async function submit() {
 
   if (result.success) {
     notifySuccess('events.housings.details.success', 10000)
-    router.push({name: "housings"});
+    router.push({ name: "housings" });
   }
 }
 
@@ -267,7 +267,7 @@ watch(
       <ToggleButtonGroup
         v-model="form.origin"
         label="events.housings.details.origin"
-        :options="[{value: 'bornAndRaised', label: 'events.housings.details.born_and_raised'}, {value: 'raised', label: 'events.housings.details.raised'}, {value: 'raisedIn', label: 'events.housings.details.raised_in'}]"
+        :options="[{ value: 'bornAndRaised', label: 'events.housings.details.born_and_raised' }, { value: 'raised', label: 'events.housings.details.raised' }, { value: 'raisedIn', label: 'events.housings.details.raised_in' }]"
         :classes="form.origin === 'raisedIn' ? 'mb-1' : 'mb-3'"
       />
       <BaseInput
@@ -307,7 +307,7 @@ watch(
 
       <ToggleButtonGroup
         v-model="form.wateringPlace"
-        :options="[{value: 'Öffentlich', label: 'events.housings.details.watering_place_public'}, {value: 'Privat', label: 'events.housings.details.watering_place_private'}]"
+        :options="[{ value: 'Öffentlich', label: 'events.housings.details.watering_place_public' }, { value: 'Privat', label: 'events.housings.details.watering_place_private' }]"
         label="events.housings.details.watering_place"
       />
 

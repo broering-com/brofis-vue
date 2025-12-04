@@ -1,7 +1,7 @@
 <script setup>
 import BaseCheckbox from "@/components/utils/BaseCheckbox.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
-import {computed, ref, watch} from "vue";
+import { computed, ref, watch } from "vue";
 
 const props = defineProps({
   form: { type: Object, required: true },

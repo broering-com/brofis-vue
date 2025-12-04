@@ -147,15 +147,38 @@ async function getCatalogData(key) {
     return current;
 }
 
+function clearCatalog(type) {
+    const catalogDateRaw = localStorage.getItem(DATETIME_KEY)
+    let catalogDate = {}
+
+    if (catalogDateRaw) {
+        try {
+            catalogDate = JSON.parse(catalogDateRaw) || {}
+        } catch (e) {
+            console.error('Konnte catalogDate nicht parsen:', e)
+            catalogDate = {}
+        }
+    }
+
+    delete catalogDate[type]
+    saveCatalogDates(catalogDate)
+
+    let catalog = loadCatalog() || {}
+    delete catalog[type]
+    saveCatalog(catalog)
+}
+
 // Composition API Support
 export function useCatalogService() {
     return {
         getCatalogData,
         ensureCatalogUpToDate,
+        clearCatalog,
     };
 }
 
 export const catalogService = {
     getCatalogData,
     ensureCatalogUpToDate,
+    clearCatalog,
 };

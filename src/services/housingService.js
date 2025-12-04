@@ -1,6 +1,6 @@
 // src/services/authService.js
-import {ref} from 'vue'
-import {httpClient} from './httpClient'
+import { ref } from 'vue'
+import { httpClient } from './httpClient'
 
 
 // Optional: User-Infos speichern
@@ -23,7 +23,7 @@ async function getHousings(house) {
     if (house !== 'all') {
         try {
             let response = await httpClient.get(`/housing/${house}`)
-            return {success: true, data: response}
+            return { success: true, data: response }
         } catch (error) {
             return {
                 success: false,
@@ -52,7 +52,7 @@ async function getHousingData(house, page = 0, flockNumber = '') {
             params: params
         })
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
         return {
@@ -70,7 +70,7 @@ async function duplicateHousingData(housingdata, targets) {
         let date = housingdata?.Datum
         let response = await httpClient.put(`/housing/${house}/${date}`, targets)
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -87,7 +87,7 @@ async function deleteHousingData(housingdata) {
         let date = housingdata?.Datum
         let response = await httpClient.delete(`/housing/${house}/${date}`)
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -109,7 +109,7 @@ async function getHousingDetailsData(house, date) {
             response = await httpClient.get('/housing')
         }
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
         return {
@@ -124,7 +124,7 @@ async function getHousingDetailsData(house, date) {
 async function putHousingDetailsData(house, date, data) {
     try {
         let response = await httpClient.put(`/housing/${house}/${date}`, data)
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,

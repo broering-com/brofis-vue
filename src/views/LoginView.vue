@@ -1,7 +1,7 @@
 <script setup>
-import {ref} from 'vue'
-import {useRouter} from 'vue-router'
-import {useAuth} from '../services/authService'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../services/authService'
 import Alert from "@/components/utils/Alert.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 

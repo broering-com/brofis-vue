@@ -1,7 +1,7 @@
 <script setup>
-import {computed, onMounted} from "vue";
+import { computed, onMounted } from "vue";
 import BaseSelect from "@/components/utils/BaseSelect.vue";
-import {MEDICATION_TYPE_OPTIONS} from "@/constants/medicationTypes.js";
+import { MEDICATION_TYPE_OPTIONS } from "@/constants/medicationTypes.js";
 
 // Props: ganz klassisch v-model="foo"
 const props = defineProps({

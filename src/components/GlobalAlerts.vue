@@ -1,9 +1,9 @@
 <!-- src/components/layout/GlobalAlerts.vue -->
 <script setup>
-import {useNotifications} from '@/services/notificationService'
+import { useNotifications } from '@/services/notificationService'
 import Alert from '@/components/utils/Alert.vue'
 
-const {notifications, removeNotification} = useNotifications()
+const { notifications, removeNotification } = useNotifications()
 </script>
 
 <template>

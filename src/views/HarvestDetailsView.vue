@@ -1,19 +1,19 @@
 <script setup>
 import HouseSelect from "@/components/HouseSelect.vue";
 import Card from "@/components/ui/Card.vue";
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import router from "@/router/index.js";
-import {useNotifications} from "@/services/notificationService.js";
-import {useHarvestService} from "@/services/harvestService.js";
-import {useDateService} from "@/services/dateService.js";
-import {useCatalogService} from "@/services/catalogService.js";
+import { useNotifications } from "@/services/notificationService.js";
+import { useHarvestService } from "@/services/harvestService.js";
+import { useDateService } from "@/services/dateService.js";
+import { useCatalogService } from "@/services/catalogService.js";
 import AutoSuggestInput from "@/components/utils/AutoSuggestInput.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 
-const {notifySuccess} = useNotifications();
-const {getHarvestDetailsData, postHarvestData} = useHarvestService();
-const {today} = useDateService();
-const {getCatalogData} = useCatalogService();
+const { notifySuccess } = useNotifications();
+const { getHarvestDetailsData, postHarvestData } = useHarvestService();
+const { today } = useDateService();
+const { getCatalogData } = useCatalogService();
 
 const props = defineProps({
   id: {
@@ -71,7 +71,7 @@ async function submit() {
   const result = await postHarvestData(payload)
   if (result.success) {
     notifySuccess('events.harvests65.details.success', 10000)
-    router.push({name: 'harvests'})
+    router.push({ name: 'harvests' })
   }
 }
 

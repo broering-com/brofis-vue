@@ -1,6 +1,6 @@
 // src/services/authService.js
-import {ref} from 'vue'
-import {httpClient} from './httpClient'
+import { ref } from 'vue'
+import { httpClient } from './httpClient'
 
 
 // Optional: User-Infos speichern
@@ -39,7 +39,7 @@ async function getMedicationData(house, page = 0, housing = '', type = '') {
             params: params
         })
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
         return {
@@ -54,7 +54,7 @@ async function getMedicationData(house, page = 0, housing = '', type = '') {
 async function postMedicationData(payload) {
     try {
         let response = await httpClient.post('/medication', payload)
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -70,7 +70,7 @@ async function duplicateMedicationData(medicationdata, targets) {
         let id = medicationdata?.ID
         let response = await httpClient.post(`/medication?sourceId=${id}`, targets)
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -86,7 +86,7 @@ async function deleteMedicationData(medicationdata) {
         let id = medicationdata?.ID
         let response = await httpClient.delete(`/medication/${id}`)
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -104,7 +104,7 @@ async function getMedicationDetailsData(id) {
             response = await httpClient.get(`/medication/${id}`)
         }
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
         return {
@@ -119,7 +119,7 @@ async function getMedicationDetailsData(id) {
 async function putMedicationDetailsData(house, date, data) {
     try {
         let response = await httpClient.put(`/medication/${house}/${date}`, data)
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,

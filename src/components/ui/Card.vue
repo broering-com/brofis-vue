@@ -1,8 +1,8 @@
 <script setup>
 
-const {headline, classes} = defineProps({
-  headline: { type: String, default: ''},
-  classes: { type: String, default: ''}
+const { headline, classes } = defineProps({
+  headline: { type: String, default: '' },
+  classes: { type: String, default: '' }
 })
 </script>
 

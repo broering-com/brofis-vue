@@ -1,10 +1,10 @@
 <script setup>
 
-import {defineProps} from "vue";
+import { defineProps } from "vue";
 
 const props = defineProps({
-  type: {type: String, default: 'danger'},
-  headline: {type: String, default: ''}
+  type: { type: String, default: 'danger' },
+  headline: { type: String, default: '' }
 })
 </script>
 

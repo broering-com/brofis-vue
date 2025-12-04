@@ -7,14 +7,14 @@ import Card from "@/components/ui/Card.vue";
 import BaseModal from "@/components/utils/BaseModal.vue";
 import HouseSelectionCheckboxes from "@/components/events/HouseSelectionCheckboxes.vue";
 
-import {useMedicationService} from "@/services/medicationService"
-import {useNotifications} from "@/services/notificationService";
+import { useMedicationService } from "@/services/medicationService"
+import { useNotifications } from "@/services/notificationService";
 import MedicationOverviewCard from "@/components/events/MedicationOverviewCard.vue";
-import {ref, watch} from "vue";
+import { ref, watch } from "vue";
 import router from "@/router/index.js";
 import MedicationTypeSelect from "@/components/events/MedicationTypeSelect.vue";
 import HousingSelect from "@/components/events/HousingSelect.vue";
-import {useDateService} from "@/services/dateService.js";
+import { useDateService } from "@/services/dateService.js";
 
 const { getMedicationData, duplicateMedicationData, deleteMedicationData } = useMedicationService();
 const { notifySuccess, notifyError } = useNotifications();

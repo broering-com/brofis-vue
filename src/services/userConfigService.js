@@ -14,7 +14,7 @@ let loadPromise = null
 
 async function fetchUserConfig(force = false) {
     if (isLoadedState.value && !force) {
-        return {success: true, data: userConfigState.value}
+        return { success: true, data: userConfigState.value }
     }
 
     if (loadingState.value && loadPromise) {

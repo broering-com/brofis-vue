@@ -1,7 +1,7 @@
 // src/services/authService.js
-import {ref} from 'vue'
-import {httpClient} from './httpClient'
-import {notificationService} from '@/services/notificationService.js'
+import { ref } from 'vue'
+import { httpClient } from './httpClient'
+import { notificationService } from '@/services/notificationService.js'
 
 
 // Optional: User-Infos speichern
@@ -41,13 +41,13 @@ if (storedUser) {
 
 async function getJournalData(house, date) {
     if (!house || !date) {
-        return {success: false, message: 'Es wurde kein Haus oder kein Datum angegeben.'}
+        return { success: false, message: 'Es wurde kein Haus oder kein Datum angegeben.' }
     }
 
     try {
         const data = await httpClient.get(`/journal/${house}/${date}`)
 
-        return {success: true, data}
+        return { success: true, data }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
         return {
@@ -61,12 +61,12 @@ async function getJournalData(house, date) {
 
 async function putJournalData(house, date, data) {
     if (!house || !date) {
-        return {success: false, message: 'Es wurde kein Haus oder kein Datum angegeben.'}
+        return { success: false, message: 'Es wurde kein Haus oder kein Datum angegeben.' }
     }
     try {
         const response = await httpClient.put(`/journal/${house}/${date}`, data)
         notificationService.notifySuccess('journal.submit.success')
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         notificationService.notifyError(error.message || 'Fehler beim Speichern der Journaldaten.')
         return {

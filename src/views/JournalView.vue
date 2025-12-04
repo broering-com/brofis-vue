@@ -1,8 +1,8 @@
 <script setup>
 
 import Alert from "@/components/utils/Alert.vue";
-import {reactive, ref, watch} from "vue";
-import {useJournalService} from "@/services/journalService.js";
+import { reactive, ref, watch } from "vue";
+import { useJournalService } from "@/services/journalService.js";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseDateStepper from "@/components/utils/BaseDateStepper.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
@@ -14,7 +14,7 @@ import BadgeCheckbox from "@/components/utils/BadgeCheckbox.vue";
 import Card from "@/components/ui/Card.vue";
 
 
-const {getJournalData, putJournalData} = useJournalService()
+const { getJournalData, putJournalData } = useJournalService()
 
 const selectedHouse = ref(localStorage.getItem('selectedHouse') || '')
 const selectedDate = ref(localStorage.getItem('selectedDate') || '')
@@ -81,14 +81,14 @@ watch([selectedHouse, selectedDate],
         console.error('Fehler beim Laden der Journal-Daten:', error)
         journalData.value = null
       }
-    }, {immediate: true})
+    }, { immediate: true })
 
 watch(
     journalData,
     (data) => {
       mapDataToForm(data)
     },
-    {immediate: true}
+    { immediate: true }
 )
 
 function mapDataToForm(data) {

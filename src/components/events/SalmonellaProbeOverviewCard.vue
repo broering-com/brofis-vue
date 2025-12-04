@@ -1,9 +1,9 @@
 <script setup>
 
 import Card from "@/components/ui/Card.vue";
-import {useDateService} from "@/services/dateService.js";
+import { useDateService } from "@/services/dateService.js";
 
-const {salmonellaProbe} = defineProps(
+const { salmonellaProbe } = defineProps(
     {
       salmonellaProbe: {
         type: Object,
@@ -14,7 +14,7 @@ const {salmonellaProbe} = defineProps(
 
 const emit = defineEmits(["duplicate", "edit", "delete"])
 
-const {formatReadable} = useDateService()
+const { formatReadable } = useDateService()
 
 function onDuplicateClick() {
   emit("duplicate", salmonellaProbe)

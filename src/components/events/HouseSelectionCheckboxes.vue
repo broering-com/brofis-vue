@@ -1,13 +1,13 @@
 <script setup>
 import BaseCheckbox from "@/components/utils/BaseCheckbox.vue";
-import {useUserConfig} from "@/services/userConfigService.js";
-import {onMounted, ref} from "vue";
+import { useUserConfig } from "@/services/userConfigService.js";
+import { onMounted, ref } from "vue";
 
-const {userConfig} = useUserConfig()
+const { userConfig } = useUserConfig()
 const emit = defineEmits(["houseSelected", "houseDeselected"])
 const houses = ref([])
 
-const {duplicationTargetName} = defineProps({
+const { duplicationTargetName } = defineProps({
   duplicationTargetName: {
     type: String,
     required: true,

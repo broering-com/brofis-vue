@@ -4,16 +4,16 @@ import Card from "@/components/ui/Card.vue";
 import HouseSelect from "@/components/HouseSelect.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 import router from "@/router/index.js";
-import {onMounted, ref} from "vue";
-import {useDateService} from "@/services/dateService.js";
+import { onMounted, ref } from "vue";
+import { useDateService } from "@/services/dateService.js";
 import ToggleButtonGroup from "@/components/utils/ToggleButtonGroup.vue";
-import {MEDICATION_TYPE_TOGGLE_OPTIONS} from "@/constants/medicationTypeToggleOptions.js";
+import { MEDICATION_TYPE_TOGGLE_OPTIONS } from "@/constants/medicationTypeToggleOptions.js";
 import AutoSuggestInput from "@/components/utils/AutoSuggestInput.vue";
-import {useCatalogService} from "@/services/catalogService.js";
+import { useCatalogService } from "@/services/catalogService.js";
 import BaseSelect from "@/components/utils/BaseSelect.vue";
-import {MEDICATION_UNITS} from "@/constants/medicationUnits.js";
-import {useMedicationService} from "@/services/medicationService.js";
-import {useNotifications} from "@/services/notificationService.js";
+import { MEDICATION_UNITS } from "@/constants/medicationUnits.js";
+import { useMedicationService } from "@/services/medicationService.js";
+import { useNotifications } from "@/services/notificationService.js";
 
 const props = defineProps({
   id: {
@@ -23,10 +23,10 @@ const props = defineProps({
   }
 })
 
-const {today} = useDateService();
-const {getCatalogData} = useCatalogService();
-const {getMedicationDetailsData, postMedicationData} = useMedicationService();
-const {notifySuccess} = useNotifications();
+const { today } = useDateService();
+const { getCatalogData } = useCatalogService();
+const { getMedicationDetailsData, postMedicationData } = useMedicationService();
+const { notifySuccess } = useNotifications();
 
 const form = ref(createEmptyForm())
 const productSuggestions = ref([])
@@ -96,7 +96,7 @@ function onSelect(selectedObject) {
 }
 
 function oncancel() {
-  router.push({name: 'medications'})
+  router.push({ name: 'medications' })
 }
 
 async function loadMedication() {
@@ -146,7 +146,7 @@ async function submit() {
   const result = await postMedicationData(payload)
   if (result.success) {
     notifySuccess('events.medications.details.success', 10000)
-    router.push({name: 'medications'})
+    router.push({ name: 'medications' })
   }
 }
 

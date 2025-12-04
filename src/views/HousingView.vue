@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from "vue";
+import { ref, watch } from "vue";
 
 import Alert from "@/components/utils/Alert.vue";
 import HouseSelect from "@/components/HouseSelect.vue";
@@ -10,9 +10,9 @@ import Card from "@/components/ui/Card.vue";
 import BaseModal from "@/components/utils/BaseModal.vue";
 import HouseSelectionCheckboxes from "@/components/events/HouseSelectionCheckboxes.vue";
 
-import {useHousingService} from "@/services/housingService";
-import {useNotifications} from "@/services/notificationService";
-import {useDateService} from "@/services/dateService.js";
+import { useHousingService } from "@/services/housingService";
+import { useNotifications } from "@/services/notificationService";
+import { useDateService } from "@/services/dateService.js";
 import router from "@/router/index.js";
 
 const { getHousingData, duplicateHousingData, deleteHousingData } = useHousingService();

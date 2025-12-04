@@ -7,11 +7,11 @@ import Card from "@/components/ui/Card.vue";
 import BaseModal from "@/components/utils/BaseModal.vue";
 import HouseSelectionCheckboxes from "@/components/events/HouseSelectionCheckboxes.vue";
 
-import {useSalmonellaService} from "@/services/salmonellaService";
-import {useNotifications} from "@/services/notificationService";
-import {ref, watch} from "vue";
+import { useSalmonellaService } from "@/services/salmonellaService";
+import { useNotifications } from "@/services/notificationService";
+import { ref, watch } from "vue";
 import router from "@/router/index.js";
-import {useDateService} from "@/services/dateService.js";
+import { useDateService } from "@/services/dateService.js";
 import SalmonellaProbeOverviewCard from "@/components/events/SalmonellaProbeOverviewCard.vue";
 
 const { getSalmonellaData, duplicateSalmonellaData, deleteSalmonellaData } = useSalmonellaService();

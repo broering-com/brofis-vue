@@ -1,8 +1,13 @@
 // src/services/authService.js
 import { ref, computed } from 'vue'
 import { httpClient } from './httpClient'
-import {userConfigService} from "@/services/userConfigService.js";
-import {catalogService} from "@/services/catalogService.js";
+import { userConfigService } from "@/services/userConfigService.js";
+import { catalogService } from "@/services/catalogService.js";
+import { notificationService } from "@/services/notificationService.js";
+
+const { clearCatalog } = catalogService
+const { post } = httpClient
+const { notifySuccess } = notificationService
 
 // Reaktiver Auth-Status
 const isAuthenticatedState = ref(
@@ -53,7 +58,7 @@ async function login(username, password, stayLoggedIn = false) {
     }
 
     try {
-        const data = await httpClient.post('/auth/login', {
+        const data = await post('/auth/login', {
             name: username,
             password,
         })
@@ -74,13 +79,21 @@ async function login(username, password, stayLoggedIn = false) {
     }
 }
 
-function logout() {
-    localStorage.removeItem('token')
-    sessionStorage.removeItem('token')
-    localStorage.removeItem('user')
-    isAuthenticatedState.value = false
-    currentUser.value = null
-    userConfigService.clearUserConfig()
+async function logout() {
+    try {
+        await post('auth/logout')
+
+        localStorage.removeItem('token')
+        sessionStorage.removeItem('token')
+        localStorage.removeItem('user')
+        clearCatalog('dynamic')
+        isAuthenticatedState.value = false
+        currentUser.value = null
+        userConfigService.clearUserConfig()
+        notifySuccess('auth.logout.success')
+    } catch (error) {
+        console.error('Logout fehlgeschlagen:', error)
+    }
 }
 
 function isAuthenticated() {

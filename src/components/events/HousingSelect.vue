@@ -1,8 +1,8 @@
 <script setup>
 import BaseSelect from "@/components/utils/BaseSelect.vue";
-import {computed, onMounted, ref, watch} from "vue";
-import {useHousingService} from "@/services/housingService.js";
-import {useDateService} from '@/services/dateService.js';
+import { computed, onMounted, ref, watch } from "vue";
+import { useHousingService } from "@/services/housingService.js";
+import { useDateService } from '@/services/dateService.js';
 
 const props = defineProps({
   modelValue: {
@@ -19,8 +19,8 @@ const emit = defineEmits(["update:modelValue"]);
 const { getHousings } = useHousingService()
 const { formatReadable } = useDateService()
 
-const defaultOption = {value: 'all', label: 'general.all'}
-const options = ref([{value: 'all', label: 'general.all'}])
+const defaultOption = { value: 'all', label: 'general.all' }
+const options = ref([{ value: 'all', label: 'general.all' }])
 
 const internalValue = computed({
   get: () => props.modelValue || 'all',
@@ -58,7 +58,7 @@ async function loadHousingsforHouse(house) {
 watch(
     () => props.selectedHouse,
     (newHouse) => loadHousingsforHouse(newHouse),
-    {immediate: true}
+    { immediate: true }
 )
 
 onMounted(() => {

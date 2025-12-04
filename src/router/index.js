@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import LoginLayout from "@/layouts/LoginLayout.vue";
 import AppLayout from "@/layouts/AppLayout.vue";
@@ -6,8 +6,8 @@ import AppLayout from "@/layouts/AppLayout.vue";
 import LoginView from "@/views/LoginView.vue";
 import JournalView from "@/views/JournalView.vue";
 
-import {authService} from '@/services/authService';
-import {userConfigService} from "@/services/userConfigService";
+import { authService } from '@/services/authService';
+import { userConfigService } from "@/services/userConfigService";
 import HousingView from "@/views/HousingView.vue";
 import HousingDetailsView from "@/views/HousingDetailsView.vue";
 import MedicationsView from "@/views/MedicationsView.vue";
@@ -38,7 +38,7 @@ const routes = [
                 path: '',
                 name: 'journal',
                 component: JournalView,
-                meta: {isNarrow: true}
+                meta: { isNarrow: true }
             },
             {
                 path: 'housings',
@@ -50,7 +50,7 @@ const routes = [
                 path: 'housings/details/:house?/:date?',
                 name: 'housingDetails',
                 component: HousingDetailsView,
-                meta: {isNarrow: true},
+                meta: { isNarrow: true },
                 props: true, // damit House und Date als prop an die Komponente übergeben wird
             },
             {
@@ -62,7 +62,7 @@ const routes = [
                 path: 'medications/details/:id?',
                 name: 'medicationDetails',
                 component: MedicationsDetailsView,
-                meta: {isNarrow: true},
+                meta: { isNarrow: true },
                 props: true,
             },
             {
@@ -74,7 +74,7 @@ const routes = [
                 path: 'salmonellaProbes/details/:id?',
                 name: 'salmonellaProbesDetails',
                 component: SalmonellaProbesDetailsView,
-                meta: {isNarrow: true},
+                meta: { isNarrow: true },
                 props: true,
             },
             {
@@ -86,7 +86,7 @@ const routes = [
                 path: 'harvests/details/:id?',
                 name: 'harvestDetails',
                 component: HarvestDetailsView,
-                meta: {isNarrow: true},
+                meta: { isNarrow: true },
                 props: true,
             }
         ]

@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, onBeforeUnmount} from "vue";
+import { computed, onMounted, onBeforeUnmount } from "vue";
 
 const props = defineProps({
   modelValue: {

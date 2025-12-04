@@ -1,5 +1,5 @@
 <script setup>
-import {useRoute} from 'vue-router'
+import { useRoute } from 'vue-router'
 import Navigation from "@/components/Navigation.vue";
 import GlobalAlerts from "@/components/GlobalAlerts.vue";
 

@@ -1,13 +1,21 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuth } from '@/services/authService'
 
 const route = useRoute()
+const router = useRouter()
+const { logout } = useAuth()
 
 // Alle Routen, die unter "Events" hängen:
 const eventRouteNames = ['housings', 'medications', 'salmonellaProbes', 'harvests', 'slaughters', 'foodDeliveries', 'foodRemains']
 
 const isEventsActive = computed(() => eventRouteNames.includes(route.name))
+
+async function handleLogout() {
+  await logout()
+  await router.replace({ name: 'login' })
+}
 </script>
 
 <template>
@@ -43,7 +51,7 @@ const isEventsActive = computed(() => eventRouteNames.includes(route.name))
           <li class="nav-item">
             <RouterLink
               class="nav-link"
-              :to="{name:'journal'}"
+              :to="{ name:'journal' }"
               active-class="active"
             >
               {{ $t('journal.title') }}
@@ -53,7 +61,7 @@ const isEventsActive = computed(() => eventRouteNames.includes(route.name))
             <a
               id="navEreignis"
               class="nav-link dropdown-toggle"
-              :class="{active: isEventsActive}"
+              :class="{ active: isEventsActive }"
               noref
               role="button"
               data-bs-toggle="dropdown"
@@ -69,7 +77,7 @@ const isEventsActive = computed(() => eventRouteNames.includes(route.name))
                 <RouterLink
                   id="navEinstallung"
                   class="dropdown-item"
-                  :to="{name: 'housings'}"
+                  :to="{ name: 'housings' }"
                   data-bs-dismiss="dropdown"
                 >
                   🥚 {{ $t('events.housings.title') }}
@@ -79,7 +87,7 @@ const isEventsActive = computed(() => eventRouteNames.includes(route.name))
                 <RouterLink
                   id="navMedication"
                   class="dropdown-item"
-                  :to="{name: 'medications'}"
+                  :to="{ name: 'medications' }"
                   data-bs-dismiss="dropdown"
                 >
                   🦠 {{ $t('events.medications.title') }}
@@ -89,7 +97,7 @@ const isEventsActive = computed(() => eventRouteNames.includes(route.name))
                 <RouterLink
                   id="navSalmonellaProbe"
                   class="dropdown-item"
-                  :to="{name: 'salmonellaProbes'}"
+                  :to="{ name: 'salmonellaProbes' }"
                 >
                   🧪 {{ $t('events.salmonellaProbes.title') }}
                 </RouterLink>
@@ -98,10 +106,42 @@ const isEventsActive = computed(() => eventRouteNames.includes(route.name))
                 <RouterLink
                   id="navHarvest"
                   class="dropdown-item"
-                  :to="{name: 'harvests'}"
+                  :to="{ name: 'harvests' }"
                 >
                   ➡️ {{ $t('events.harvests.title') }}
                 </RouterLink>
+              </li>
+            </ul>
+          </li>
+          <li>
+            Stallkarte
+          </li>
+          <li>
+            Analyse
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              id="navBenutzer"
+              class="nav-link dropdown-toggle"
+              noref
+              role="button"
+              data-bs-toggle="dropdown"
+            >
+              {{ $t('user.title') }}
+            </a>
+            <ul
+              class="dropdown-menu"
+              aria-labelledby="navBenutzer"
+              data-bs-popper="static"
+            >
+              <li>
+                <a
+                  class="dropdown-item"
+                  noref
+                  @click="handleLogout"
+                >
+                  🚪 {{ $t('general.logout') }}
+                </a>
               </li>
             </ul>
           </li>

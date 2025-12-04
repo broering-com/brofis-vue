@@ -2,20 +2,20 @@
 
 import HouseSelect from "@/components/HouseSelect.vue";
 import Card from "@/components/ui/Card.vue";
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import router from "@/router/index.js";
-import {useNotifications} from "@/services/notificationService.js";
-import {useSalmonellaService} from "@/services/salmonellaService.js";
-import {useDateService} from "@/services/dateService.js";
-import {useCatalogService} from "@/services/catalogService.js";
+import { useNotifications } from "@/services/notificationService.js";
+import { useSalmonellaService } from "@/services/salmonellaService.js";
+import { useDateService } from "@/services/dateService.js";
+import { useCatalogService } from "@/services/catalogService.js";
 import AutoSuggestInput from "@/components/utils/AutoSuggestInput.vue";
 import ToggleButtonGroup from "@/components/utils/ToggleButtonGroup.vue";
 import BaseInput from "@/components/utils/BaseInput.vue";
 
-const {notifySuccess} = useNotifications();
-const {getSalmonellaDetailsData, postSalmonellaData} = useSalmonellaService();
-const {today} = useDateService();
-const {getCatalogData} = useCatalogService();
+const { notifySuccess } = useNotifications();
+const { getSalmonellaDetailsData, postSalmonellaData } = useSalmonellaService();
+const { today } = useDateService();
+const { getCatalogData } = useCatalogService();
 
 const props = defineProps({
   id: {
@@ -28,7 +28,7 @@ const props = defineProps({
 const form = ref(createEmptyForm())
 const personSuggestions = ref([])
 
-const resultValues = [{value: 'positiv', label: 'general.positive'}, {value: 'negativ', label: 'general.negative'}]
+const resultValues = [{ value: 'positiv', label: 'general.positive' }, { value: 'negativ', label: 'general.negative' }]
 
 function createEmptyForm() {
   const thisDay = today()
@@ -77,7 +77,7 @@ async function submit() {
   const result = await postSalmonellaData(payload)
   if (result.success) {
     notifySuccess('events.salmonellaProbes.details.success', 10000)
-    router.push({name: 'salmonellaProbes'})
+    router.push({ name: 'salmonellaProbes' })
   }
 }
 

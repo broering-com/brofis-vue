@@ -6,8 +6,8 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import {i18nService} from "@/services/i18nService.js";
-import {registerHttpRouter} from "./services/httpClient.js";
+import { i18nService } from "@/services/i18nService.js";
+import { registerHttpRouter } from "./services/httpClient.js";
 
 async function bootstrap() {
     registerHttpRouter(router)

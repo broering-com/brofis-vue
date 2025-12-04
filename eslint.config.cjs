@@ -29,6 +29,8 @@ module.exports = [
         rules: {
             "vue/multi-word-component-names": "off",
             "no-console": ["error", { allow: ["warn", "error"] }],
+            "object-curly-spacing": ["error", "always"],
+            "vue/object-curly-spacing": ["error", "always"],
             "vue/no-console": ["error", { allow: ["warn", "error"] }],
             // weitere Regeln …
         },

@@ -1,6 +1,6 @@
 // src/services/authService.js
-import {ref} from 'vue'
-import {httpClient} from './httpClient'
+import { ref } from 'vue'
+import { httpClient } from './httpClient'
 
 
 // Optional: User-Infos speichern
@@ -33,7 +33,7 @@ async function getHarvestData(house, page = 0,) {
             params: params
         })
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
         return {
@@ -48,7 +48,7 @@ async function getHarvestData(house, page = 0,) {
 async function postHarvestData(payload) {
     try {
         let response = await httpClient.post('/harvest', payload)
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -64,7 +64,7 @@ async function duplicateHarvestData(medicationdata, targets) {
         let id = medicationdata?.ID
         let response = await httpClient.post(`/harvest?sourceId=${id}`, targets)
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -80,7 +80,7 @@ async function deleteHarvestData(salmonellaData) {
         let id = salmonellaData?.ID
         let response = await httpClient.delete(`/harvest/${id}`)
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
@@ -98,7 +98,7 @@ async function getHarvestDetailsData(id) {
             response = await httpClient.get(`/harvest/${id}`)
         }
 
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
         return {
@@ -113,7 +113,7 @@ async function getHarvestDetailsData(id) {
 async function putHarvestDetailsData(id, data) {
     try {
         let response = await httpClient.put(`/harvest/${id}`, data)
-        return {success: true, data: response}
+        return { success: true, data: response }
     } catch (error) {
         return {
             success: false,
