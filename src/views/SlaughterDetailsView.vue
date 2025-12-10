@@ -105,8 +105,7 @@ async function submit() {
 
 async function loadSlaughterHouses() {
   const result = await getCatalogData('schlachthoefe')
-  const names = result.map(house => house.Name)
-  slaughterHouses.value = names
+  slaughterHouses.value = result.map(house => house.Name)
 }
 
 async function loadSlaughterData() {
@@ -135,22 +134,24 @@ onMounted(() => {
       class="btn btn-outline-primary"
       @click="oncancel"
     >
-      <i class="bi bi-arrow-left-square"/> (cancel)
+      <i class="bi bi-arrow-left-square" /> (cancel)
     </button>
     {{ $t('events.slaughter.title') }}
   </h1>
   <form @submit.prevent="submit">
     <Card class="mb-3">
-      <house-select v-model="form.housing"/>
+      <house-select v-model="form.housing" />
 
       <BaseInput
         v-model="form.date"
         type="date"
+        label="events.slaughter.details.date"
       />
 
       <BaseSelect
         v-model="form.slaughterHouse"
         :options="slaughterHouses"
+        label="events.slaughter.details.slaughterHouse"
       />
 
       <ToggleButtonGroup
@@ -214,7 +215,7 @@ onMounted(() => {
       </div>
 
       <div class="row mb-3">
-        <label>{{ $t('events.slaughter.details.fbd_label') }}</label>
+        <span>{{ $t('events.slaughter.details.fbd_label') }}</span>
         <BaseInput
           v-model="form.fbd0"
           label="events.slaughter.details.fbd0"

@@ -41,7 +41,6 @@ function onEditClick() {
         {{ slaughter.Umfang }}
       </div>
       <div class="col-12 col-md-12 col-lg-4 text-end">
-
         <button
           class="btn btn-primary my-1 mx-1"
           type="button"
@@ -60,7 +59,3 @@ function onEditClick() {
     </div>
   </Card>
 </template>
-
-<style scoped>
-
-</style>

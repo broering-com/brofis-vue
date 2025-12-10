@@ -1,7 +1,6 @@
 <script setup>
 import { computed, onMounted } from "vue";
 import BaseSelect from "@/components/utils/BaseSelect.vue";
-import { MEDICATION_TYPE_OPTIONS } from "@/constants/medicationTypes.js";
 import { SLAUGHTER_SCOPE_TYPE_OPTIONS } from "@/constants/slaughterScopeTypes.js";
 
 // Props: ganz klassisch v-model="foo"
@@ -12,7 +11,7 @@ const props = defineProps({
   },
   label: {
     type: String,
-    default: "events.slaugter.scope",
+    default: "events.slaughter.scope",
   },
 });
 
