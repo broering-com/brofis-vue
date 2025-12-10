@@ -11,6 +11,10 @@ const props = defineProps({
   multiple: {
     type: Boolean,
     default: false
+  },
+  label: {
+    type: String,
+    default: 'general.upload_file'
   }
 })
 
@@ -38,14 +42,16 @@ const onChange = (event) => {
     <label
       :for="id"
       class="btn btn-outline-primary"
-    ><slot/></label>
-    <input
-      :id="id"
-      type="file"
-      :accept="accept"
-      :multiple="multiple"
-      class="d-none"
-      @change="onChange"
-    >
+      aria-label="{{ $(label) }}"
+    > <slot />
+      <input
+        :id="id"
+        type="file"
+        :accept="accept"
+        :multiple="multiple"
+        class="d-none"
+        @change="onChange"
+      >
+    </label>
   </form>
 </template>

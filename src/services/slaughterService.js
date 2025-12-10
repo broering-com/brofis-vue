@@ -44,7 +44,6 @@ async function getSlaughterData(house, housing, scope, page = 0,) {
         return { success: true, data: response }
     } catch (error) {
         // Fehlertext vom Backend oder Fallback
-        console.log('error-case', error)
         return {
             success: false,
             message: error.message || 'Fehler beim Abruf der Schlachtungsdaten.',
@@ -70,8 +69,7 @@ async function postSlaughterData(payload) {
 
 async function deleteSlaughterData(salmonellaData) {
     try {
-        let id = salmonellaData?.ID
-        let response = await httpClient.delete(`/slaughter/${id}`)
+        let response = await httpClient.delete(`/slaughter/${(salmonellaData?.ID)}`)
 
         return { success: true, data: response }
     } catch (error) {

@@ -40,8 +40,7 @@ function onEditClick() {
       <div class="col-6 col-md-4 col-lg-2 center-vertical my-lg-3">
         {{ salmonellaProbe.Stall }}
       </div>
-      <div class="col-6 col-md-4 col-lg-2 center-vertical my-lg-3">
-      </div>
+      <div class="col-6 col-md-4 col-lg-2 center-vertical my-lg-3" />
       <div class="col-12 col-md-12 col-lg-4 text-end">
         <button
           class="btn btn-primary my-1 mx-1 "
@@ -68,7 +67,3 @@ function onEditClick() {
     </div>
   </Card>
 </template>
-
-<style scoped>
-
-</style>
