@@ -188,7 +188,7 @@ function submit() {
       <BaseInput
         v-model="form.water"
         type="number"
-        label="journal.form.wasser"
+        label="journal.form.water"
         label-end="general.yesterday"
         group-unit="l"
       />
@@ -263,10 +263,10 @@ function submit() {
     </Card>
 
     <Card classes="mb-4">
-      <label class="form-label pb-0 ps-0 d-flex justify-content-between">
+      <span class="form-label pb-0 ps-0 d-flex justify-content-between">
         <span>{{ $t('journal.form.technology_checklist') }}</span>
         <span class="text-muted text-end">{{ $t('general.today') }}</span>
-      </label>
+      </span>
       <BadgeCheckbox
         v-model="form.alarm"
         label="journal.form.alarm"
