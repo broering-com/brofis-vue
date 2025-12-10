@@ -18,6 +18,8 @@ import HarvestView from "@/views/HarvestView.vue";
 import HarvestDetailsView from "@/views/HarvestDetailsView.vue";
 import SlaughterView from "@/views/slaughterView.vue";
 import SlaughterDetailsView from "@/views/SlaughterDetailsView.vue";
+import FoodDeliveryView from "@/views/FoodDeliveryView.vue";
+import FoodDeliveryDetailsView from "@/views/FoodDeliveryDetailsView.vue";
 
 const routes = [
     {
@@ -100,6 +102,18 @@ const routes = [
                 path: 'slaughters/details/:id?',
                 name: 'slaughterDetails',
                 component: SlaughterDetailsView,
+                meta: { isNarrow: true },
+                props: true,
+            },
+            {
+                path: 'foodDeliveries',
+                name: 'foodDeliveries',
+                component: FoodDeliveryView
+            },
+            {
+                path: 'foodDeliveries/details/:id?',
+                name: 'foodDeliveryDetails',
+                component: FoodDeliveryDetailsView,
                 meta: { isNarrow: true },
                 props: true,
             }
