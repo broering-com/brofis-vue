@@ -95,7 +95,7 @@ function toggleDark() {
   --switch-height: 30px;
   --thumb-size: 24px;
   --padding: 3px;
-  --translate-x: var(--thumb-translate-light, 0px);
+  --translate-x: var(--thumb-translate-light, 3px);
 
   position: relative;
   display: inline-flex;

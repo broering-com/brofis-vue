@@ -319,8 +319,8 @@
     filter: invert(1);
 }
 
-.nav-item .nav-link,
-.nav-item.dropdown .btn.dropdown-toggle {
+.dark-mode .nav-item .nav-link,
+.dark-mode .nav-item.dropdown .btn.dropdown-toggle {
     color: #f8f9fa;
 }
 
