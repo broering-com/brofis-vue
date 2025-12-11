@@ -70,6 +70,7 @@ function toggleDark() {
     type="button"
     role="switch"
     :aria-checked="isDark ? 'true' : 'false'"
+    :aria-label="$t('general.dark_mode_switch')"
     @click="toggleDark"
     @keydown.space.prevent="toggleDark"
     @keydown.enter.prevent="toggleDark"
@@ -171,5 +172,12 @@ function toggleDark() {
 /* Optional: Hover-Effekt */
 .theme-switch:hover .theme-switch__thumb {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch__thumb,
+  .theme-switch__track {
+    transition: none;
+  }
 }
 </style>
