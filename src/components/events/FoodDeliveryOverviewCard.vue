@@ -51,7 +51,7 @@ function onEditClick() {
       <div class="col-6 col-md-4 col-lg-2 center-vertical">
         {{ delivery.Menge }} {{ $t("general.kilograms_short") }}
       </div>
-      <div class="col-12 col-md-12 col-lg-4 d-flex justify-content-end">
+      <div class="col-12 col-lg-4 d-flex justify-content-end mt-3 mt-lg-0">
         <button
           v-if="!delivery.Import"
           class="btn btn-primary my-1 mx-1"

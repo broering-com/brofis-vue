@@ -57,8 +57,8 @@ watch(
 <template>
   <!-- Eingabe in % (Toggle) -->
   <BaseCheckbox
-    v-model="form.eingabeInProzent"
-    label="journal.form.eingabeInProzent"
+    v-model="showPercentages"
+    label="journal.form.input_in_percentage"
     variant="switch"
   />
 

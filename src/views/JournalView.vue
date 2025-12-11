@@ -168,7 +168,10 @@ function submit() {
       <Alert type="info">
         {{ $t('journal.info') }}
       </Alert>
-      <HouseSelect v-model="selectedHouse" />
+      <HouseSelect
+        v-model="selectedHouse"
+        :save-value="true"
+      />
       <BaseDateStepper
         id="txtDatumTB"
         v-model="selectedDate"
@@ -179,7 +182,7 @@ function submit() {
       <BaseInput
         v-model="form.animalWeight"
         type="number"
-        label="journal.form.tiergewicht"
+        label="journal.form.animal_weight"
         label-end="general.yesterday"
         group-unit="g"
       />
@@ -203,7 +206,7 @@ function submit() {
 
       <FeedingPhaseToggle
         v-model="form.feedingPhases"
-        label="journal.form.feedingphase"
+        label="journal.form.feeding_phase"
       />
     </Card>
 

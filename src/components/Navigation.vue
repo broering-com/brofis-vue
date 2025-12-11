@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuth } from '@/services/authService'
 import BaseDropdown from "@/components/utils/BaseDropdown.vue";
+import DarkModeToggle from "@/components/ui/DarkModeToggle.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -123,7 +124,7 @@ async function handleLogout() {
                   class="dropdown-item"
                   :to="{ name: 'foodDeliveries' }"
                 >
-                  🚚 {{ $t('events.foodDeliveries.title') }}
+                  🚚 {{ $t('events.food_deliveries.title') }}
                 </RouterLink>
               </li>
             </BaseDropdown>
@@ -147,6 +148,9 @@ async function handleLogout() {
             </BaseDropdown>
           </li>
         </ul>
+        <div class="float-end">
+          <DarkModeToggle />
+        </div>
       </div>
     </div>
   </nav>

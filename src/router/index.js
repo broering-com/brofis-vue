@@ -39,7 +39,7 @@ const routes = [
         meta: { requiresAuth: true, requiresUserConfig: true },
         children: [
             {
-                path: '',
+                path: 'journal',
                 name: 'journal',
                 component: JournalView,
                 meta: { isNarrow: true }
@@ -116,6 +116,10 @@ const routes = [
                 component: FoodDeliveryDetailsView,
                 meta: { isNarrow: true },
                 props: true,
+            },
+            {
+                path: '/:pathMatch(.*)*',
+                redirect: '/app/journal',
             }
         ]
     },

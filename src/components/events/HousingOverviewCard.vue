@@ -43,7 +43,7 @@ function onEditClick() {
       <div class="col-6 col-md-4 col-lg-2 center-vertical">
         {{ $t('events.housings.week_of_life_short') }}: {{ housing.Lebenswoche ?? '-' }}
       </div>
-      <div class="col-12 col-md-12 col-lg-4 d-flex justify-content-end">
+      <div class="col-12 col-md-12 col-lg-4 d-flex justify-content-end mt-3 mt-lg-0">
         <button
           class="btn btn-primary my-1 mx-1 "
           type="button"
