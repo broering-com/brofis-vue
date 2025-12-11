@@ -243,7 +243,7 @@ function submit() {
         <BaseInput
           v-model="form.humidityMax"
           type="text"
-          group-unit="°C"
+          group-unit="%"
           form-group-classes="col-6"
           label="&nbsp;"
           label-end="Gestern"
