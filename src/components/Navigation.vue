@@ -127,6 +127,15 @@ async function handleLogout() {
                   🚚 {{ $t('events.food_deliveries.title') }}
                 </RouterLink>
               </li>
+              <li>
+                <RouterLink
+                  id="navFoodRemains"
+                  class="dropdown-item"
+                  :to="{ name: 'foodRemains' }"
+                >
+                  🍚 {{ $t('events.food_remains.title') }}
+                </RouterLink>
+              </li>
             </BaseDropdown>
           </li>
           <li>

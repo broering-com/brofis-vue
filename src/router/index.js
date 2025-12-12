@@ -20,6 +20,7 @@ import SlaughterView from "@/views/slaughterView.vue";
 import SlaughterDetailsView from "@/views/SlaughterDetailsView.vue";
 import FoodDeliveryView from "@/views/FoodDeliveryView.vue";
 import FoodDeliveryDetailsView from "@/views/FoodDeliveryDetailsView.vue";
+import FoodRemainsView from "@/views/FoodRemainsView.vue";
 
 const routes = [
     {
@@ -120,6 +121,11 @@ const routes = [
                 component: FoodDeliveryDetailsView,
                 meta: { isNarrow: true },
                 props: true,
+            },
+            {
+                path: 'foodRemains',
+                name: 'foodRemains',
+                component: FoodRemainsView,
             },
             {
                 path: '/:pathMatch(.*)*',
