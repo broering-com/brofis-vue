@@ -453,6 +453,7 @@
     border-color: transparent;
 }
 
+/* Contrast verified with WCAG 2.1 checker – rgba + opacity */
 .dark-mode .alert-primary {
     background-color: rgba(13, 110, 253, 0.2);
     color: #cfe2ff;
