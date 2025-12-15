@@ -14,9 +14,12 @@ import router from "@/router/index.js";
 import RaceSelect from "@/components/events/RaceSelect.vue";
 import HatcherySelect from "@/components/events/HatcherySelect.vue";
 import EmergingChicksSelect from "@/components/events/EmergingChicksSelect.vue";
+import AutoSuggestInput from "@/components/utils/AutoSuggestInput.vue";
+import { useCatalogService } from "@/services/catalogService.js";
 
 const { today, subtractDays } = useDateService();
 const { notifySuccess } = useNotifications();
+const { getCatalogData } = useCatalogService();
 
 const props = defineProps({
   /*id: { // wenn
@@ -44,6 +47,7 @@ const form = ref(createEmptyForm()) // deine eigene Funktion / Struktur
 const isAnimalCollapseOpen = ref(false)
 const isQsCollapseOpen = ref(false)
 const isCleaningCollapseOpen = ref(false)
+const beddingOptions = ref([])
 
 function createEmptyForm() {
   const threeDaysAgo = subtractDays(new Date(Date.now()), 3)
@@ -84,8 +88,14 @@ function createEmptyForm() {
     flockNumber: "",
   };
 }
+async function getBeddingSuggestions() {
+  beddingOptions.value = await getCatalogData('einstreu')
+}
 
 async function loadHousing() {
+  await getBeddingSuggestions()
+
+
   if (!isEditMode.value) {
     // kein Edit → leeres Formular
     form.value = createEmptyForm();
@@ -181,8 +191,8 @@ onMounted(() => {
 watch(
     () => form.value.weekOfLife,
     (val) => {
-      if (parseInt(val) >= 25) {
-        form.value.productionWeek = Math.max((parseInt(val) - 25), 0)
+      if (Number.parseInt(val) >= 25) {
+        form.value.productionWeek = Math.max((Number.parseInt(val) - 25), 0)
       }
     }
 )
@@ -276,9 +286,9 @@ watch(
         placeholder="events.housings.details.origin_details_placeholder"
       />
 
-      <label class="form-label">
+      <span class="form-label">
         {{ $t('events.housings.details.labels_and_programs') }}
-      </label>
+      </span>
       <BaseCheckbox
         v-model="form.qs"
         label="events.housings.details.qs_label"
@@ -300,8 +310,9 @@ watch(
         container-classes="mb-4"
       />
 
-      <BaseInput
+      <AutoSuggestInput
         v-model="form.bedding"
+        :options="beddingOptions"
         label="events.housings.details.bedding"
       />
 
@@ -355,6 +366,4 @@ watch(
       {{ $t('events.housings.details.submit') }}
     </button>
   </form>
-
-  <!-- dein Formular mit v-model="form.Feld" -->
 </template>

@@ -108,11 +108,11 @@ onMounted(() => {
           {{ $t('general.silo') }}
         </div>
         <div class="col-4 my-auto">
-          {{ $t('general.start') }}<br>
+          {{ $t('events.food_remains.details.level_start_label') }}<br>
           {{ $t('events.food_remains.details.level_start_timestamp', { date: formatReadable(startDate) }) }}
         </div>
         <div class="col-4 my-auto">
-          {{ $t('general.end') }}<br>
+          {{ $t('events.food_remains.details.level_stop_label') }}<br>
           {{ $t('events.food_remains.details.level_stop_timestamp') }}
         </div>
       </div>
