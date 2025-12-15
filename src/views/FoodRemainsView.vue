@@ -7,6 +7,7 @@ import { useNotifications } from "@/services/notificationService.js";
 import { useFoodRemainsService } from "@/services/foodRemainsService.js";
 import Card from "@/components/ui/Card.vue";
 import FoodRemainsOverviewCard from "@/components/events/FoodRemainsOverviewCard.vue";
+import router from "@/router/index.js";
 
 const { notifyError } = useNotifications()
 const { getFoodRemainsData } = useFoodRemainsService()
@@ -33,8 +34,8 @@ async function loadFoodRemainsData() {
   }
 }
 
-function onEdit() {
-
+function onEdit(foodRemains) {
+  router.push({ name: 'foodRemainsDetails', params: { facility: foodRemains.Anlage, date: foodRemains.Datum } })
 }
 
 watch(

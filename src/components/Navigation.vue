@@ -12,12 +12,19 @@ const { logout } = useAuth()
 // Alle Routen, die unter "Events" hängen:
 const eventRouteNames = new Set([
   'housings',
+  'housingDetails',
   'medications',
+  'medicationDetails',
   'salmonellaProbes',
+  'salmonellaProbesDetails',
   'harvests',
+  'harvestDetails',
   'slaughters',
+  'slaughterDetails',
   'foodDeliveries',
-  'foodRemains'
+  'foodDeliveriesDetails',
+  'foodRemains',
+  'foodRemainsDetails',
 ])
 
 const isEventsActive = computed(() => eventRouteNames.has(route.name))

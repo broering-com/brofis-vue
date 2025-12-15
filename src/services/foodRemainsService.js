@@ -46,16 +46,47 @@ async function getFoodRemainsData(facility, page = 0,) {
     }
 }
 
+async function getFoodRemainsDetailsData(facility, date) {
+    try {
+        let response = await httpClient.get(`${BASE_PATH}/${facility}/${date}`)
+        return { success: true, data: response }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message || 'Fehler beim Abruf der Futterlieferungsdaten.',
+            status: error.status,
+            raw: error.data,
+        }
+    }
+}
+
+async function putFoodRemainsDetailsData(facility, date, formData) {
+    try {
+        let response = await httpClient.put(`${BASE_PATH}/${facility}/${date}`, formData)
+        return { success: true, data: response }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message || 'Fehler beim Speichern der Futterlieferungsdaten.',
+            status: error.status,
+            raw: error.data,
+        }
+    }
+}
 
 
 // Für Komponenten (setup)
 export function useFoodRemainsService() {
     return {
         getFoodRemainsData,
+        getFoodRemainsDetailsData,
+        putFoodRemainsDetailsData,
     }
 }
 
 // Für Router usw.
 export const foodRemainsService = {
     getFoodRemainsData,
+    getFoodRemainsDetailsData,
+    putFoodRemainsDetailsData,
 }
