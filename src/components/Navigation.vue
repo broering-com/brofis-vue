@@ -12,12 +12,19 @@ const { logout } = useAuth()
 // Alle Routen, die unter "Events" hängen:
 const eventRouteNames = new Set([
   'housings',
+  'housingDetails',
   'medications',
+  'medicationDetails',
   'salmonellaProbes',
+  'salmonellaProbesDetails',
   'harvests',
+  'harvestDetails',
   'slaughters',
+  'slaughterDetails',
   'foodDeliveries',
-  'foodRemains'
+  'foodDeliveriesDetails',
+  'foodRemains',
+  'foodRemainsDetails',
 ])
 
 const isEventsActive = computed(() => eventRouteNames.has(route.name))
@@ -125,6 +132,15 @@ async function handleLogout() {
                   :to="{ name: 'foodDeliveries' }"
                 >
                   🚚 {{ $t('events.food_deliveries.title') }}
+                </RouterLink>
+              </li>
+              <li>
+                <RouterLink
+                  id="navFoodRemains"
+                  class="dropdown-item"
+                  :to="{ name: 'foodRemains' }"
+                >
+                  🍚 {{ $t('events.food_remains.title') }}
                 </RouterLink>
               </li>
             </BaseDropdown>

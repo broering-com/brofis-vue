@@ -144,6 +144,24 @@
     border-color: #333;
 }
 
+.dark-mode .form-control:disabled,
+.dark-mode .form-control[readonly],
+.dark-mode .form-select:disabled,
+.dark-mode .form-select[readonly],
+.dark-mode textarea.form-control:disabled,
+.dark-mode textarea.form-control[readonly] {
+    background-color: #141414;   /* dunkler als normal */
+    border-color: #2a2a2a;       /* weniger prominent */
+    color: rgba(248, 249, 250, 0.55);
+    opacity: 1;                  /* wichtig: nicht über Browser-Default "ausgewaschen" */
+    cursor: not-allowed;
+}
+
+.dark-mode .form-control:disabled::placeholder,
+.dark-mode .form-control[readonly]::placeholder {
+    color: rgba(248, 249, 250, 0.35);
+}
+
 /* Floating Labels */
 .dark-mode .form-floating > .form-control,
 .dark-mode .form-floating > .form-select {
@@ -435,6 +453,7 @@
     border-color: transparent;
 }
 
+/* Contrast verified with WCAG 2.1 checker – rgba + opacity */
 .dark-mode .alert-primary {
     background-color: rgba(13, 110, 253, 0.2);
     color: #cfe2ff;

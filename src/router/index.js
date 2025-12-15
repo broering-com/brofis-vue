@@ -20,6 +20,8 @@ import SlaughterView from "@/views/slaughterView.vue";
 import SlaughterDetailsView from "@/views/SlaughterDetailsView.vue";
 import FoodDeliveryView from "@/views/FoodDeliveryView.vue";
 import FoodDeliveryDetailsView from "@/views/FoodDeliveryDetailsView.vue";
+import FoodRemainsView from "@/views/FoodRemainsView.vue";
+import FoodRemainsDetailsView from "@/views/FoodRemainsDetailsView.vue";
 
 const routes = [
     {
@@ -118,6 +120,18 @@ const routes = [
                 path: 'foodDeliveries/details/:id?',
                 name: 'foodDeliveryDetails',
                 component: FoodDeliveryDetailsView,
+                meta: { isNarrow: true },
+                props: true,
+            },
+            {
+                path: 'foodRemains',
+                name: 'foodRemains',
+                component: FoodRemainsView,
+            },
+            {
+                path: 'foodRemains/details/:facility/:date',
+                name: 'foodRemainsDetails',
+                component: FoodRemainsDetailsView,
                 meta: { isNarrow: true },
                 props: true,
             },
