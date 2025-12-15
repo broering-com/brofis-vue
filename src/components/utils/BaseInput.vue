@@ -45,6 +45,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  showLabel: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -66,7 +70,9 @@ const onInput = (event) => {
   >
     <label
       v-if="label || labelEnd"
+      id="{{ inputId }}-label"
       class="form-label pb-0 ps-0 mb-0 w-100 col-12 d-flex justify-content-between"
+      :class="{ 'invisible' : !showLabel }"
       :for="inputId"
     >
       <span
@@ -96,6 +102,9 @@ const onInput = (event) => {
         :value="modelValue"
         :required="required"
         :disabled="disabled"
+        :aria-labelledby="inputId + '-label'"
+        :aria-invalid="!!error"
+        :aria-describedby="error ? inputId + '-error' : null"
         @input="onInput"
       >
       <span class="input-group-text col-2 justify-content-center">{{ $t(groupUnit) }}</span>
@@ -110,11 +119,15 @@ const onInput = (event) => {
       :value="modelValue"
       :required="required"
       :disabled="disabled"
+      :aria-labelledby="inputId + '-label'"
+      :aria-invalid="!!error"
+      :aria-describedby="error ? inputId + '-error' : null"
       @input="onInput"
     >
 
     <div
       v-if="error"
+      id="{{ inputId }}-error"
       class="invalid-feedback"
     >
       {{ error }}

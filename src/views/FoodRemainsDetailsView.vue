@@ -131,6 +131,8 @@ onMounted(() => {
                   v-model="formBlock.amountStart"
                   type="number"
                   group-unit="general.kilograms_short"
+                  label="events.food_remains.details.amount_start"
+                  :show-label="false"
                 />
               </div>
               <div class="col-6">
@@ -138,6 +140,8 @@ onMounted(() => {
                   v-model="formBlock.foodPhaseStart"
                   :options="FEEDING_PHASE_OPTIONS"
                   :disabled="formBlock.amountStart === 0"
+                  label="events.food_remains.details.feeding_phase_start"
+                  :show-label="false"
                 />
               </div>
             </div>
@@ -149,12 +153,16 @@ onMounted(() => {
                   v-model="formBlock.amountStop"
                   type="number"
                   group-unit="general.kilograms_short"
+                  label="events.food_remains.details.amount_stop"
+                  :show-label="false"
                 />
               </div>
               <div class="col-6">
                 <BaseSelect
                   v-model="formBlock.foodPhaseStop"
                   :options="FEEDING_PHASE_OPTIONS"
+                  label="events.food_remains.details.feeding_phase_stop"
+                  :show-label="false"
                 />
               </div>
             </div>
@@ -167,7 +175,7 @@ onMounted(() => {
         class="btn btn-primary w-100"
         @click="submit"
       >
-        {{ $t('events.food_remains.details.submit_button') }}
+        {{ $t('general.submit') }}
       </button>
     </Card>
   </form>
