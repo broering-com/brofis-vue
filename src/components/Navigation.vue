@@ -145,8 +145,15 @@ async function handleLogout() {
               </li>
             </BaseDropdown>
           </li>
-          <li>
-            Stallkarte
+          <li class="nav-item">
+            <RouterLink
+              id="navStallCard"
+              class="nav-link"
+              :to="{ name:'stallCard' }"
+              active-class="active"
+            >
+              {{ $t('stall_card.title') }}
+            </RouterLink>
           </li>
           <li>
             Analyse

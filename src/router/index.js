@@ -22,6 +22,7 @@ import FoodDeliveryView from "@/views/FoodDeliveryView.vue";
 import FoodDeliveryDetailsView from "@/views/FoodDeliveryDetailsView.vue";
 import FoodRemainsView from "@/views/FoodRemainsView.vue";
 import FoodRemainsDetailsView from "@/views/FoodRemainsDetailsView.vue";
+import StallCardView from "@/views/StallCardView.vue";
 
 const routes = [
     {
@@ -134,6 +135,11 @@ const routes = [
                 component: FoodRemainsDetailsView,
                 meta: { isNarrow: true },
                 props: true,
+            },
+            {
+                path: 'card',
+                name: 'stallCard',
+                component: StallCardView
             },
             {
                 path: '/:pathMatch(.*)*',
