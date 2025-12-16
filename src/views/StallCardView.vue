@@ -4,6 +4,7 @@ import HouseSelect from "@/components/HouseSelect.vue";
 import HousingSelect from "@/components/events/HousingSelect.vue";
 import { ref, watch } from "vue";
 import { useStallCardService } from "@/services/stallCardService";
+import BaseDropdown from "@/components/utils/BaseDropdown.vue";
 
 const { getStallCardData } = useStallCardService()
 
@@ -56,6 +57,15 @@ watch(
       >
         Bereinigen
       </button>
+      <base-dropdown
+        class="d-inline-block"
+        label="stallCard.actions.title"
+        btn-classes="btn-primary"
+      >
+        <li>
+          A
+        </li>
+      </base-dropdown>
     </div>
   </div>
 </template>

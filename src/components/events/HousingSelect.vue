@@ -59,7 +59,7 @@ async function loadHousingsforHouse(house) {
     } else {
       options.value = defaultOption
     }
-    emit("update:modelValue", "all")
+    emit("update:modelValue", props.hasAllOption ? "all" : options.value[0])
   } catch (e) {
     console.error(e)
     options.value = defaultOption
