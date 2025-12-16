@@ -50,7 +50,7 @@ const innerValue = computed({
   <div class="mb-3">
     <label
       v-if="label"
-      id="{{ inputId }}-label"
+      :id="`${inputId}-label`"
       class="form-label pb-0 ps-0 mb-0 w-100 col-12 d-flex justify-content-between"
       :class="{ 'invisible' : !showLabel }"
       :for="inputId"
