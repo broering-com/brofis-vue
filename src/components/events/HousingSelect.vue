@@ -54,7 +54,9 @@ async function loadHousingsforHouse(house) {
       if (props.hasAllOption) {
         options.value = [defaultOption, ...housingOptions]
       } else {
-        options.value = [...housingOptions]
+        const array = []
+        housingOptions.forEach(option => array.push(option))
+        options.value = array
       }
     } else {
       options.value = defaultOption
