@@ -165,22 +165,20 @@ input[type="number"] {
     overflow: hidden;
 }
 
-#tblStallkarteSK>thead>tr:first-child>th {
-    /* Grundlage für Ausblenden von Spalten in WebKit und Blink */
+.stallkarte > thead > tr:first-child > th {
     width: 0;
     padding-left: 0;
     padding-right: 0;
 }
 
-#tblStallkarteSK>thead>tr>th,
-#tblStallkarteSK>tfoot>tr>td {
+.stallkarte > thead > tr > th,
+.stallkarte > tfoot > tr > td {
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
     background: lightgrey !important;
     border: 1px solid grey !important;
     padding: 0.3rem 0.1rem;
-    /* Grundlage für Ausblenden von Spalten */
     overflow: hidden;
 }
 

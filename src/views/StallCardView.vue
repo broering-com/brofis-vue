@@ -2,11 +2,12 @@
 
 import HouseSelect from "@/components/HouseSelect.vue";
 import HousingSelect from "@/components/events/HousingSelect.vue";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStallCardService } from "@/services/stallCardService";
 import BaseDropdown from "@/components/utils/BaseDropdown.vue";
 import ComplexTableHead from "@/components/tables/ComplexTableHead.vue";
 import { STALL_CARD_TABLE_HEAD_OBJECT_TREE } from "@/constants/StallCardTableHeadObjectTree.js";
+import { flattenColumns } from "@/services/flattenColumns.js";
 
 const { getStallCardData } = useStallCardService()
 
@@ -15,6 +16,9 @@ const selectedHousing = ref("")
 const tableRows = ref([])
 
 const headerTree = STALL_CARD_TABLE_HEAD_OBJECT_TREE
+const columns = computed(() =>
+  flattenColumns(STALL_CARD_TABLE_HEAD_OBJECT_TREE)
+);
 
 async function loadStallCardData() {
   const response = await getStallCardData(selectedHouse.value, selectedHousing.value)
@@ -72,7 +76,176 @@ watch(
       </base-dropdown>
     </div>
   </div>
-  <table>
-    <ComplexTableHead :header-tree="headerTree" />
-  </table>
+  <div class="col-12 overflow-x-scroll mt-3">
+    <table class="stallkarte mx-3 w-100">
+      <colgroup>
+        <col
+          v-for="col in columns"
+          :key="col.key"
+          :class="col.class"
+          :style="{ width: col.width }"
+          :data-default-width="col.defaultWidth"
+        >
+      </colgroup>
+      <ComplexTableHead :header-tree="headerTree" />
+      <tbody>
+        <!-- tr nur exemplarisch -->
+        <tr>
+          <td>22.1.26</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>25900</td>
+          <td>Keine Bemerkung</td>
+          <td>27</td>
+          <td>26,5</td>
+          <td>28</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>08:00 / 08:00 / 08:00</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>22.1.26</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>25900</td>
+          <td>Keine Bemerkung</td>
+          <td>27</td>
+          <td>26,5</td>
+          <td>28</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>08:00 / 08:00 / 08:00</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+      <ComplexTableHead
+        :header-tree="headerTree"
+        mode="foot"
+      />
+    </table>
+  </div>
 </template>
+
+<style scoped>
+.stallkarte {
+  line-height: 1;
+  table-layout: fixed;
+  display: inline-table;
+
+  --standard-background-alpha: 0.1;
+  --highlight-background-alpha: 0.25;
+}
+
+.stallkarte > tbody > tr > td {
+  border: 1px solid grey;
+  text-align: center;
+  padding: 0.3rem 0.1rem;
+  overflow: hidden;
+}
+
+.stallkarte > tbody > tr:hover {
+  background: lightblue !important;
+}
+
+.stallkarte > thead > tr:first-child > th {
+  width: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.stallkarte > thead > tr > th,
+.stallkarte > tfoot > tr > td {
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  background: lightgrey !important;
+  border: 1px solid grey !important;
+  padding: 0.3rem 0.1rem;
+  overflow: hidden;
+}
+
+/* Hilfsklassen (kannst du in TD/TH setzen) */
+.seven-day-interval {
+  background: #E8E8E8;
+}
+
+.border-r {
+  border-right: 2px black double;
+}
+
+.col-tiere { background: rgba(238, 22, 31, var(--standard-background-alpha)); }
+.col-tiere.soll { background: rgba(238, 22, 31, var(--highlight-background-alpha)); }
+
+.col-klima { background: rgba(0, 168, 80, var(--standard-background-alpha)); }
+.col-klima.soll { background: rgba(0, 168, 80, var(--highlight-background-alpha)); }
+
+.col-wasser { background: rgba(0, 155, 189, var(--standard-background-alpha)); }
+.col-wasser.soll { background: rgba(0, 155, 189, var(--highlight-background-alpha)); }
+
+.col-futter { background: rgba(247, 149, 24, var(--standard-background-alpha)); }
+.col-futter.soll { background: rgba(247, 149, 24, var(--highlight-background-alpha)); }
+
+.col-gewicht { background: rgba(149, 40, 97, var(--standard-background-alpha)); }
+.col-gewicht.soll { background: rgba(149, 40, 97, var(--highlight-background-alpha)); }
+
+/* Wenn du die Summenreihe ebenfalls in der Komponente hast: */
+.sum-row {
+  border-top: 3px double black;
+}
+
+</style>
