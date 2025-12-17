@@ -9,7 +9,7 @@ import ComplexTableHead from "@/components/tables/ComplexTableHead.vue";
 import { STALL_CARD_TABLE_HEAD_OBJECT_TREE } from "@/constants/StallCardTableHeadObjectTree.js";
 import { flattenColumns } from "@/services/flattenColumns.js";
 
-const { getStallCardData } = useStallCardService()
+const { getStallCardData, exportFirstWeekReport } = useStallCardService()
 
 const selectedHouse = ref("")
 const selectedHousing = ref("")
@@ -23,6 +23,10 @@ const columns = computed(() =>
 async function loadStallCardData() {
   const response = await getStallCardData(selectedHouse.value, selectedHousing.value)
   tableRows.value = response.data;
+}
+
+async function startExportFirstWeekReport() {
+  await exportFirstWeekReport(selectedHouse.value, selectedHousing.value)
 }
 
 watch(
@@ -71,7 +75,13 @@ watch(
         btn-classes="btn-primary"
       >
         <li>
-          A
+          <button
+            class="dropdown-item"
+            type="button"
+            @click="startExportFirstWeekReport"
+          >
+            7 Tage Report
+          </button>
         </li>
       </base-dropdown>
     </div>
@@ -90,50 +100,13 @@ watch(
       <ComplexTableHead :header-tree="headerTree" />
       <tbody>
         <!-- tr nur exemplarisch -->
-        <tr>
-          <td>22.1.26</td>
-          <td>1</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>25900</td>
-          <td>Keine Bemerkung</td>
-          <td>27</td>
-          <td>26,5</td>
-          <td>28</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>08:00 / 08:00 / 08:00</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>22.1.26</td>
-          <td>1</td>
+        <tr
+          v-for="n in 30"
+          :key="n"
+          :class="{ 'seven-day-interval': n % 7 === 0 }"
+        >
+          <td>{{ n }}.01.26</td>
+          <td>{{ n }}</td>
           <td>0</td>
           <td>0</td>
           <td>0</td>
@@ -220,9 +193,9 @@ watch(
 }
 
 /* Hilfsklassen (kannst du in TD/TH setzen) */
-.seven-day-interval {
+/*.seven-day-interval {
   background: #E8E8E8;
-}
+}*/
 
 .border-r {
   border-right: 2px black double;

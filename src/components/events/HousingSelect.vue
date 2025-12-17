@@ -11,7 +11,7 @@ const props = defineProps({
   },
   selectedHouse: {
     type: String,
-    default: "all"
+    default: ""
   },
   hasAllOption: {
     type: Boolean,

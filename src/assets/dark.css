@@ -611,6 +611,10 @@ select.form-select:disabled {
     color: #f1f3f5;
 }
 
+.dark-mode .seven-day-interval {
+    background: #2a3038;
+}
+
 .dark-mode .col-tiere {
     background: rgba(255, 99, 99, var(--standard-background-alpha));
 }
