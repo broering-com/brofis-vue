@@ -1,42 +1,59 @@
 <script setup>
+  import HouseSelect from "@/components/HouseSelect.vue";
+  import HousingSelect from "@/components/events/HousingSelect.vue";
+  import { computed, ref, watch } from "vue";
+  import { useStallCardService } from "@/services/stallCardService";
+  import BaseDropdown from "@/components/utils/BaseDropdown.vue";
+  import ComplexTableHead from "@/components/tables/ComplexTableHead.vue";
+  import { STALL_CARD_TABLE_HEAD_OBJECT_TREE } from "@/constants/StallCardTableHeadObjectTree.js";
+  import { flattenColumns } from "@/services/flattenColumns.js";
+  import BaseModal from "@/components/utils/BaseModal.vue";
+  import ColumnVisibilityModalContent from "@/components/tables/ColumnVisibilityModalContent.vue";
 
-import HouseSelect from "@/components/HouseSelect.vue";
-import HousingSelect from "@/components/events/HousingSelect.vue";
-import { computed, ref, watch } from "vue";
-import { useStallCardService } from "@/services/stallCardService";
-import BaseDropdown from "@/components/utils/BaseDropdown.vue";
-import ComplexTableHead from "@/components/tables/ComplexTableHead.vue";
-import { STALL_CARD_TABLE_HEAD_OBJECT_TREE } from "@/constants/StallCardTableHeadObjectTree.js";
-import { flattenColumns } from "@/services/flattenColumns.js";
+  const { getStallCardData, exportFirstWeekReport } = useStallCardService();
 
-const { getStallCardData, exportFirstWeekReport } = useStallCardService()
+  const selectedHouse = ref("");
+  const selectedHousing = ref("");
+  const tableRows = ref([]);
 
-const selectedHouse = ref("")
-const selectedHousing = ref("")
-const tableRows = ref([])
+  // Modal + Column selection state
+  const showColumnModalOpen = ref(false);
+  const columnContentRef = ref(null);
 
-const headerTree = STALL_CARD_TABLE_HEAD_OBJECT_TREE
-const columns = computed(() =>
-  flattenColumns(STALL_CARD_TABLE_HEAD_OBJECT_TREE)
-);
+  const headerTree = STALL_CARD_TABLE_HEAD_OBJECT_TREE;
 
-async function loadStallCardData() {
-  const response = await getStallCardData(selectedHouse.value, selectedHousing.value)
+  // ✅ einheitliche Namen
+  const allColumns = computed(() => flattenColumns(headerTree));
+  const hiddenKeys = ref(new Set()); // Leaf keys die ausgeblendet sind
+
+  const visibleColumns = computed(() =>
+  allColumns.value.filter((c) => !hiddenKeys.value.has(c.key))
+  );
+
+  async function loadStallCardData() {
+  const response = await getStallCardData(selectedHouse.value, selectedHousing.value);
   tableRows.value = response.data;
 }
 
-async function startExportFirstWeekReport() {
-  await exportFirstWeekReport(selectedHouse.value, selectedHousing.value)
+  async function startExportFirstWeekReport() {
+  await exportFirstWeekReport(selectedHouse.value, selectedHousing.value);
 }
 
-watch(
-  [selectedHouse, selectedHousing],
-  () => {
-    if (selectedHouse.value && selectedHousing.value) {
-      loadStallCardData()
-    }
-  }
-)
+  // ✅ Apply/Confirm: übernimmt Auswahl aus Content
+  function onConfirmColumnModal() {
+  columnContentRef.value?.apply?.(); // ColumnVisibilityModalContent exposed apply()
+  showColumnModalOpen.value = false;
+}
+
+  function onShowColumnClose() {
+  // optional: nix nötig – BaseModal schließt schon via v-model
+}
+
+  watch([selectedHouse, selectedHousing], () => {
+  if (selectedHouse.value && selectedHousing.value) {
+  loadStallCardData();
+}
+});
 </script>
 
 <template>
@@ -59,6 +76,7 @@ watch(
         class="btn btn-primary mx-1"
         type="button"
         title="{{$t('stallCard.filter.title')}}"
+        @click="showColumnModalOpen = true"
       >
         Filter
       </button>
@@ -90,14 +108,17 @@ watch(
     <table class="stallkarte mx-3 w-100">
       <colgroup>
         <col
-          v-for="col in columns"
+          v-for="col in visibleColumns"
           :key="col.key"
           :class="col.class"
           :style="{ width: col.width }"
           :data-default-width="col.defaultWidth"
         >
       </colgroup>
-      <ComplexTableHead :header-tree="headerTree" />
+      <ComplexTableHead
+        :header-tree="headerTree"
+        :hidden-keys="hiddenKeys"
+      />
       <tbody>
         <!-- tr nur exemplarisch -->
         <tr
@@ -148,10 +169,43 @@ watch(
       </tbody>
       <ComplexTableHead
         :header-tree="headerTree"
+        :hidden-keys="hiddenKeys"
         mode="foot"
       />
     </table>
   </div>
+
+  <BaseModal
+    v-model="showColumnModalOpen"
+    title="stallCard.showColumnModal.title"
+    size="lg"
+    @confirm="onConfirmColumnModal"
+    @close="onShowColumnClose"
+  >
+    <ColumnVisibilityModalContent
+      ref="columnContentRef"
+      :columns="allColumns"
+      :hidden-keys="hiddenKeys"
+      @update:hidden-keys="hiddenKeys = $event"
+    />
+
+    <template #footer>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        @click="showColumnModalOpen = false"
+      >
+        {{ $t('general.cancel') }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        @click="onConfirmColumnModal"
+      >
+        {{ $t('general.submit') }}
+      </button>
+    </template>
+  </BaseModal>
 </template>
 
 <style scoped>
@@ -169,10 +223,6 @@ watch(
   text-align: center;
   padding: 0.3rem 0.1rem;
   overflow: hidden;
-}
-
-.stallkarte > tbody > tr:hover {
-  background: lightblue !important;
 }
 
 .stallkarte > thead > tr:first-child > th {

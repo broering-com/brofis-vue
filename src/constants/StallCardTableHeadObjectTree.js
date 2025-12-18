@@ -10,24 +10,24 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
                 label: "Kleine",
                 order: ["m", "a"],
                 children: {
-                    m: { label: "M", col: { width: "5ch", class: "col-tiere" } },
-                    a: { label: "A", col: { width: "5ch", class: "col-tiere" } },
+                    morning: { label: "M", col: { width: "5ch", class: "col-tiere" } },
+                    evening: { label: "A", col: { width: "5ch", class: "col-tiere" } },
                 },
             },
             selected: {
                 label: "Selektierte",
                 order: ["m", "a"],
                 children: {
-                    m: { label: "M", col: { width: "5ch", class: "col-tiere" } },
-                    a: { label: "A", col: { width: "5ch", class: "col-tiere" } },
+                    morning: { label: "M", col: { width: "5ch", class: "col-tiere" } },
+                    evening: { label: "A", col: { width: "5ch", class: "col-tiere" } },
                 },
             },
             dead: {
                 label: "Tote",
                 order: ["m", "a"],
                 children: {
-                    m: { label: "M", col: { width: "5ch", class: "col-tiere" } },
-                    a: { label: "A", col: { width: "5ch", class: "col-tiere" } },
+                    morning: { label: "M", col: { width: "5ch", class: "col-tiere" } },
+                    evening: { label: "A", col: { width: "5ch", class: "col-tiere" } },
                 },
             },
 

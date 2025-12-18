@@ -7,6 +7,9 @@ const props = defineProps({
   // "head" => <thead><th>
   // "foot" => <tfoot><td> (umgedreht)
   mode: { type: String, default: "head" },
+
+  // Set oder Array von Leaf-Keys, die ausgeblendet sind (z.B. "Losses.small.m")
+  hiddenKeys: { type: [Array, Set], default: () => new Set() },
 });
 
 /**
@@ -15,6 +18,12 @@ const props = defineProps({
 function isObj(v) {
   return v && typeof v === "object" && !Array.isArray(v);
 }
+
+const hiddenSet = computed(() => {
+  return props.hiddenKeys instanceof Set
+    ? props.hiddenKeys
+    : new Set(props.hiddenKeys ?? []);
+});
 
 /**
  * gives child entries of a node in correct order
@@ -36,19 +45,24 @@ function childEntries(node) {
 
 /**
  * builds a node from given key and node-like object
+ * + adds `path` for stable leaf keys (e.g. "Losses.small.m")
  */
-function buildNode(key, nodeLike, parentLevel) {
+function buildNode(key, nodeLike, parentLevel, parentPath) {
   const node = isObj(nodeLike) ? nodeLike : {};
   const level = node.level ?? (parentLevel + 1);
   const label = node.label ?? key;
 
-  const children = childEntries(node).map(([childkey, childnode]) => buildNode(childkey, childnode, level));
-  return { key, label, level, children };
+  const path = parentPath ? `${parentPath}.${key}` : key;
+
+  const children = childEntries(node).map(([childkey, childnode]) =>
+    buildNode(childkey, childnode, level, path)
+  );
+
+  return { key, label, level, children, path };
 }
 
 /**
  * flattens given object to flat array
- * used for colGroup
  */
 function flatten(root) {
   const out = [];
@@ -68,6 +82,17 @@ function countLeaves(node) {
 }
 
 /**
+ * counts only visible leaves (used for colspan when columns are hidden)
+ */
+function countVisibleLeaves(node) {
+  if (!node.children.length) {
+    // leaf is visible iff not in hidden set
+    return hiddenSet.value.has(node.path) ? 0 : 1;
+  }
+  return node.children.reduce((sum, child) => sum + countVisibleLeaves(child), 0);
+}
+
+/**
  * calculates minimum child level
  */
 function minChildLevel(node) {
@@ -75,7 +100,7 @@ function minChildLevel(node) {
   return Math.min(...node.children.map((child) => child.level));
 }
 
-/* sectionTag will be used in <component :is="sectionTag" -> <component> will be <thead> or <tfoot> conditionally */
+/* sectionTag will be used in <component :is="sectionTag"> */
 const sectionTag = computed(() => (props.mode === "foot" ? "tfoot" : "thead"));
 const cellTag = computed(() => (props.mode === "foot" ? "td" : "th"));
 
@@ -84,7 +109,8 @@ const headerRows = computed(() => {
     key: "__root__",
     label: "",
     level: 0,
-    children: Object.entries(props.headerTree).map(([k, v]) => buildNode(k, v, 0)),
+    path: "__root__",
+    children: Object.entries(props.headerTree).map(([k, v]) => buildNode(k, v, 0, "")),
   };
 
   const nodes = flatten(root).filter((n) => n.key !== "__root__");
@@ -95,7 +121,11 @@ const headerRows = computed(() => {
   for (const n of nodes) {
     if (n.label === null || n.label === undefined) continue;
 
-    const colspan = countLeaves(n);
+    // ✅ colspan based on visible leaves
+    const visibleColspan = countVisibleLeaves(n);
+    if (visibleColspan === 0) continue; // whole node hidden (all leaf children hidden)
+
+    const colspan = visibleColspan;
 
     let rowspan;
     if (!n.children.length) {
@@ -109,14 +139,14 @@ const headerRows = computed(() => {
 
     const endLevel = n.level + rowspan - 1;
 
-    // Hier passiert das "Umdrehen" für den Footer:
+    // Footer invert placement
     const targetLevel =
       props.mode === "foot"
         ? (maxLevel - endLevel + 1)
         : n.level;
 
     rows[targetLevel - 1].push({
-      key: n.key,
+      key: n.path, // ✅ stable key incl. path
       html: String(n.label),
       colspan,
       rowspan,

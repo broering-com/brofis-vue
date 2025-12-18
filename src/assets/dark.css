@@ -615,6 +615,11 @@ select.form-select:disabled {
     background: #2a3038;
 }
 
+.dark-mode .stallkarte > tbody > tr:hover {
+    /*background: #253041 !important;*/
+    background: #2f3f55  !important;
+}
+
 .dark-mode .col-tiere {
     background: rgba(255, 99, 99, var(--standard-background-alpha));
 }
