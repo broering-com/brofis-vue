@@ -128,13 +128,13 @@ const headerRows = computed(() => {
     const colspan = visibleColspan;
 
     let rowspan;
-    if (!n.children.length) {
-      // Leaf: bis zum Ende runterspannen
-      rowspan = maxLevel - n.level + 1;
-    } else {
+    if (n.children.length) {
       // Group: normalerweise 1, aber Gap überbrücken (Kind startet später)
       const mcl = minChildLevel(n);
       rowspan = mcl ? Math.max(1, mcl - n.level) : 1;
+    } else {
+      // Leaf: bis zum Ende runterspannen
+      rowspan = maxLevel - n.level + 1;
     }
 
     const endLevel = n.level + rowspan - 1;

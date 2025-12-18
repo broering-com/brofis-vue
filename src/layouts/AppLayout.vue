@@ -12,11 +12,6 @@ const route = useRoute()
   <div class="app-layout">
     <header class="app-header">
       <Navigation />
-      <!--      <nav>
-        <RouterLink :to="{name: 'journal'}">$('journal.name')</RouterLink>
-        &lt;!&ndash; weitere Links später z. B. /app/settings &ndash;&gt;
-        <button @click="handleLogout">Logout</button>
-      </nav>-->
     </header>
 
     <main class="app-main">
@@ -33,7 +28,3 @@ const route = useRoute()
     </main>
   </div>
 </template>
-
-<style scoped>
-
-</style>

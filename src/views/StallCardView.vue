@@ -242,11 +242,6 @@
   overflow: hidden;
 }
 
-/* Hilfsklassen (kannst du in TD/TH setzen) */
-/*.seven-day-interval {
-  background: #E8E8E8;
-}*/
-
 .border-r {
   border-right: 2px black double;
 }

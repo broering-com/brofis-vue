@@ -89,7 +89,3 @@ async function onSubmit() {
     </form>
   </section>
 </template>
-
-<style scoped>
-
-</style>

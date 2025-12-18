@@ -616,7 +616,6 @@ select.form-select:disabled {
 }
 
 .dark-mode .stallkarte > tbody > tr:hover {
-    /*background: #253041 !important;*/
     background: #2f3f55  !important;
 }
 

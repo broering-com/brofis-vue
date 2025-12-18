@@ -38,15 +38,15 @@ const internalValue = ref('')
 
 // Beim Mount: heute setzen, falls nichts übergeben wurde
 onMounted(() => {
-  if (!props.modelValue) {
+  if (props.modelValue) {
+    internalValue.value = props.modelValue
+  } else {
     const today = new Date()
     const y = today.getFullYear()
     const m = String(today.getMonth() + 1).padStart(2, '0')
     const d = String(today.getDate()).padStart(2, '0')
     internalValue.value = `${y}-${m}-${d}`
     emit('update:modelValue', internalValue.value)
-  } else {
-    internalValue.value = props.modelValue
   }
 })
 
@@ -126,7 +126,3 @@ function changeByDays(delta) {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

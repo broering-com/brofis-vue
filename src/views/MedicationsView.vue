@@ -38,9 +38,9 @@ const deletionTarget = ref(null);
 
 // Daten laden
 async function loadMedicationData() {
-  const house = selectedHouse.value !== "all" ? selectedHouse.value : null;
-  const housing = selectedHousing.value !== "all" ? selectedHousing.value : null;
-  const type = selectedType.value !== "all" ? selectedType.value : null;
+  const house = selectedHouse.value === "all" ? null : selectedHouse.value;
+  const housing = selectedHousing.value === "all" ? null : selectedHousing.value;
+  const type = selectedType.value === "all" ? null : selectedType.value;
 
   try {
     const result = await getMedicationData(house, currentPage.value, housing, type /*, Einstallung und Art */);
@@ -60,10 +60,10 @@ async function loadMedicationData() {
 watch(
   [selectedHouse, selectedHousing, selectedType ],
   () => {
-    if (currentPage.value !== 0) {
-      currentPage.value = 0;
-    } else {
+    if (currentPage.value === 0) {
       loadMedicationData();
+    } else {
+      currentPage.value = 0;
     }
   }
 );

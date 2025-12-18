@@ -89,26 +89,30 @@ function onKeydown(e) {
     return;
   }
 
-  if (e.key === "ArrowDown") {
-    e.preventDefault();
-    if (filteredOptions.value.length === 0) return;
-    highlightedIndex.value =
+  switch(e.key) {
+    case "ArrowDown":
+      e.preventDefault();
+      if (filteredOptions.value.length === 0) return;
+      highlightedIndex.value =
         (highlightedIndex.value + 1) % filteredOptions.value.length;
-  } else if (e.key === "ArrowUp") {
-    e.preventDefault();
-    if (filteredOptions.value.length === 0) return;
-    highlightedIndex.value =
+      break;
+    case "ArrowUp":
+      e.preventDefault();
+      if (filteredOptions.value.length === 0) return;
+      highlightedIndex.value =
         (highlightedIndex.value - 1 + filteredOptions.value.length) %
         filteredOptions.value.length;
-  } else if (e.key === "Enter") {
-    if (isOpen.value && highlightedIndex.value >= 0) {
-      e.preventDefault();
-      const opt = filteredOptions.value[highlightedIndex.value];
-      if (opt) selectOption(opt);
-    }
-  } else if (e.key === "Escape") {
-    isOpen.value = false;
-    highlightedIndex.value = -1;
+      break;
+    case "Enter":
+      if (isOpen.value && highlightedIndex.value >= 0) {
+        e.preventDefault();
+        const opt = filteredOptions.value[highlightedIndex.value];
+        if (opt) selectOption(opt);
+      }
+      break;
+  case "Escape":
+      isOpen.value = false;
+      highlightedIndex.value = -1;
   }
 }
 
@@ -126,11 +130,13 @@ function onBlur() {
     <label
       v-if="label"
       class="form-label"
+      for="{{label}}-input-autosuggest"
     >
       {{ $t ? $t(label) : label }}
     </label>
 
     <input
+      id="{{label}}-input-autosuggest"
       class="form-control"
       type="text"
       :value="inputValue"

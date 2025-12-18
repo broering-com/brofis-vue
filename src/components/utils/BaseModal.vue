@@ -62,11 +62,11 @@ function onKeydown(e) {
 }
 
 onMounted(() => {
-  window.addEventListener("keydown", onKeydown);
+  globalThis.addEventListener("keydown", onKeydown);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("keydown", onKeydown);
+  globalThis.removeEventListener("keydown", onKeydown);
 });
 </script>
 
@@ -172,10 +172,4 @@ onBeforeUnmount(() => {
   opacity: 0.5; /* kannst du anpassen */
 }
 
-/* falls Bootstrap die Backdrop-Opacity erwartet */
-/*.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}*/
 </style>
