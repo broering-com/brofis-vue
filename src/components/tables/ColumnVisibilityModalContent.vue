@@ -1,11 +1,17 @@
 <script setup>
 import { computed, ref, watch, defineExpose } from "vue";
 import BaseCheckbox from "@/components/utils/BaseCheckbox.vue"; // Pfad ggf. anpassen
+import { useI18n } from "@/services/i18nService.js";
+
+const { t } = useI18n()
 
 const props = defineProps({
   columns: { type: Array, required: true }, // [{ key, label, labelKey?, group? }]
   hiddenKeys: { type: [Array, Set], default: () => new Set() },
+  translationPrefix: { type: String, default: "" }
 });
+
+const prefix = props.translationPrefix ? `${props.translationPrefix}.` : ''
 
 const emit = defineEmits(["update:hiddenKeys"]);
 
@@ -29,7 +35,10 @@ const filteredColumns = computed(() => {
     const key = String(c.key ?? "").toLowerCase();
     const group = String(c.group ?? "").toLowerCase();
     const labelKey = String(c.labelKey ?? "").toLowerCase();
-    return label.includes(q) || key.includes(q) || group.includes(q) || labelKey.includes(q);
+    return label.includes(q) || t(`${prefix}${label}`).includes(q) ||
+      key.includes(q) || t(`${prefix}${key}`).toLowerCase().includes(q) ||
+      group.includes(q) || t(`${prefix}${group}`).toLowerCase().includes(q) ||
+      labelKey.includes(q) || t(`${prefix}${labelKey}`).toLowerCase().includes(q);
   });
 });
 
@@ -74,7 +83,7 @@ defineExpose({ apply });
       v-model="query"
       class="cvc-search form-control form-control-sm"
       type="text"
-      placeholder="Suchen… (z.B. Temperatur, Verluste, g)"
+      :placeholder="$t(`${prefix}column_visibility_modal.search_placeholder`)"
     >
 
     <button
@@ -90,7 +99,7 @@ defineExpose({ apply });
     v-if="!canHideMore"
     class="cvc-hint"
   >
-    {{ $t("tables.column_visibility_modal.at_least_one_column_visible") }}
+    {{ $t(`${prefix}column_visibility_modal.at_least_one_column_visible`) }}
   </div>
 
   <div class="cvc-list">
@@ -106,7 +115,7 @@ defineExpose({ apply });
         :model-value="!localHidden.has(c.key)"
         :disabled="!localHidden.has(c.key) && !canHideMore"
         :container-classes="'mb-0'"
-        :label="c.labelKey || ''"
+        :label="`${translationPrefix && c.labelKey ? `${translationPrefix}.${c.labelKey}` : ''}`"
         @update:model-value="(val) => setVisible(c.key, val)"
       />
 
@@ -117,13 +126,13 @@ defineExpose({ apply });
         @click="toggleByKey(c.key)"
       >
         <div class="cvc-item-label">
-          {{ c.label ?? c.key }}
+          {{ $t(`${prefix}${c.label ?? c.key}`) }}
         </div>
         <div
           v-if="c.group"
           class="cvc-item-sub"
         >
-          {{ c.group }}
+          {{ $t(`${prefix}${c.group}`) }}
         </div>
       </div>
 
@@ -135,7 +144,7 @@ defineExpose({ apply });
         @click="toggleByKey(c.key)"
       >
         <div class="cvc-item-sub">
-          {{ c.group }}
+          {{ $t(`${prefix}${c.group}`) }}
         </div>
       </div>
     </div>

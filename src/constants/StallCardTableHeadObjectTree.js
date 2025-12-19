@@ -1,8 +1,8 @@
 export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
-    Date: { label: "Datum", col: { width: "12ch", class: "border-r" } },
-    Day: { label: "Tag", col: { width: "6ch", class: "border-r" } },
+    date: { label: "Datum", col: { width: "12ch", class: "border-r" } },
+    day: { label: "Tag", col: { width: "6ch", class: "border-r" } },
 
-    Losses: {
+    losses: {
         label: "Verluste",
         order: ["small", "selected", "dead", "total", "cumulated"],
         children: {
@@ -44,7 +44,7 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    livingAnimals: { label: "Lebende Tiere", col: { width: "8ch", class: "col-tiere border-r" } },
+    living_animals: { label: "Lebende Tiere", col: { width: "8ch", class: "col-tiere border-r" } },
     remarks: { label: "Bemerkungen", col: { width: "20ch", class: "border-r" } },
 
     temperature: {
@@ -121,7 +121,7 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    waterPerAnimal: {
+    water_per_animal: {
         label: "Wasser pro Tier",
         order: ["target", "actual"],
         children: {
@@ -140,7 +140,7 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    mixedFeed: {
+    mixed_feed: {
         label: "Misch-<br>futter",
         children: {
             total: {
@@ -152,7 +152,7 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    wheatFeed: {
+    wheat_feed: {
         label: "Weizen",
         children: {
             total: {
@@ -164,7 +164,7 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    feedTotal: {
+    feed_total: {
         label: "Futter (Gesamt)",
         children: {
             total: {
@@ -176,7 +176,7 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    feedTotalPerAnimal: {
+    feed_total_per_animal: {
         label: "Futter (Gesamt) pro Tier",
         order: ["target", "actual"],
         children: {
@@ -195,7 +195,7 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    feedCumulatedPerAnimal: {
+    feed_cumulated_per_animal: {
         label: "Futter (Kumuliert) pro Tier",
         order: ["target", "actual"],
         children: {
@@ -214,17 +214,17 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
         },
     },
 
-    wheatRatio: {
+    wheat_ratio: {
         label: "Weizen",
         children: {
             unit: { label: "%", level: 3, col: { width: "8ch", class: "col-futter border-r" } },
         },
     },
 
-    waterFeedRatio: { label: "Wasser Futter Verhältnis", col: { width: "10ch", class: "" } },
-    litterQuality: { label: "Einstreu-<br>qualität", col: { width: "10ch", class: "border-r" } },
+    water_feed_ratio: { label: "Wasser Futter Verhältnis", col: { width: "10ch", class: "" } },
+    litter_quality: { label: "Einstreu-<br>qualität", col: { width: "10ch", class: "border-r" } },
 
-    animalWeight: {
+    animal_weight: {
         label: "Tiergewicht",
         order: ["target", "actual"],
         children: {
@@ -264,5 +264,5 @@ export const STALL_CARD_TABLE_HEAD_OBJECT_TREE = {
 
     control: { label: "Kontrolle von Fütterung, Lüftung, Heizung / Alarm / Notstrom", col: { width: "18ch", class: "border-r" } },
 
-    DayRepeat: { label: "Tag", col: { width: "6ch", class: "" } },
+    day_repeat: { label: "Tag", col: { width: "6ch", class: "" } },
 };

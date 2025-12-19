@@ -75,7 +75,7 @@ watch([selectedHouse, selectedHousing], () => {
       <button
         class="btn btn-primary mx-1"
         type="button"
-        title="{{$t('stallCard.filter.title')}}"
+        title="{{$t('stall_card.filter.title')}}"
         @click="showColumnModalOpen = true"
       >
         Filter
@@ -83,7 +83,7 @@ watch([selectedHouse, selectedHousing], () => {
       <button
         class="btn btn-primary mx-1"
         type="button"
-        title="{{$t('stallCard.filter.title')}}"
+        title="{{$t('stall_card.filter.title')}}"
       >
         Bereinigen
       </button>
@@ -184,6 +184,7 @@ watch([selectedHouse, selectedHousing], () => {
   >
     <ColumnVisibilityModalContent
       ref="columnContentRef"
+      translation-prefix="stall_card"
       :columns="allColumns"
       :hidden-keys="hiddenKeys"
       @update:hidden-keys="hiddenKeys = $event"
