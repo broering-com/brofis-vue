@@ -30,8 +30,13 @@ const eventRouteNames = new Set([
 const isEventsActive = computed(() => eventRouteNames.has(route.name))
 
 async function handleLogout() {
-  await logout()
-  await router.replace({ name: 'login' })
+  try {
+    await logout()
+  } catch(e) {
+    console.error(e)
+  } finally {
+    await router.replace({ name: 'login' })
+  }
 }
 </script>
 
