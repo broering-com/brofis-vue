@@ -139,6 +139,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* Modal-Transition */
+/* eslint-disable */
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.25s ease-out, transform 0.15s ease-out;
@@ -171,5 +172,5 @@ onBeforeUnmount(() => {
 .backdrop-fade-leave-from {
   opacity: 0.5; /* kannst du anpassen */
 }
-
+/* eslint-enable */
 </style>

@@ -78,7 +78,7 @@ watch(
         selectedHouse.value = options[0].value
         return
       }
-      if (validatedStored.value) {
+      if (validatedStored?.value) {
         selectedHouse.value = validatedStored.value;
       }
     }

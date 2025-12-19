@@ -74,14 +74,6 @@ function flatten(root) {
 }
 
 /**
- * calculates number of leaves in subtree to fit colspan
- */
-function countLeaves(node) {
-  if (!node.children.length) return 1;
-  return node.children.reduce((sum, child) => sum + countLeaves(child), 0);
-}
-
-/**
  * counts only visible leaves (used for colspan when columns are hidden)
  */
 function countVisibleLeaves(node) {
@@ -169,8 +161,9 @@ const headerRows = computed(() => {
         :key="cell.key"
         :rowspan="cell.rowspan > 1 ? cell.rowspan : null"
         :colspan="cell.colspan > 1 ? cell.colspan : null"
-        v-html="cell.html"
-      />
+      >
+        <span v-html="cell.html" />
+      </component>
     </tr>
   </component>
 </template>

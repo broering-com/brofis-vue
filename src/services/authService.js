@@ -84,6 +84,7 @@ async function logout() {
         localStorage.removeItem('token')
         sessionStorage.removeItem('token')
         localStorage.removeItem('user')
+        localStorage.removeItem('prefers-dark')
         clearCatalog('dynamic')
         isAuthenticatedState.value = false
         currentUser.value = null
