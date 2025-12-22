@@ -19,7 +19,14 @@ export default defineConfig({
               changeOrigin: true,
 
               secure: false,
+          },
+          '/api/v2': {
+              target: 'https://api.brofisplus.test',
+              changeOrigin: true,
+
+              secure: false,
           }
+
       }
     },
   resolve: {

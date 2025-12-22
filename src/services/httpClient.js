@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 
 const API_PREFIX = '/api/v1'
+// const API_PREFIX = '/api/v2'
 
 // 🔥 globaler Request-Zähler
 const activeRequests = ref(0)
