@@ -75,12 +75,12 @@ function onSelect(option) {
 </script>
 
 <template>
-  <label
+  <span
     v-if="props.label"
     class="form-label pb-0 ps-0 mb-0 w-100 col-12 d-flex justify-content-between"
   >
     {{ $t(props.label) }}
-  </label>
+  </span>
   <div
     class="btn-group w-100"
     :class="classes"
@@ -102,10 +102,3 @@ function onSelect(option) {
     </button>
   </div>
 </template>
-
-<style scoped>
-.btn-group-toggle {
-  display: inline-flex;
-}
-
-</style>

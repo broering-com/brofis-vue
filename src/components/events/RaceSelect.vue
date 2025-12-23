@@ -50,5 +50,3 @@ onMounted(async () => {
     :options="raceOptions"
   />
 </template>
-
-<style scoped></style>

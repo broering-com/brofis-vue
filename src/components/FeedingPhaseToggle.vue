@@ -9,6 +9,10 @@
     label: {
       type: String,
       default: ''
+    },
+    dayOfLife: {
+      type: Number,
+      default: 0
     }
   })
   const emit = defineEmits(['update:modelValue'])
@@ -50,14 +54,20 @@
   <div class="feeding-phase-toggle">
     <div class="d-flex justify-content-between mb-1">
       <span class="">{{ $t(label) }}</span>
-      <span class="text-end text-muted">{{ $t('general.yesterday') }}</span>
+      <span class="text-end text-muted">{{ $t('general.yesterday', { date: dayOfLife-1 }) }}</span>
     </div>
 
-    <div
+    <fieldset
       class="btn-group w-100"
       role="group"
-      aria-label="Futterphasen"
+      aria-labelledby="feeding-phases-label"
     >
+      <legend
+        id="feeding-phases-label"
+        class="visually-hidden"
+      >
+        {{ $t('journal.feeding_phases_label') }}
+      </legend>
       <button
         v-for="phase in phases"
         :key="phase.key"
@@ -68,6 +78,6 @@
       >
         {{ phase.label }}
       </button>
-    </div>
+    </fieldset>
   </div>
 </template>

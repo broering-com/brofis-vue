@@ -27,6 +27,10 @@ const props = defineProps({
   saveValue: {
     type: Boolean,
     default: false
+  },
+  classes: {
+    type: String,
+    default: "mb-3"
   }
 })
 
@@ -74,7 +78,7 @@ watch(
         selectedHouse.value = options[0].value
         return
       }
-      if (validatedStored.value) {
+      if (validatedStored?.value) {
         selectedHouse.value = validatedStored.value;
       }
     }
@@ -93,7 +97,7 @@ watch(
 </script>
 
 <template>
-  <div class="mb-3">
+  <div :class="props.classes">
     <BaseSelect
       v-model="selectedHouse"
       :label="label"

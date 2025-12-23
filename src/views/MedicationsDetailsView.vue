@@ -131,8 +131,7 @@ async function onTypeChange(val) {
 }
 
 async function loadPersonSuggestions() {
-  const result = await getCatalogData('personen')
-  personSuggestions.value = result
+  personSuggestions.value = await getCatalogData('personen')
 }
 
 async function submit() {
@@ -252,7 +251,3 @@ onMounted(() => {
     </card>
   </form>
 </template>
-
-<style scoped>
-
-</style>

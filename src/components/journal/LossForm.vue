@@ -7,6 +7,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  dayOfLife: {
+    type: Number,
+    default: 0
+  }
 });
 
 const emit = defineEmits(["update:form"]);
@@ -52,66 +56,90 @@ const verlusteAbendsTote = computed({
 </script>
 
 <template>
-  <label class="form-label pb-0 ps-0 mb-0 col-12 text-end">
+  <div class="form-label pb-0 ps-0 mb-2 col-12 text-end">
     <span class="text-muted text-end">
-      {{ $t('general.today') }}
+      {{ $t('general.today', { date: dayOfLife }) }}
     </span>
-  </label>
+  </div>
 
   <div class="row">
-    <div class="col-3">
-      <label class="form-label">
+    <div class="col-3 text-center">
+      <span class="form-label">
         {{ $t('journal.form.losses') }}
-      </label>
+      </span>
     </div>
-    <div class="col-3">
-      <label class="form-label">
+    <div class="col-3 text-center">
+      <span class="form-label">
         {{ $t('journal.form.losses_small') }}
-      </label>
+      </span>
     </div>
-    <div class="col-3">
-      <label class="form-label">
+    <div class="col-3 text-center">
+      <span class="form-label">
         {{ $t('journal.form.losses_selected') }}
-      </label>
+      </span>
     </div>
-    <div class="col-3">
-      <label class="form-label">
+    <div class="col-3 text-center">
+      <span class="form-label">
         {{ $t('journal.form.losses_dead') }}
-      </label>
+      </span>
     </div>
   </div>
 
   <div class="row">
     <!-- Morgens -->
-    <div class="col-3">
-      <label class="form-label">
+    <div class="col-3 pt-2 my-auto align-content-center d-flex justify-content-center">
+      <span class="form-label mb-0">
         {{ $t('journal.form.losses_morning') }}
-      </label>
+      </span>
     </div>
     <div class="col-3">
-      <BaseInput v-model="verlusteMorgensKleine" />
+      <BaseInput
+        v-model="verlusteMorgensKleine"
+        label="journal.form.losses_morning_small"
+        :show-label="false"
+      />
     </div>
     <div class="col-3">
-      <BaseInput v-model="verlusteMorgensSelektierte" />
+      <BaseInput
+        v-model="verlusteMorgensSelektierte"
+        label="journal.form.losses_morning_selected"
+        :show-label="false"
+      />
     </div>
     <div class="col-3">
-      <BaseInput v-model="verlusteMorgensTote" />
+      <BaseInput
+        v-model="verlusteMorgensTote"
+        label="journal.form.losses_morning_dead"
+        :show-label="false"
+      />
     </div>
 
     <!-- Abends -->
-    <div class="col-3 mt-2">
-      <label class="form-label">
+    <div class="col-3 pt-2 my-auto align-content-center d-flex justify-content-center">
+      <span class="form-label mb-0">
         {{ $t('journal.form.losses_evening') }}
-      </label>
+      </span>
     </div>
-    <div class="col-3 mt-2">
-      <BaseInput v-model="verlusteAbendsKleine" />
+    <div class="col-3">
+      <BaseInput
+        v-model="verlusteAbendsKleine"
+        label="journal.form.losses_evening_small"
+        :show-label="false"
+      />
     </div>
-    <div class="col-3 mt-2">
-      <BaseInput v-model="verlusteAbendsSelektierte" />
+    <div class="col-3">
+      <BaseInput
+        v-model="verlusteAbendsSelektierte"
+        label="journal.form.losses_evening_selected"
+        :show-label="false"
+      />
     </div>
-    <div class="col-3 mt-2">
-      <BaseInput v-model="verlusteAbendsTote" />
+    <div class="col-3">
+      <BaseInput
+        v-model="verlusteAbendsTote"
+        label="journal.form.losses_evening_dead"
+        :show-label="false"
+      />
     </div>
   </div>
 </template>

@@ -1,8 +1,12 @@
 <script setup>
 import { ref } from 'vue';
 
-const { label } = defineProps({
+const { label, btnClasses } = defineProps({
   label: {
+    type: String,
+    default: ''
+  },
+  btnClasses: {
     type: String,
     default: ''
   }
@@ -21,7 +25,7 @@ const close = () => (isOpen.value = false);
   >
     <button
       class="btn dropdown-toggle"
-      :class="{ show: isOpen }"
+      :class="btnClasses + (isOpen ? ' show' : '')"
       aria-haspopup="true"
       :aria-expanded="isOpen"
       @click="toggle"

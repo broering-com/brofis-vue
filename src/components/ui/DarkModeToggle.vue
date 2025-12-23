@@ -41,13 +41,15 @@ import { ref, onMounted, watch } from 'vue'
 
 const STORAGE_KEY = 'prefers-dark'
 const isDark = ref(false)
+const isInitialChange = ref(true)
 
 onMounted(() => {
   const stored = localStorage.getItem(STORAGE_KEY)
-  if (stored !== null) {
+  if (stored !== null && stored !== 'system-pref') {
     isDark.value = stored === 'true'
   } else if (globalThis.matchMedia) {
     isDark.value = globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+    localStorage.setItem(STORAGE_KEY, 'system-pref')
   }
 
   document.documentElement.classList.toggle('dark-mode', isDark.value)
@@ -55,7 +57,10 @@ onMounted(() => {
 
 watch(isDark, (val) => {
   document.documentElement.classList.toggle('dark-mode', val)
-  localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false')
+  if (!isInitialChange.value) {
+    localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false')
+  }
+  isInitialChange.value = false
 })
 
 function toggleDark() {

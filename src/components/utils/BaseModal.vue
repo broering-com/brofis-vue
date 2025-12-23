@@ -62,11 +62,11 @@ function onKeydown(e) {
 }
 
 onMounted(() => {
-  window.addEventListener("keydown", onKeydown);
+  globalThis.addEventListener("keydown", onKeydown);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("keydown", onKeydown);
+  globalThis.removeEventListener("keydown", onKeydown);
 });
 </script>
 
@@ -139,6 +139,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* Modal-Transition */
+/* eslint-disable */
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.25s ease-out, transform 0.15s ease-out;
@@ -171,11 +172,5 @@ onBeforeUnmount(() => {
 .backdrop-fade-leave-from {
   opacity: 0.5; /* kannst du anpassen */
 }
-
-/* falls Bootstrap die Backdrop-Opacity erwartet */
-/*.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}*/
+/* eslint-enable */
 </style>

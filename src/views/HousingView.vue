@@ -38,7 +38,7 @@ const deletionTarget = ref(null);
 
 // Daten laden
 async function loadHousingData() {
-  const house = selectedHouse.value !== "all" ? selectedHouse.value : null;
+  const house = selectedHouse.value === "all" ? null : selectedHouse.value;
 
   try {
     const result = await getHousingData(house, currentPage.value, flockNumber.value);

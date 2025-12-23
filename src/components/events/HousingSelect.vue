@@ -11,7 +11,15 @@ const props = defineProps({
   },
   selectedHouse: {
     type: String,
-    default: "all"
+    default: ""
+  },
+  hasAllOption: {
+    type: Boolean,
+    default: true,
+  },
+  classes: {
+    type: String,
+    default: "mb-3"
   }
 })
 const emit = defineEmits(["update:modelValue"]);
@@ -28,7 +36,7 @@ const internalValue = computed({
 })
 
 async function loadHousingsforHouse(house) {
-  if (!house || house === "all") {
+  if (!house || house === "all" && props.hasAllOption) {
     options.value = [defaultOption]
     emit("update:modelValue", "all")
     return
@@ -43,11 +51,23 @@ async function loadHousingsforHouse(house) {
           "label": formatReadable(housing)
         }
       })
-      options.value = [defaultOption, ...housingOptions]
+      if (props.hasAllOption) {
+        options.value = [defaultOption, ...housingOptions]
+      } else {
+        const array = []
+        housingOptions.forEach(option => {
+          if (typeof option === 'string') {
+            array.push(option)
+          } else if (typeof option === 'object') {
+            array.push(option.value)
+          }
+        })
+        options.value = array
+      }
     } else {
       options.value = defaultOption
     }
-    emit("update:modelValue", "all")
+    emit("update:modelValue", props.hasAllOption ? "all" : options.value[0])
   } catch (e) {
     console.error(e)
     options.value = defaultOption
@@ -73,6 +93,7 @@ onMounted(() => {
     v-model="internalValue"
     :options="options"
     :disabled="selectedHouse === 'all'"
+    :class="classes"
     label="general.housing"
   />
 </template>

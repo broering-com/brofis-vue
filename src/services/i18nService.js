@@ -42,7 +42,7 @@ function translate(key, params = {}) {
 
     // einfache Platzhalter: "Hallo {name}"
     return Object.entries(params).reduce((acc, [pKey, pValue]) => {
-        return acc.replace(new RegExp(`{${pKey}}`, 'g'), String(pValue))
+        return acc.replaceAll(new RegExp(`{${pKey}}`, 'g'), String(pValue))
     }, msg)
 }
 

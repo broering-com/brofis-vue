@@ -70,7 +70,7 @@ const onInput = (event) => {
   >
     <label
       v-if="label || labelEnd"
-      id="{{ inputId }}-label"
+      :id="`${inputId}-label`"
       class="form-label pb-0 ps-0 mb-0 w-100 col-12 d-flex justify-content-between"
       :class="{ 'invisible' : !showLabel }"
       :for="inputId"

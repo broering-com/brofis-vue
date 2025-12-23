@@ -2,64 +2,58 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  modelValue: {
-    type: String,
-    default: ''
-  },
-  label: {
-    type: String,
-    default: '' // i18n Key
-  },
-  id: {
-    type: String,
-    default: ''
-  },
-  error: {
-    type: String,
-    default: ''
-  }
-})
+  modelValue: { type: String, default: "" },
+  label: { type: String, default: "" },
+  id: { type: String, default: "" },
+});
 
-function onChange(e) {
-  if(e.target.checked) {
-    const today = new Date()
-    const h = today.getHours()
-    const m = String(today.getMinutes()).padStart(2, '0')
-    const s = String(today.getSeconds()).padStart(2, '0')
-    emit('update:modelValue', `${h}:${m}:${s}`)
-  } else {
-    emit('update:modelValue', '')
-  }
+const emit = defineEmits(["update:modelValue"]);
+
+function makeTimestamp() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, "0");
+  const m = String(now.getMinutes()).padStart(2, "0");
+  const s = String(now.getSeconds()).padStart(2, "0");
+  return `${h}:${m}:${s}`;
 }
 
-const emit = defineEmits(['update:modelValue'])
+const inputId = computed(
+  () => props.id || `badge-checkbox-${Math.random().toString(36).slice(2, 9)}`
+);
 
-const inputId = computed(() => {
-  return props.id || `checkbox-${Math.random().toString(36).substring(2, 9)}`
-})
+const checked = computed({
+  get: () => (props.modelValue || "").length > 0,
+  set: (isChecked) => {
+    if (isChecked) {
+      emit("update:modelValue", makeTimestamp());
+    } else {
+      emit("update:modelValue", "");
+    }
+  },
+});
 </script>
 
 <template>
   <div class="form-check">
     <input
       :id="inputId"
+      v-model="checked"
       class="form-check-input"
       type="checkbox"
-      :checked="modelValue.length > 0"
-      :class="{ 'is-invalid': error }"
-      @change="onChange"
     >
 
     <label
       class="form-check-label"
       :for="inputId"
     >
-      <!-- i18n-Label -->
       <span
-        v-if="modelValue"
-        class="badge bg-primary"
-      >{{ modelValue }} {{ $t('general.oclock') }}</span>
-      {{ $t(label) }}
+        v-if="props.modelValue"
+        class="badge bg-primary me-2"
+      >
+        {{ props.modelValue }} {{ $t('general.oclock') }}
+      </span>
+
+      {{ $t(props.label) }}
     </label>
   </div>
 </template>
