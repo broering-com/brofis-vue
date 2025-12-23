@@ -59,7 +59,7 @@ function buildUrl(path, params) {
     return url
 }
 
-async function request(method, path, { body, params, headers } = {}) {
+async function request(method, path, { body, params, headers, parseAs = 'json' } = {}) {
     const url = buildUrl(path, params)
     const token = getAuthToken()
 
@@ -67,67 +67,100 @@ async function request(method, path, { body, params, headers } = {}) {
 
     const finalHeaders = {
         Accept: 'application/json',
-        // Content-Type nur setzen, wenn es KEIN FormData ist
         ...(!isFormData && body ? { 'Content-Type': 'application/json' } : {}),
         ...(headers),
     }
 
-    if (token) {
-        finalHeaders['Authorization'] = `Bearer ${token}`
-    }
-
-    if (body) {
-        if(isFormData) {
-            body = { body }
-        } else {
-            body = { body: JSON.stringify(body) }
-        }
-    }
+    if (token) finalHeaders.Authorization = `Bearer ${token}`
 
     const options = {
         method,
         headers: finalHeaders,
-        ...body,
-        // credentials: 'include',
+        ...(body
+            ? isFormData
+                ? { body } // <-- wichtig: FormData direkt
+                : { body: JSON.stringify(body) }
+            : {}),
     }
 
     startRequest()
-
     try {
         const response = await fetch(url, options)
 
-        if (response.status === 204) {
-            return null
-        }
+        if (response.status === 204) return null
 
-        let data
-        try {
-            data = await response.json()
-        } catch {
-            throw new Error(`Ungültige Antwort vom Server (Status ${response.status})`)
-        }
+        // Für Datei / raw response: KEIN json() erzwingen
+        if (parseAs === 'response') return response
 
         if (!response.ok) {
-            const message =
-                data?.message ||
-                data?.error ||
-                `Request fehlgeschlagen (Status ${response.status})`
+            // Fehlertext möglichst robust lesen (JSON oder Text)
+            let errData = null
+            let message = `Request fehlgeschlagen (Status ${response.status})`
+
+            try {
+                errData = await response.clone().json()
+                message = errData?.message || errData?.error || message
+            } catch {
+                try {
+                    const txt = await response.clone().text()
+                    if (txt) message = txt
+                } catch {}
+            }
+
             const error = new Error(message)
             error.status = response.status
-            error.data = data
+            error.data = errData
 
             if (error.status === 401) {
                 localStorage.removeItem('token')
                 httpRouter?.push('/')
             }
-
             throw error
         }
 
-        return data
+        if (parseAs === 'blob') return await response.blob()
+        if (parseAs === 'text') return await response.text()
+
+        // default json
+        try {
+            return await response.json()
+        } catch {
+            throw new Error(`Ungültige JSON-Antwort vom Server (Status ${response.status})`)
+        }
     } finally {
         endRequest()
     }
+}
+
+async function requestFileDownload(path, options = {}) {
+    const response = await request('GET', path, { ...options, parseAs: 'response' })
+
+    console.log('[DL] status', response.status)
+
+    const contentType = response.headers.get('Content-Type') || ''
+    const contentDisposition = response.headers.get('Content-Disposition') || ''
+
+    let fileName = 'download'
+    const match = contentDisposition.match(/filename\*?=(?:UTF-8''|")?([^";\n]+)"?/i)
+    if (match?.[1]) fileName = decodeURIComponent(match[1])
+
+    // Fallback Endungen
+    if (!fileName.includes('.') && contentType.includes('pdf')) fileName += '.pdf'
+    if (!fileName.includes('.') && contentType.includes('csv')) fileName += '.csv'
+
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
+
+    const a = document.createElement('a')
+    a.href = url
+    a.download = fileName
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+
+    return { success: true }
 }
 
 export const httpClient = {
@@ -145,6 +178,9 @@ export const httpClient = {
     },
     delete(path, options = {}) {
         return request('DELETE', path, options)
+    },
+    getFile(path, options = {}) {
+        return requestFileDownload(path, options)
     },
     postFile(path, fileOrFormData, options = {}) {
         const { fieldName = 'file', ...rest } = options

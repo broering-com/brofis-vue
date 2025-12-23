@@ -40,7 +40,7 @@ async function getStallCardData(house, housing) {
 
 async function exportFirstWeekReport(house, housing) {
     try {
-        let response = await httpClient.get(`${FIRST_WEEK_REPORT}/${house}/${housing}`, { responseType: 'blob' })
+        let response = await httpClient.getFile(`${FIRST_WEEK_REPORT}/${house}/${housing}`)
         if (response.success) {
             return { success: true }
         }
