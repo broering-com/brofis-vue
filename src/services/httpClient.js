@@ -132,35 +132,39 @@ async function request(method, path, { body, params, headers, parseAs = 'json' }
     }
 }
 
-async function requestFileDownload(path, options = {}) {
-    const response = await request('GET', path, { ...options, parseAs: 'response' })
+async function requestFileDownload(path, options = {}, method = 'GET') {
+    const response = await request(method, path, { ...options, parseAs: 'response' })
 
     console.log('[DL] status', response.status)
 
-    const contentType = response.headers.get('Content-Type') || ''
-    const contentDisposition = response.headers.get('Content-Disposition') || ''
+    if (response.status >= 200 && response.status <= 299) {
+        const contentType = response.headers.get('Content-Type') || ''
+        const contentDisposition = response.headers.get('Content-Disposition') || ''
 
-    let fileName = 'download'
-    const match = contentDisposition.match(/filename\*?=(?:UTF-8''|")?([^";\n]+)"?/i)
-    if (match?.[1]) fileName = decodeURIComponent(match[1])
+        let fileName = 'download'
+        const match = contentDisposition.match(/filename\*?=(?:UTF-8''|")?([^";\n]+)"?/i)
+        if (match?.[1]) fileName = decodeURIComponent(match[1])
 
-    // Fallback Endungen
-    if (!fileName.includes('.') && contentType.includes('pdf')) fileName += '.pdf'
-    if (!fileName.includes('.') && contentType.includes('csv')) fileName += '.csv'
+        // Fallback Endungen
+        if (!fileName.includes('.') && contentType.includes('pdf')) fileName += '.pdf'
+        if (!fileName.includes('.') && contentType.includes('csv')) fileName += '.csv'
 
-    const blob = await response.blob()
-    const url = URL.createObjectURL(blob)
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob)
 
-    const a = document.createElement('a')
-    a.href = url
-    a.download = fileName
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
+        const a = document.createElement('a')
+        a.href = url
+        a.download = fileName
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
 
-    setTimeout(() => URL.revokeObjectURL(url), 1000)
+        setTimeout(() => URL.revokeObjectURL(url), 1000)
 
-    return { success: true }
+        return { success: true }
+    } else {
+        return { success: false, message: 'Download fehlgeschlagen.' }
+    }
 }
 
 export const httpClient = {
@@ -179,8 +183,8 @@ export const httpClient = {
     delete(path, options = {}) {
         return request('DELETE', path, options)
     },
-    getFile(path, options = {}) {
-        return requestFileDownload(path, options)
+    getFile(path, options = {}, method = 'GET') {
+        return requestFileDownload(path, options, method)
     },
     postFile(path, fileOrFormData, options = {}) {
         const { fieldName = 'file', ...rest } = options
