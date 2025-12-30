@@ -9,11 +9,13 @@ import App from './App.vue'
 import router from './router'
 import { i18nService } from "@/services/i18nService.js";
 import { registerHttpRouter } from "./services/httpClient.js";
+import { VueSignaturePad } from "vue-signature-pad";
 
 async function bootstrap() {
     registerHttpRouter(router)
     const app = createApp(App)
     app.use(router)
+    app.use(VueSignaturePad)
 
     app.config.globalProperties.$t = (key, params) => i18nService.t(key, params)
 

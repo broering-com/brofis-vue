@@ -168,7 +168,11 @@ async function exportCardReport(house, housing, signature) {
 
 async function exportPeriodReport(house, housing, signature) {
     try {
-        let response = await httpClient.getFile(`${PERIOD_REPORT}/${house}/${housing}`, signature, 'POST')
+        const options = {
+            body: signature,
+            headers: { Accept: '*/*' }
+        }
+        let response = await httpClient.getFile(`${PERIOD_REPORT}/${house}/${housing}`, options, 'POST')
         if (response.success) {
             return { success: true }
         }

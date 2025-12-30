@@ -135,8 +135,6 @@ async function request(method, path, { body, params, headers, parseAs = 'json' }
 async function requestFileDownload(path, options = {}, method = 'GET') {
     const response = await request(method, path, { ...options, parseAs: 'response' })
 
-    console.log('[DL] status', response.status)
-
     if (response.status >= 200 && response.status <= 299) {
         const contentType = response.headers.get('Content-Type') || ''
         const contentDisposition = response.headers.get('Content-Disposition') || ''

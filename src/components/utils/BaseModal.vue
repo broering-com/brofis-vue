@@ -22,6 +22,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showFooter: {
+    type: Boolean,
+    default: true,
+  }
 });
 
 const emit = defineEmits(["update:modelValue", "close", "confirm"]);
@@ -104,7 +108,10 @@ onBeforeUnmount(() => {
               <slot />
             </div>
 
-            <div class="modal-footer">
+            <div
+              v-if="showFooter"
+              class="modal-footer"
+            >
               <slot name="footer">
                 <button
                   type="button"
