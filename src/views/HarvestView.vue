@@ -34,7 +34,7 @@ const deletionTarget = ref(null);
 
 // Daten laden
 async function loadHarvestData() {
-  const house = selectedHouse.value !== "all" ? selectedHouse.value : null;
+  const house = selectedHouse.value === "all" ? null : selectedHouse.value;
 
   try {
     const result = await getHarvestData(house, currentPage.value);
@@ -54,10 +54,10 @@ async function loadHarvestData() {
 watch(
     [selectedHouse],
     () => {
-      if (currentPage.value !== 0) {
-        currentPage.value = 0;
-      } else {
+      if (currentPage.value === 0) {
         loadHarvestData();
+      } else {
+        currentPage.value = 0;
       }
     }
 );

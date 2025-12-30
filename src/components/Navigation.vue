@@ -30,8 +30,13 @@ const eventRouteNames = new Set([
 const isEventsActive = computed(() => eventRouteNames.has(route.name))
 
 async function handleLogout() {
-  await logout()
-  await router.replace({ name: 'login' })
+  try {
+    await logout()
+  } catch(e) {
+    console.error(e)
+  } finally {
+    await router.replace({ name: 'login' })
+  }
 }
 </script>
 
@@ -145,8 +150,15 @@ async function handleLogout() {
               </li>
             </BaseDropdown>
           </li>
-          <li>
-            Stallkarte
+          <li class="nav-item">
+            <RouterLink
+              id="navStallCard"
+              class="nav-link"
+              :to="{ name:'stallCard' }"
+              active-class="active"
+            >
+              {{ $t('stall_card.title') }}
+            </RouterLink>
           </li>
           <li>
             Analyse

@@ -602,3 +602,59 @@
 select.form-select:disabled {
     color: #999999;
 }
+
+/* Stallkarte cols ------------------------------------------- */
+.dark-mode .stallkarte > thead > tr > th,
+.dark-mode .stallkarte > tfoot > tr > td {
+    background: #1f242b !important;
+    border: 1px solid #3a4048 !important;
+    color: #f1f3f5;
+}
+
+.dark-mode .seven-day-interval {
+    background: #2a3038;
+}
+
+.dark-mode .stallkarte > tbody > tr:hover {
+    background: #2f3f55  !important;
+}
+
+.dark-mode .col-tiere {
+    background: rgba(255, 99, 99, var(--standard-background-alpha));
+}
+
+.dark-mode .col-tiere.soll {
+    background: rgba(255, 99, 99, var(--highlight-background-alpha));
+}
+
+.dark-mode .col-klima {
+    background: rgba(90, 200, 140, var(--standard-background-alpha));
+}
+
+.dark-mode .col-klima.soll {
+    background: rgba(90, 200, 140, var(--highlight-background-alpha));
+}
+
+.dark-mode .col-wasser {
+    background: rgba(100, 200, 230, var(--standard-background-alpha));
+}
+
+.dark-mode .col-wasser.soll {
+    background: rgba(100, 200, 230, var(--highlight-background-alpha));
+}
+
+.dark-mode .col-futter {
+    background: rgba(255, 180, 90, var(--standard-background-alpha));
+}
+
+.dark-mode .col-futter.soll {
+    background: rgba(255, 180, 90, var(--highlight-background-alpha));
+}
+
+.dark-mode .col-gewicht {
+    background: rgba(200, 120, 170, var(--standard-background-alpha));
+}
+
+.dark-mode .col-gewicht.soll {
+    background: rgba(200, 120, 170, var(--highlight-background-alpha));
+}
